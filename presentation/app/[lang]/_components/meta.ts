@@ -6,8 +6,8 @@ import { configHomeWords, LANGS } from '../_data/body'
 const PUBLIC = (process.env.SERVICE_PUBLIC_URL ?? '').replace(/\/+$/, '')
 export const PUBLIC_BASE = /^https:\/\//.test(PUBLIC) && !/localhost|127\.0\.0\.1/.test(PUBLIC) ? PUBLIC : ''
 
-// 🛑 ПОКА НЕ В ПОИСКЕ (299-1): текст описывает раздачу настроек всем элементам, а она строится в 299-6. Публичный текст,
-// опирающийся на несуществующее, открывается поиску только словом владельца (федеральный закон о публичных текстах).
+// 🛑 ПОКА НЕ В ПОИСКЕ: текст лендинга переписан в 299-6 по слову владельца (CONFIG — дополнение, MCP) и открывается поиску
+// только после его одобрения (федеральный закон о публичных текстах).
 const INDEXED = false
 
 export function generateStaticParams() {
