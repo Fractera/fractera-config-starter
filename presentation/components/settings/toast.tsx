@@ -17,6 +17,7 @@ export const toast = {
   success: (text: string) => emit('success', text),
   error: (text: string) => emit('error', text),
   info: (text: string) => emit('info', text),
+  message: (text: string) => emit('info', text),
 }
 
 export function SettingsToaster() {

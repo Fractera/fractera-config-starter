@@ -3,14 +3,8 @@
   "lead": "The consent message and its words in every language.",
   "blocks": [
     {
-      "kind": "settingsView",
+      "kind": "cookieBannerEditor",
       "lang": "en",
-      "settingsKind": "platform",
-      "keys": [
-        "cookieBanner"
-      ],
-      "title": "Current values",
-      "empty": "not set — the default applies",
       "words": {
         "loading": "Loading the settings…",
         "signin": "Sign in as the architect of the project to see and change the settings.",

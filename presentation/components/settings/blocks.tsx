@@ -6,6 +6,8 @@ import { SettingsEditorIsland, type SettingsEditorProps } from './settings-edito
 import { fieldsUi } from './fields.i18n'
 import { MenuEditorIsland, type MenuEditorProps } from './menu-editor.client'
 import { groupsUi } from './groups.i18n'
+import { RoutingEditorIsland, CookieBannerIsland } from './platform-editors.client'
+import type { AccessWords } from './settings-access'
 import { loadProjectShell } from '@/components/shell/remote-shell'
 import type { ShellGroup } from '@/components/shell/shell-types'
 import type { NavCandidate, NavItem, NavSlot } from '@/lib/settings/nav'
@@ -60,4 +62,13 @@ async function shellMenu(lang: string, slot: NavSlot): Promise<{ current: NavIte
 export async function MenuEditor({ lang, blockKey: _k, slot, ...rest }: Omit<MenuEditorProps, 'loginHref' | 'ui' | 'current' | 'candidates' | 'editLang'> & Own) {
   const { current, candidates } = await shellMenu(lang, slot)
   return <MenuEditorIsland {...rest} slot={slot} editLang={lang} current={current} candidates={candidates} ui={groupsUi(lang)} loginHref={loginHref(lang)} />
+}
+
+export function RoutingEditorBlock({ lang, blockKey: _k, words }: Own & { words: AccessWords }) {
+  return <RoutingEditorIsland ui={groupsUi(lang)} words={words} loginHref={loginHref(lang)} />
+}
+
+// Правовая страница о куки живёт у САЙТА (`/<язык>/cookies`), поэтому ссылка — на адрес сайта.
+export function CookieBannerBlock({ lang, blockKey: _k, words }: Own & { words: AccessWords }) {
+  return <CookieBannerIsland ui={groupsUi(lang)} words={words} loginHref={loginHref(lang)} policyHref={SITE ? `${SITE}/${lang}/cookies` : undefined} />
 }

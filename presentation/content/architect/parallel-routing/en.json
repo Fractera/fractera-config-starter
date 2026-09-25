@@ -3,14 +3,8 @@
   "lead": "Which parts of the application screen are shown side by side.",
   "blocks": [
     {
-      "kind": "settingsView",
+      "kind": "routingEditor",
       "lang": "en",
-      "settingsKind": "platform",
-      "keys": [
-        "slots"
-      ],
-      "title": "Current values",
-      "empty": "not set — the default applies",
       "words": {
         "loading": "Loading the settings…",
         "signin": "Sign in as the architect of the project to see and change the settings.",

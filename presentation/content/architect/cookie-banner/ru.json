@@ -3,14 +3,8 @@
   "lead": "Сообщение о согласии и его слова на каждом языке.",
   "blocks": [
     {
-      "kind": "settingsView",
+      "kind": "cookieBannerEditor",
       "lang": "ru",
-      "settingsKind": "platform",
-      "keys": [
-        "cookieBanner"
-      ],
-      "title": "Текущие значения",
-      "empty": "не задано — действует умолчание",
       "words": {
         "loading": "Загружаю настройки…",
         "signin": "Войдите как архитектор проекта, чтобы видеть и менять настройки.",
