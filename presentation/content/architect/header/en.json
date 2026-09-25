@@ -3,14 +3,9 @@
   "lead": "The menu at the top of every page.",
   "blocks": [
     {
-      "kind": "settingsView",
+      "kind": "menuEditor",
       "lang": "en",
-      "settingsKind": "app",
-      "keys": [
-        "nav"
-      ],
-      "title": "Current values",
-      "empty": "not set — the default applies",
+      "slot": "top",
       "words": {
         "loading": "Loading the settings…",
         "signin": "Sign in as the architect of the project to see and change the settings.",

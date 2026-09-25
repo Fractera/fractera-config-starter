@@ -4,6 +4,7 @@ import { ProjectFooter } from "@/components/shell/project-footer"
 import { loadProjectShell } from "@/components/shell/remote-shell"
 import type { ShellSurface } from "@/components/shell/shell-types"
 import { cacheLife } from "next/cache"
+import { SettingsToaster } from "@/components/settings/toast"
 
 // ОБОЛОЧКА ПРОЕКТА НА САЙТЕ ЭЛЕМЕНТА «БЛОКИ» (297; каркас — страница службы данных 285-4). `components/shell/` — копия
 // сайта байт в байт (`shell-kit:add` узла, руками не править); данные — дверь сайта `PROJECT_SHELL_URL/<язык>`.
@@ -43,6 +44,7 @@ export default async function LangLayout({ children, params }: { children: React
       <div className="flex min-h-screen flex-col bg-background text-foreground">
         {known && <ShellHeader lang={lang} />}
         {children}
+        <SettingsToaster />
         {known && <ShellFooter lang={lang} />}
       </div>
     </ThemeProvider>

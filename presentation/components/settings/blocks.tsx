@@ -4,6 +4,12 @@ import { FeatureSwitchesIsland, type FeatureSwitchesProps } from './feature-swit
 import { SettingsViewIsland, type SettingsViewProps } from './settings-view.client'
 import { SettingsEditorIsland, type SettingsEditorProps } from './settings-editor.client'
 import { fieldsUi } from './fields.i18n'
+import { MenuEditorIsland, type MenuEditorProps } from './menu-editor.client'
+import { groupsUi } from './groups.i18n'
+import { loadProjectShell } from '@/components/shell/remote-shell'
+import type { ShellGroup } from '@/components/shell/shell-types'
+import type { NavCandidate, NavItem, NavSlot } from '@/lib/settings/nav'
+import { cacheLife } from 'next/cache'
 
 const SITE = (process.env.PROJECT_SITE_URL ?? '').replace(/\/+$/, '')
 const loginHref = (lang: string) => (SITE ? `${SITE}/login?lang=${lang}` : undefined)
@@ -23,4 +29,35 @@ export function SettingsView({ lang, blockKey: _k, settingsKind, ...rest }: Omit
 // браузер целиком не едет.
 export function SettingsEditor({ lang, blockKey: _k, ...rest }: Omit<SettingsEditorProps, 'loginHref' | 'ui' | 'lang'> & Own) {
   return <SettingsEditorIsland {...rest} lang={lang} ui={fieldsUi(lang)} loginHref={loginHref(lang)} />
+}
+
+// Редактор шапки или подвала: меню «как сейчас» и кандидаты — из оболочки проекта, которую сайт отдаёт всем элементам.
+// Читается на сервере и кэшируется минутами (`'use cache'`), как шапка самого элемента.
+async function shellMenu(lang: string, slot: NavSlot): Promise<{ current: NavItem[]; candidates: NavCandidate[] }> {
+  'use cache'
+  cacheLife('minutes')
+  const shell = await loadProjectShell(lang)
+  const groups: ShellGroup[] = shell ? (slot === 'top' ? shell.top : shell.footer) : []
+  const hrefOf = (g: ShellGroup) => g.href ?? `/${lang}/${g.slug}`
+  const current: NavItem[] = groups.map((g, i) => ({
+    id: g.slug,
+    href: hrefOf(g),
+    order: (i + 1) * 10,
+    label: g.label,
+    ...(g.children.length ? { children: g.children.filter((c) => c.href).map((c) => ({ id: c.slug, href: c.href as string, label: c.title })) } : {}),
+  }))
+  const all = shell ? [...shell.top, ...shell.footer] : []
+  const seen = new Set<string>()
+  const candidates: NavCandidate[] = []
+  for (const g of all) {
+    for (const c of [{ id: g.slug, href: hrefOf(g), title: g.label, section: g.label }, ...g.children.filter((c) => c.href).map((c) => ({ id: c.slug, href: c.href as string, title: c.title, section: g.label }))]) {
+      if (!seen.has(c.href)) { seen.add(c.href); candidates.push(c) }
+    }
+  }
+  return { current, candidates }
+}
+
+export async function MenuEditor({ lang, blockKey: _k, slot, ...rest }: Omit<MenuEditorProps, 'loginHref' | 'ui' | 'current' | 'candidates' | 'editLang'> & Own) {
+  const { current, candidates } = await shellMenu(lang, slot)
+  return <MenuEditorIsland {...rest} slot={slot} editLang={lang} current={current} candidates={candidates} ui={groupsUi(lang)} loginHref={loginHref(lang)} />
 }
