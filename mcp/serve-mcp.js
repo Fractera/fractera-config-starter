@@ -12,16 +12,18 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 
 /**
  * @param {{ name: string, version: string, tools: Array<{ name: string, title: string, description: string,
- *   inputSchema?: object, run: (args: any) => Promise<any> | any }> }} service
+ *   inputSchema?: object, run: (args: any, ctx: { headers: import('node:http').IncomingHttpHeaders }) => Promise<any> | any }> }} service
  * @returns {(req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse) => Promise<void>}
  */
 export function mcpHandler(service) {
-  function build() {
+  // `ctx.headers` — заголовки запроса (299-6): команда, отдающая закрытые данные, сама проверяет ключ. Команде, которой
+  // это не нужно, второй аргумент ничего не стоит — каркас остаётся общим для любой службы.
+  function build(ctx) {
     const server = new McpServer({ name: service.name, version: service.version })
     for (const t of service.tools) {
       server.registerTool(t.name, { title: t.title, description: t.description, inputSchema: t.inputSchema }, async (args) => {
         try {
-          const out = await t.run(args ?? {})
+          const out = await t.run(args ?? {}, ctx)
           return { content: [{ type: 'text', text: typeof out === 'string' ? out : JSON.stringify(out, null, 2) }] }
         } catch (err) {
           return { isError: true, content: [{ type: 'text', text: err instanceof Error ? err.message : String(err) }] }
@@ -42,7 +44,7 @@ export function mcpHandler(service) {
         return
       }
     }
-    const server = build()
+    const server = build({ headers: req.headers })
     const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined })
     res.on('close', () => { transport.close(); server.close() })
     await server.connect(transport)

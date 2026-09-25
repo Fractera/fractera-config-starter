@@ -69,14 +69,8 @@ async function settingsDoor(req, res, kind) {
     if (!kind) {
       const all = Object.fromEntries(KINDS.map((k) => [k, readSettings(k)]))
       const bad = Object.values(all).find((r) => !r.ok)
-      // `patches` — только решения владельца, без умолчаний элемента (299-6): потребитель кладёт их поверх СВОИХ
-      // умолчаний, и «владелец не высказывался» остаётся отличимым от «владелец выбрал то же, что по умолчанию».
-      if (bad) return json(res, 500, { ok: false, reason: bad.reason })
-      return json(res, 200, {
-        ok: true,
-        settings: Object.fromEntries(KINDS.map((k) => [k, all[k].config])),
-        patches: Object.fromEntries(KINDS.map((k) => [k, all[k].patch])),
-      })
+      // Потребители берут настройки по MCP (`get_project_settings`, 299-6); эта дверь — для экранов самого элемента.
+      return bad ? json(res, 500, { ok: false, reason: bad.reason }) : json(res, 200, { ok: true, settings: Object.fromEntries(KINDS.map((k) => [k, all[k].config])) })
     }
     const r = readSettings(kind)
     return json(res, r.ok ? 200 : r.reason === 'unknown-kind' ? 404 : 500, r)
@@ -87,9 +81,8 @@ async function settingsDoor(req, res, kind) {
     if (!s.architect) return json(res, 403, { ok: false, reason: 'not-architect' })
     const body = await readBody(req)
     const r = writeSettings(kind, body)
-    if (!r.ok) return json(res, r.reason === 'bad-body' ? 400 : r.reason === 'unknown-kind' ? 404 : 500, r)
-    // 299-6: сохранено → толчок всем элементам узла; ответ называет, кто принял (экран говорит «применено»).
-    return json(res, 200, { ...r, pushed: await pushToElements() })
+    // 299-6: элемент никого не зовёт после сохранения — потребители забирают сами, по MCP (`settings_version`).
+    return json(res, r.ok ? 200 : r.reason === 'bad-body' ? 400 : r.reason === 'unknown-kind' ? 404 : 500, r)
   }
   return json(res, 405, { ok: false, reason: 'method' })
 }
@@ -109,31 +102,7 @@ function elementsOfNode() {
   return list
 }
 
-// ТОЛЧОК (299-6): «настройки изменились» каждому элементу узла — по петле машины, ключом узла. Толчок не несёт
-// настроек: элемент берёт их сам своей дверью чтения. Элемент без двери (404) или выключенный — строка в ответе,
-// а не отказ сохранения: сохранённое у элемента настроек уже верно, отставший элемент догонит при своём запуске.
-async function pushToElements() {
-  let registry
-  try { registry = JSON.parse(readFileSync(process.env.NODE_ITEMS_FILE ?? '', 'utf8')) } catch { return { ok: false, reason: 'registry-unreadable' } }
-  const key = process.env.SETTINGS_SECRET?.trim()
-  if (!key) return { ok: false, reason: 'no-settings-key' }
-  const targets = (registry.services ?? []).filter((s) => s.id !== 'config' && Number.isInteger(s.port))
-  const results = await Promise.all(targets.map(async (s) => {
-    const started = Date.now()
-    try {
-      const r = await fetch(`http://127.0.0.1:${s.port}/api/settings/refresh`, {
-        method: 'POST', headers: { 'x-settings-key': key }, signal: AbortSignal.timeout(8000),
-      })
-      const b = await r.json().catch(() => null)
-      return { id: s.id, status: r.status, changed: b?.changed ?? null, ms: Date.now() - started }
-    } catch (err) {
-      return { id: s.id, status: 0, reason: err instanceof Error ? err.name : 'error', ms: Date.now() - started }
-    }
-  }))
-  return { ok: true, results }
-}
-
-const SITE_PATH =/^\/(?:(en|ru)(?:\/.*)?|_next\/.*|robots\.txt|sitemap\.xml)$/
+const SITE_PATH = /^\/(?:(en|ru)(?:\/.*)?|_next\/.*|robots\.txt|sitemap\.xml)$/
 
 createServer(async (req, res) => {
   const { pathname } = new URL(req.url ?? '/', 'http://x')
