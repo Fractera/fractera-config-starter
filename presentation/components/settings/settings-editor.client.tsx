@@ -9,6 +9,7 @@
 // языке — перевод `i18n[путь][язык]`, а при его отсутствии показывается основное значение (так его видит посетитель).
 import { useEffect, useMemo, useState } from 'react'
 import { atPath, sectionsOfGroup } from '@/lib/settings/fields'
+import { resolveSocialLinks } from '@/lib/settings/socials'
 import { ConfigEditor } from './config-editor.client'
 import type { FieldsUi } from './fields.i18n'
 import { loadSettings, type Access, type AccessWords } from './settings-access'
@@ -52,6 +53,11 @@ export function SettingsEditorIsland({ group, lang, langs, defaultLang, editLang
       if (isTranslation && typeof translation === 'string' && translation.trim() !== '') translatedPaths.push(field.path)
       if (field.type === 'icons') {
         values[field.path] = asText((config.iconSet as { id?: string } | undefined)?.id)
+        continue
+      }
+      // Список соцсетей едет строкой JSON и читается тем же резолвером, что и на aifa.dev (`resolveSocialLinks`).
+      if (field.type === 'socials') {
+        values[field.path] = JSON.stringify(resolveSocialLinks(config.seo as Parameters<typeof resolveSocialLinks>[0]))
         continue
       }
       values[field.path] = translation ?? asText(atPath(config, field.path))

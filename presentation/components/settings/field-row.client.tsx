@@ -7,6 +7,7 @@ import { Small } from "@/components/ui/typography"
 import { Input } from "@/components/ui/input"
 import { ColorField } from "./color-field.client"
 import { ComboField } from "./combo-field.client"
+import { SocialsField } from "./socials-field.client"
 import type { Field } from "@/lib/settings/fields"
 import type { FieldsUi } from "./fields.i18n"
 
@@ -151,8 +152,7 @@ export function FieldRow({
              aifa.dev (image-field, icons-field) переносится следующей частью — в выпуск без него шаг не идёт. */
           <Input id={id} value={value} onChange={e => onChange(e.target.value)} disabled={field.locked || field.type === "icons"} readOnly={field.locked || field.type === "icons"} />
         ) : field.type === "socials" ? (
-          /* Список соцсетей — строка JSON (так его держит и редактор aifa.dev); удобный редактор — следующей частью. */
-          <textarea id={id} rows={4} value={value} onChange={e => onChange(e.target.value)} disabled={field.locked} className="w-full rounded-md border border-input bg-transparent px-3 py-2 font-mono text-sm" />
+          <SocialsField value={value} disabled={field.locked} onChange={onChange} ui={ui} lang={lang} />
         ) : field.type === "select" ? (
           <select
             id={id}
