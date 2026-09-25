@@ -13,7 +13,7 @@ export function configTools(publicUrl) {
         keeps: ['APP-CONFIG', 'PLATFORM-CONFIG', 'DESIGN-CONFIG', 'menu'],
         readers: 'every element of the node — site, sign-in, data, blocks and the core — reads the settings here',
         writers: 'only the architect, through the sign-in service',
-        status: '299-1: the element is up; the settings doors arrive in 299-2',
+        doors: { read: `${base}/api/settings/<app|platform|design>` + ' (X-Settings-Key or the architect)', write: 'PATCH, architect only' },
       }),
     },
   ]
