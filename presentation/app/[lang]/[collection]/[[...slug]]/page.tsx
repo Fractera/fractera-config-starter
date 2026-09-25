@@ -12,6 +12,7 @@ import { PageBody, type BlockData } from '@/components/blocks/page-body'
 import { BLOCK_SET } from '@/lib/block-set'
 import { pageTree, pageWords, collectionWords, prerenderSlice, type TreeCollection } from '@/lib/page-tree'
 import { WorkspaceShell, type WorkspaceShellItem } from '@/components/workspace/workspace-shell'
+import { Breadcrumbs } from '@/components/blocks/breadcrumbs'
 import { PUBLIC_BASE } from '../../_components/meta'
 import { LANGS } from '../../_data/body'
 
@@ -85,9 +86,18 @@ async function WorkspacePage({ c, slug, lang }: { c: TreeCollection; slug: strin
   ]
   const blocks = (current ? current.w?.blocks : head?.blocks) ?? []
   const menuWord = c.menuWord?.[lang] ?? c.menuWord?.en ?? 'Menu'
+  const pageTitle = head?.title ?? c.titles[lang] ?? c.titles.en ?? c.id
+  // Крошки (слово владельца: «хлебные крошки чтобы я мог вернуться обратно на главное или на уровень выше»):
+  // публичная главная элемента → главная режима → открытый раздел (без ссылки).
+  const crumbs = [
+    { label: c.crumbHome?.[lang] ?? c.crumbHome?.en ?? 'Home', href: `/${lang}` },
+    { label: pageTitle, href: slug.length ? addressOf(lang, c.id, []) : undefined },
+    ...(current?.w ? [{ label: current.w.title }] : []),
+  ]
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-10">
-      <h1 className="text-3xl font-semibold tracking-tight">{head?.title ?? c.titles[lang] ?? c.titles.en ?? c.id}</h1>
+      <Breadcrumbs items={crumbs} />
+      <h1 className="mt-6 text-3xl font-semibold tracking-tight">{pageTitle}</h1>
       {head?.lead && <p className="mt-3 text-lg text-muted-foreground">{head.lead}</p>}
       <WorkspaceShell
         id={c.id}

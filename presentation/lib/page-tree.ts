@@ -33,6 +33,8 @@ export type TreeCollection = {
   pages: TreePage[]
   layout?: 'workspace'
   menuWord?: Record<string, string>
+  /** Подпись первой крошки рабочего экрана — публичная главная элемента (299-8). */
+  crumbHome?: Record<string, string>
 }
 
 // Папку называет `server.js` (`PAGE_TREE_DIR`); без него — от рабочей папки сборки. `turbopackIgnore`: путь от
@@ -78,13 +80,13 @@ export async function pageTree(): Promise<TreeCollection[]> {
   for (const id of readdirSync(base).sort()) {
     const dir = join(base, id)
     if (!SEGMENT.test(id) || !statSync(dir).isDirectory()) continue
-    const c = readJson<{ titles?: Record<string, string>; index?: boolean; layout?: string; menuWord?: Record<string, string> }>(join(dir, '_collection.json')) ?? {}
+    const c = readJson<{ titles?: Record<string, string>; index?: boolean; layout?: string; menuWord?: Record<string, string>; crumbHome?: Record<string, string> }>(join(dir, '_collection.json')) ?? {}
     const pages: TreePage[] = []
     walk(dir, id, [], c.index !== false, pages)
     pages.sort((a, b) => a.order - b.order || a.slug.join('/').localeCompare(b.slug.join('/')))
     out.push({
       id, titles: c.titles ?? {}, index: c.index !== false, pages,
-      ...(c.layout === 'workspace' ? { layout: 'workspace' as const, menuWord: c.menuWord ?? {} } : {}),
+      ...(c.layout === 'workspace' ? { layout: 'workspace' as const, menuWord: c.menuWord ?? {}, crumbHome: c.crumbHome ?? {} } : {}),
     })
   }
   return out
