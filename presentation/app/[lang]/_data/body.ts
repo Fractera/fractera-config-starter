@@ -51,7 +51,7 @@ const en: ConfigHomeWords = {
     note: 'No settings scattered across repositories, no rebuild for a menu item or a switch.',
     steps: [
       { title: 'Change', text: 'The architect changes a setting on this screen and saves it. CONFIG keeps it.' },
-      { title: 'Take', text: 'Every application connected over MCP notices the new version and takes the settings itself — the Fractera site within a minute.' },
+      { title: 'Take', text: 'Every application connected over MCP takes the new settings itself, when it asks for them — CONFIG calls no one.' },
       { title: 'See', text: 'The application applies them over its own defaults, and visitors see the change without a rebuild. A new language goes out with the next deployment.' },
     ],
   },
@@ -94,7 +94,7 @@ const ru: ConfigHomeWords = {
     note: 'Настройки не разбросаны по репозиториям, и ради пункта меню или переключателя ничего не пересобирается.',
     steps: [
       { title: 'Поменять', text: 'Архитектор меняет настройку на этом экране и сохраняет. CONFIG её хранит.' },
-      { title: 'Забрать', text: 'Каждое приложение, подключённое по MCP, замечает новую версию и забирает настройки само — сайт Fractera в течение минуты.' },
+      { title: 'Забрать', text: 'Каждое приложение, подключённое по MCP, забирает новые настройки само, когда обращается за ними, — CONFIG никого не вызывает.' },
       { title: 'Увидеть', text: 'Приложение кладёт их поверх своих умолчаний, и посетители видят правку без пересборки. Новый язык уходит со следующим развёртыванием.' },
     ],
   },

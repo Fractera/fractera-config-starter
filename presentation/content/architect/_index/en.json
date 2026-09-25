@@ -86,7 +86,7 @@
         "error": "The settings could not be read. Nothing was changed.",
         "saveFailed": "Not saved — try again.",
         "savedLive": "Changes applied. Reload the page to see them.",
-        "savedPending": "Saved in the project settings. Applications connected over MCP pick it up themselves — the site within a minute.",
+        "savedPending": "Saved in the project settings. Applications connected over MCP pick it up themselves when they ask for the settings.",
         "savedDeploy": "Saved. This change takes effect after the next deployment of the project.",
         "guardLinks": "Direct links to every part of the project:",
         "guardCopy": "Copy the links",

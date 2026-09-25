@@ -45,10 +45,10 @@ export function configTools(publicUrl) {
         element: 'config',
         address: base,
         keeps: ['APP-CONFIG', 'PLATFORM-CONFIG', 'DESIGN-CONFIG', 'menu'],
-        consumers: 'voluntary: an application that wants to live by these settings asks settings_version, and when it changes, get_project_settings. This element calls no one and does not know who reads.',
+        consumers: 'voluntary: an application that wants to live by these settings asks settings_version when it decides to, and get_project_settings when the version differs from its copy. This element calls no one and does not know who reads.',
         writers: 'only the architect, on the screens of this element (sign-in service); MCP never writes',
         tools: {
-          settings_version: 'a fingerprint of the owner decisions — cheap to poll (X-Settings-Key)',
+          settings_version: 'a fingerprint of the owner decisions — tells whether they changed since your copy (X-Settings-Key)',
           get_project_settings: 'the owner decisions (patch) and the full result (settings) of app, platform, design — all or one kind (X-Settings-Key)',
         },
       }),
@@ -56,7 +56,7 @@ export function configTools(publicUrl) {
     {
       name: 'settings_version',
       title: 'Version of the project settings',
-      description: 'A fingerprint of the owner decisions. It changes exactly when any decision changes: poll it, and fetch the settings only when it moves. Needs the node key (X-Settings-Key).',
+      description: 'A fingerprint of the owner decisions. It changes exactly when any decision changes: compare it with the version of your copy and fetch the settings only when it differs. Needs the node key (X-Settings-Key).',
       run: (_args, ctx) => {
         requireKey(ctx)
         return { version: versionOf(readAll()) }
