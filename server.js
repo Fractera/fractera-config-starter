@@ -102,6 +102,44 @@ function elementsOfNode() {
   return list
 }
 
+// ВОРОТА РЕЖИМА АРХИТЕКТОРА (299-8). Слово владельца при открытии 299: публичная главная, а из неё «переход в защищенный
+// авторизацией и руль архитектора режим». ✗ Измерено 2026-09-25: без ворот `/ru/architect` отдавал 200 любому — меню,
+// разделы и подписи переключателей; под замком были только двери данных. Ворота стоят ДО Next: страница остаётся
+// статической, а её HTML не уходит тому, кто не архитектор.
+//   нет сессии → 302 на вход (публичный адрес входа из домена узла), с возвратом на ту же страницу;
+//   сессия без роли архитектора → 403; служба входа молчит → 503. Кука входа — на всю зону (COOKIE_DOMAIN входа).
+const ARCHITECT_PATH = /^\/(en|ru)\/architect(?:\/.*)?$/
+const GATE_WORDS = {
+  en: { forbidden: 'Only the architect of the project can open the settings.', unavailable: 'The sign-in service is not answering right now — try again in a minute.', home: 'Back to the home page' },
+  ru: { forbidden: 'Открыть настройки может только архитектор проекта.', unavailable: 'Служба входа сейчас не отвечает — попробуйте через минуту.', home: 'На главную' },
+}
+function loginUrl(lang, back) {
+  let domain = null
+  try { domain = JSON.parse(readFileSync(process.env.NODE_DOMAIN_FILE ?? '', 'utf8')) } catch { /* домен не подключён */ }
+  const auth = domain?.authHostname ? `https://${domain.authHostname}` : null
+  if (auth) return `${auth}/login?callbackUrl=${encodeURIComponent(back)}`
+  const site = (process.env.PROJECT_SITE_URL ?? '').replace(/\/+$/, '')
+  return site ? `${site}/login?lang=${lang}` : null
+}
+function gatePage(res, status, lang, text) {
+  const w = GATE_WORDS[lang] ?? GATE_WORDS.en
+  res.writeHead(status, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'x-robots-tag': 'noindex' })
+  res.end(`<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CONFIG</title></head><body style="font-family:system-ui,sans-serif;max-width:40rem;margin:4rem auto;padding:0 1rem"><p>${text}</p><p><a href="/${lang}">${w.home}</a></p></body></html>`)
+}
+async function architectGate(req, res, lang, pathname) {
+  const s = await sessionOf(req)
+  if (s.status === 200 && s.architect) return true
+  const w = GATE_WORDS[lang] ?? GATE_WORDS.en
+  if (s.status === 200) { gatePage(res, 403, lang, w.forbidden); return false }
+  if (s.status === 401) {
+    const back = `${(process.env.SERVICE_PUBLIC_URL ?? '').replace(/\/+$/, '')}${pathname}`
+    const to = loginUrl(lang, back)
+    if (to) { res.writeHead(302, { location: to, 'cache-control': 'no-store' }); res.end(); return false }
+  }
+  gatePage(res, 503, lang, w.unavailable)
+  return false
+}
+
 const SITE_PATH = /^\/(?:(en|ru)(?:\/.*)?|_next\/.*|robots\.txt|sitemap\.xml)$/
 
 createServer(async (req, res) => {
@@ -125,6 +163,8 @@ createServer(async (req, res) => {
       return json(res, s.status === 200 ? 200 : s.status, s.status === 200 ? { ok: true, architect: s.architect } : { ok: false, reason: s.reason })
     }
     if (pathname === '/') { res.writeHead(302, { location: '/en' }); return res.end() }
+    const arch = ARCHITECT_PATH.exec(pathname)
+    if (arch && !(await architectGate(req, res, arch[1], pathname))) return
     if (SITE_PATH.test(pathname)) {
       const handle = await site
       if (!handle) return json(res, 503, { error: 'site-not-built', fix: 'npm run build' })
