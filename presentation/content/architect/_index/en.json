@@ -1,0 +1,84 @@
+{
+  "title": "Project settings",
+  "lead": "Switch the features of the project on and off here; everything else is in the sections below. What you save here applies to every part of the project.",
+  "blocks": [
+    {
+      "kind": "featureSwitches",
+      "lang": "en",
+      "title": "Features",
+      "note": "A change is saved at once.",
+      "features": [
+        {
+          "key": "topMenu",
+          "label": "Top menu",
+          "hint": "The menu at the top of every page."
+        },
+        {
+          "key": "footerPages",
+          "label": "Footer pages",
+          "hint": "Legal and information pages linked from the footer."
+        },
+        {
+          "key": "cookieBanner",
+          "label": "Cookie banner",
+          "hint": "The consent message for visitors."
+        },
+        {
+          "key": "offlineCache",
+          "label": "Offline copy",
+          "hint": "Pages a visitor has seen open without a connection."
+        },
+        {
+          "key": "auth",
+          "label": "Sign-in",
+          "hint": "The sign-in button and the visitor cabinet."
+        },
+        {
+          "key": "breadcrumbs",
+          "label": "Breadcrumbs",
+          "hint": "The path to the page above its title."
+        },
+        {
+          "key": "faq",
+          "label": "Questions and answers",
+          "hint": "The FAQ section on the pages that have it."
+        },
+        {
+          "key": "themeToggle",
+          "label": "Theme switch",
+          "hint": "Light and dark theme for the visitor."
+        },
+        {
+          "key": "widthToggle",
+          "label": "Width switch",
+          "hint": "Narrow or wide page for the visitor."
+        },
+        {
+          "key": "languageSwitcher",
+          "label": "Language switch",
+          "hint": "The choice of language in the header."
+        },
+        {
+          "key": "socials",
+          "label": "Social links",
+          "hint": "Links to the project in social networks."
+        },
+        {
+          "key": "viewportBadge",
+          "label": "Screen width badge",
+          "hint": "A small badge with the screen width, for checking layouts."
+        }
+      ],
+      "words": {
+        "loading": "Loading the settings…",
+        "signin": "Sign in as the architect of the project to see and change the settings.",
+        "signinLink": "Sign in",
+        "forbidden": "You are signed in, but only the architect of the project can see and change these settings.",
+        "unavailable": "The sign-in service is not answering right now — try again in a minute.",
+        "error": "The settings could not be read. Nothing was changed.",
+        "saved": "Saved.",
+        "saveFailed": "Not saved — try again."
+      }
+    }
+  ]
+}

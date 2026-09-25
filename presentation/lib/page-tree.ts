@@ -86,6 +86,17 @@ export async function pageWords(collection: string, slug: string[], lang: string
   return readJson<PageWords>(join(root(), collection, ...slug, `${lang}.json`))
 }
 
+/** Слова ГЛАВНОЙ коллекции — `content/<коллекция>/_index/<lang>.json` (заголовок, подзаголовок, блоки над списком страниц).
+ * Файла нет — главная коллекции показывает только заголовок из `_collection.json` и список. Папка с `_` страницей не
+ * становится (`SEGMENT` её пропускает), поэтому адреса `/<коллекция>/_index` не существует. */
+export async function collectionWords(collection: string, lang: string): Promise<PageWords | null> {
+  'use cache'
+  cacheLife('minutes')
+  cacheTag(PAGE_TREE_TAG)
+  if (!SEGMENT.test(collection) || !/^[a-z]{2}$/.test(lang)) return null
+  return readJson<PageWords>(join(root(), collection, '_index', `${lang}.json`))
+}
+
 /** Какие адреса предрендерить при сборке. Остальные рисуются при первом заходе и сохраняются (Next 16, Cache
  * Components). `PRERENDER_LANGS` сужает срез: при 600 страницах × 82 языках в сборку идут, скажем, en и ru. */
 export async function prerenderSlice(siteLangs: string[]): Promise<{ lang: string; collection: string; slug?: string[] }[]> {

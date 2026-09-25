@@ -1,0 +1,24 @@
+{
+  "title": "Footer",
+  "lead": "The links and pages at the bottom of every page.",
+  "blocks": [
+    {
+      "kind": "settingsView",
+      "lang": "en",
+      "settingsKind": "app",
+      "keys": [
+        "nav"
+      ],
+      "title": "Current values",
+      "empty": "not set — the default applies",
+      "words": {
+        "loading": "Loading the settings…",
+        "signin": "Sign in as the architect of the project to see and change the settings.",
+        "signinLink": "Sign in",
+        "forbidden": "You are signed in, but only the architect of the project can see and change these settings.",
+        "unavailable": "The sign-in service is not answering right now — try again in a minute.",
+        "error": "The settings could not be read. Nothing was changed."
+      }
+    }
+  ]
+}

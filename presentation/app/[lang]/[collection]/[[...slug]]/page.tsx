@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PageBody, type BlockData } from '@/components/blocks/page-body'
 import { BLOCK_SET } from '@/lib/block-set'
-import { pageTree, pageWords, prerenderSlice, type TreeCollection } from '@/lib/page-tree'
+import { pageTree, pageWords, collectionWords, prerenderSlice, type TreeCollection } from '@/lib/page-tree'
 import { PUBLIC_BASE } from '../../_components/meta'
 import { LANGS } from '../../_data/body'
 
@@ -74,10 +74,18 @@ export default async function TreePage({ params }: { params: Promise<Params> }) 
         .filter((x) => x.langs.includes(p.lang))
         .map(async (x) => ({ x, w: await pageWords(c.id, x.slug, p.lang) })),
     )
+    // Главная коллекции может нести свои слова и блоки (`_index/<lang>.json`) — над списком страниц.
+    const head = await collectionWords(c.id, p.lang)
     return (
       <main className="mx-auto w-full max-w-5xl px-6 py-10">
-        <h1 className="text-3xl font-semibold tracking-tight">{c.titles[p.lang] ?? c.titles.en ?? c.id}</h1>
-        <ul className="mt-8 flex flex-col gap-4">
+        <h1 className="text-3xl font-semibold tracking-tight">{head?.title ?? c.titles[p.lang] ?? c.titles.en ?? c.id}</h1>
+        {head?.lead && <p className="mt-3 text-lg text-muted-foreground">{head.lead}</p>}
+        {head?.blocks?.length ? (
+          <div className="mt-8">
+            <PageBody blocks={head.blocks as unknown as BlockData[]} set={BLOCK_SET} />
+          </div>
+        ) : null}
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2">
           {items.map(({ x, w }) => (
             <li key={x.slug.join('/')} className="rounded-xl border border-border bg-card p-4">
               <Link href={addressOf(p.lang, c.id, x.slug)} className="font-medium text-primary hover:underline">
