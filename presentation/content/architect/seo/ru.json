@@ -3,16 +3,15 @@
   "lead": "Как проект читают поисковики и ИИ-помощники.",
   "blocks": [
     {
-      "kind": "settingsView",
+      "kind": "settingsEditor",
       "lang": "ru",
-      "settingsKind": "app",
-      "keys": [
-        "seo",
-        "jsonLd",
-        "analytics"
+      "group": "seo",
+      "langs": [
+        "en",
+        "ru"
       ],
-      "title": "Текущие значения",
-      "empty": "не задано — действует умолчание",
+      "defaultLang": "en",
+      "editLangLabel": "Язык правки:",
       "words": {
         "loading": "Загружаю настройки…",
         "signin": "Войдите как архитектор проекта, чтобы видеть и менять настройки.",

@@ -3,21 +3,15 @@
   "lead": "Logos, icons and the pictures shown when a page is shared.",
   "blocks": [
     {
-      "kind": "settingsView",
+      "kind": "settingsEditor",
       "lang": "en",
-      "settingsKind": "app",
-      "keys": [
-        "images",
-        "logo",
-        "icons",
-        "iconSet",
-        "og",
-        "themeColors",
-        "manifest",
-        "pwa"
+      "group": "metaMedia",
+      "langs": [
+        "en",
+        "ru"
       ],
-      "title": "Current values",
-      "empty": "not set — the default applies",
+      "defaultLang": "en",
+      "editLangLabel": "Editing language:",
       "words": {
         "loading": "Loading the settings…",
         "signin": "Sign in as the architect of the project to see and change the settings.",

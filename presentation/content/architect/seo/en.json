@@ -3,16 +3,15 @@
   "lead": "How search engines and AI assistants read the project.",
   "blocks": [
     {
-      "kind": "settingsView",
+      "kind": "settingsEditor",
       "lang": "en",
-      "settingsKind": "app",
-      "keys": [
-        "seo",
-        "jsonLd",
-        "analytics"
+      "group": "seo",
+      "langs": [
+        "en",
+        "ru"
       ],
-      "title": "Current values",
-      "empty": "not set — the default applies",
+      "defaultLang": "en",
+      "editLangLabel": "Editing language:",
       "words": {
         "loading": "Loading the settings…",
         "signin": "Sign in as the architect of the project to see and change the settings.",

@@ -22,6 +22,16 @@ export const merge = (a, b) => {
   for (const [k, v] of Object.entries(b)) out[k] = isObj(v) && isObj(out[k]) ? merge(out[k], v) : v
   return out
 }
+// Заплата по правилам JSON Merge Patch (RFC 7386): `null` УДАЛЯЕТ ключ. Так редактор стирает пустой перевод —
+// «перевода нет» и «перевод пустой» одно состояние (перенесено из редактора aifa.dev/ru/architect/app-config).
+export const applyPatch = (a, b) => {
+  const out = { ...a }
+  for (const [k, v] of Object.entries(b)) {
+    if (v === null) delete out[k]
+    else out[k] = isObj(v) ? applyPatch(isObj(out[k]) ? out[k] : {}, v) : v
+  }
+  return out
+}
 
 function readJson(file, missing) {
   let raw
@@ -55,7 +65,7 @@ export function writeSettings(kind, body) {
   if (!isObj(body)) return { ok: false, reason: 'bad-body' }
   const current = readSettings(kind)
   if (!current.ok) return current // не затираем то, что не смогли прочитать
-  const next = merge(current.patch, body)
+  const next = applyPatch(current.patch, body)
   const file = join(dataDir(), `${kind}.json`)
   const tmp = `${file}.${process.pid}.${Date.now()}.tmp`
   try {

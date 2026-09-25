@@ -10,6 +10,6 @@ import { Flow } from '@/components/blocks/flow'
 import { H3 } from '@/components/blocks/h3'
 import { P } from '@/components/blocks/p'
 import { Faq } from '@/components/blocks/faq'
-import { FeatureSwitches, SettingsView } from '@/components/settings/blocks'
+import { FeatureSwitches, SettingsView, SettingsEditor } from '@/components/settings/blocks'
 
-export const BLOCK_SET: BlockSet = { metrics: Metrics, badges: Badges, cards: Cards, card: Card, flow: Flow, h3: H3, p: P, faq: Faq, featureSwitches: FeatureSwitches, settingsView: SettingsView }
+export const BLOCK_SET: BlockSet = { metrics: Metrics, badges: Badges, cards: Cards, card: Card, flow: Flow, h3: H3, p: P, faq: Faq, featureSwitches: FeatureSwitches, settingsView: SettingsView, settingsEditor: SettingsEditor }

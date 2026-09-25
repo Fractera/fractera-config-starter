@@ -3,20 +3,15 @@
   "lead": "The name of the project, its description, address and contacts.",
   "blocks": [
     {
-      "kind": "settingsView",
+      "kind": "settingsEditor",
       "lang": "en",
-      "settingsKind": "app",
-      "keys": [
-        "name",
-        "short_name",
-        "description",
-        "url",
-        "mailSupport",
-        "author",
-        "timezone"
+      "group": "basics",
+      "langs": [
+        "en",
+        "ru"
       ],
-      "title": "Current values",
-      "empty": "not set — the default applies",
+      "defaultLang": "en",
+      "editLangLabel": "Editing language:",
       "words": {
         "loading": "Loading the settings…",
         "signin": "Sign in as the architect of the project to see and change the settings.",
