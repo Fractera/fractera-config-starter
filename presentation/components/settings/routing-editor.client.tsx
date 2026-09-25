@@ -177,7 +177,7 @@ export function RoutingEditor({
         <AdviceNote probe="one-slot-at-a-time" title={t.adviceTitle} text={t.advice} />
 
         {!WRITE_ENABLED && (
-          <AdviceNote tone="warning" probe="not-consumed" title={t.comingSoon} text={t.notConsumed} />
+          <AdviceNote tone="warning" probe="not-consumed" title={t.pickTemplates} text={t.notConsumed} />
         )}
 
         <div className="flex flex-col gap-4 md:flex-row">

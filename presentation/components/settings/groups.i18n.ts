@@ -39,6 +39,8 @@ export type GroupsUi = {
     previewTitle: string
     childrenLabel: string
     comingSoon: string
+    /** 299-8, слово владельца: заголовок красной карточки раздела параллельной маршрутизации. */
+    pickTemplates: string
     notConsumed: string
     adviceTitle: string
     advice: string
@@ -142,6 +144,7 @@ const en: GroupsUi = {
     previewTitle: "Layout preview",
     childrenLabel: "Page content",
     comingSoon: "Available in an upcoming update",
+    pickTemplates: "Choose templates that support parallel routing",
     adviceTitle: "Add one slot at a time",
     advice:
       "Designing an application around parallel routing takes a deep understanding of the user's path: the screen is split into areas, and each one lives its own life. Grow the project by adding no more than one slot at a time — until you understand how to use it in your own product.",
@@ -268,6 +271,7 @@ const ru: GroupsUi = {
     previewTitle: "Чертёж раскладки",
     childrenLabel: "Содержимое страницы",
     comingSoon: "Будет доступно в ближайшем обновлении",
+    pickTemplates: "Выбирайте шаблоны, которые поддерживают параллельную маршрутизацию",
     adviceTitle: "Добавляйте по одному слоту",
     advice:
       "Проектирование приложения с параллельной маршрутизацией требует глубокого понимания пути пользователя: экран делится на области, и каждая живёт своей жизнью. Развивайте проект, добавляя не более одного слота за раз, — пока вы не поймёте, как использовать его в своём продукте.",

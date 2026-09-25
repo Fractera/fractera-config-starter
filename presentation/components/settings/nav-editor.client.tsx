@@ -46,6 +46,7 @@ export function NavEditor({
   candidates,
   editLang,
   ui,
+  alsoSave,
 }: {
   slot: NavSlot
   initial: readonly NavItem[]
@@ -63,6 +64,11 @@ export function NavEditor({
    */
   editLang: string
   ui: GroupsUi
+  /**
+   * 299-8, слово владельца: «Зачем внизу две кнопки продублированы? Поставь одну». Изменённые выключатели раздела
+   * (`FeaturesEditor` над этим редактором) сохраняются ЭТОЙ же кнопкой: сначала выключатели, потом меню.
+   */
+  alsoSave?: { patch: Record<string, boolean> | null; commit: () => void }
 }) {
   const t = ui.nav
   const [items, setItems] = useState<NavItem[]>(() => renumber(initial))
@@ -70,7 +76,8 @@ export function NavEditor({
   const [busy, setBusy] = useState(false)
   const [closed, setClosed] = useState<Set<string>>(() => new Set())
 
-  const changed = useMemo(() => JSON.stringify(items) !== saved, [items, saved])
+  const navChanged = useMemo(() => JSON.stringify(items) !== saved, [items, saved])
+  const changed = navChanged || !!alsoSave?.patch
 
   // Занятые адреса считаются ВМЕСТЕ С ДЕТЬМИ: вложенный пункт стоит в меню так же,
   // как корневой, и предлагать его второй раз — та же ошибка ввода.
@@ -200,6 +207,26 @@ export function NavEditor({
     }
 
     try {
+      if (alsoSave?.patch) {
+        const r = await fetch("/api/settings/platform", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(alsoSave.patch),
+        })
+        const d = (await r.json().catch(() => ({}))) as { ok?: boolean }
+        if (!r.ok || !d.ok) {
+          toast.error(ui.failed)
+          setBusy(false)
+          return
+        }
+        alsoSave.commit()
+      }
+      if (!navChanged) {
+        toast.success(ui.savedReload)
+        setBusy(false)
+        return
+      }
       // 299-5: дверь элемента настроек (JSON Merge Patch; массив `nav.<slot>` заменяется целиком).
       const res = await fetch("/api/settings/app", {
         method: "PATCH",

@@ -55,7 +55,11 @@ export function FeaturesEditor({
    * по-прежнему выглядит как работа, которую можно сделать.
    */
   childrenGatedBy?: string
-  children?: ReactNode
+  /**
+   * Функция вместо узла — дети сохраняют выключатели СВОЕЙ кнопкой (299-8, слово владельца: «Зачем внизу две кнопки
+   * продублированы? Поставь одну»). Своя кнопка тогда видна, только пока детей на экране нет (выключатель погашен).
+   */
+  children?: ReactNode | ((pending: { patch: Record<string, boolean> | null; commit: () => void }) => ReactNode)
 }) {
   const [values, setValues] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(switches.map(s => [s.key, s.initial])),
@@ -69,6 +73,10 @@ export function FeaturesEditor({
     () => switches.some(s => values[s.key] !== saved[s.key]),
     [switches, values, saved],
   )
+
+  const showChildren = !childrenGatedBy || values[childrenGatedBy]
+  // Одна кнопка на раздел: дети-функция несут её сами, пока видны.
+  const ownButton = !(typeof children === 'function' && showChildren)
 
   async function save() {
     if (!changed) {
@@ -151,8 +159,17 @@ export function FeaturesEditor({
         </ul>
       </section>
 
-      {(!childrenGatedBy || values[childrenGatedBy]) && children}
+      {showChildren &&
+        (typeof children === 'function'
+          ? children({
+              patch: changed
+                ? Object.fromEntries(switches.filter(s => values[s.key] !== saved[s.key]).map(s => [s.key, values[s.key]]))
+                : null,
+              commit: () => setSaved({ ...values }),
+            })
+          : children)}
 
+      {ownButton && (
       <div className="flex items-center gap-3">
         <Button type="button" onClick={save} disabled={busy || !changed} data-save className="h-10 px-5">
           {busy && <Loader2 className="size-4 animate-spin" aria-hidden />}
@@ -160,6 +177,7 @@ export function FeaturesEditor({
         </Button>
         {!changed && <P className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
       </div>
+      )}
     </div>
   )
 }

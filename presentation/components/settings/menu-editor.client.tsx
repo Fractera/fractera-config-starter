@@ -61,7 +61,9 @@ export function MenuEditorIsland({ slot, editLang, current, candidates, ui, word
       ui={ui}
       childrenGatedBy={key}
     >
-      <NavEditor slot={slot} initial={nav.items} configured={nav.configured} candidates={candidates} editLang={editLang} ui={ui} />
+      {(pending) => (
+        <NavEditor slot={slot} initial={nav.items} configured={nav.configured} candidates={candidates} editLang={editLang} ui={ui} alsoSave={pending} />
+      )}
     </FeaturesEditor>
   )
 }
