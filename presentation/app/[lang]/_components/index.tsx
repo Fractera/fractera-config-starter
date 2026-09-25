@@ -12,16 +12,31 @@ import { configHomeWords, LANGS, type ConfigHomeWords } from '../_data/body'
 // `presentation/components/blocks/`. Главное действие страницы — «Перейти к настройкам»: вход в режим архитектора (299-4).
 // 🛑 СЛОВА ОТСЮДА НЕ ПИШУТСЯ — `../_data/body.ts`.
 
-function body(w: ConfigHomeWords): BlockData[] {
+// Секции страницы по отдельности: после каждой секции с заголовком — та же кнопка «Перейти к настройкам», что наверху
+// (слово владельца: «Установи эту кнопку после каждой секции слева»). Ряд цифр и ярлыки идут сразу под верхней кнопкой
+// и своей кнопки не получают — она стояла бы в двух строках от первой.
+function lead(w: ConfigHomeWords): BlockData[] {
   return [
     { kind: 'metrics', items: w.metrics },
     { kind: 'badges', items: w.badges.map((label) => ({ label, tone: 'code' })) },
-    {
-      kind: 'cards', badge: w.groups.badge, title: w.groups.title, note: w.groups.note, cols: 2,
-      children: w.groups.items.map((i) => ({ kind: 'card', children: [{ kind: 'h3', text: i.title }, { kind: 'p', text: i.text }] })),
-    },
-    { kind: 'flow', badge: w.flow.badge, title: w.flow.title, note: w.flow.note, steps: w.flow.steps },
   ]
+}
+function groups(w: ConfigHomeWords): BlockData[] {
+  return [{
+    kind: 'cards', badge: w.groups.badge, title: w.groups.title, note: w.groups.note, cols: 2,
+    children: w.groups.items.map((i) => ({ kind: 'card', children: [{ kind: 'h3', text: i.title }, { kind: 'p', text: i.text }] })),
+  }]
+}
+function flow(w: ConfigHomeWords): BlockData[] {
+  return [{ kind: 'flow', badge: w.flow.badge, title: w.flow.title, note: w.flow.note, steps: w.flow.steps }]
+}
+
+function Cta({ lang, text }: { lang: string; text: string }) {
+  return (
+    <Link href={`/${lang}/architect`} className={buttonVariants({ size: 'lg', className: 'mt-6 self-start' })}>
+      {text}
+    </Link>
+  )
 }
 
 export default async function ConfigHome({ params }: { params: Promise<{ lang: string }> }) {
@@ -32,11 +47,15 @@ export default async function ConfigHome({ params }: { params: Promise<{ lang: s
     <main data-app-column className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
       <H1 className="mt-6">{w.title}</H1>
       <Lead className="mt-4 max-w-3xl">{w.description}</Lead>
-      <Link href={`/${lang}/architect`} className={buttonVariants({ size: 'lg', className: 'mt-6' })}>
-        {w.cta}
-      </Link>
-      <PageBody blocks={body(w)} set={BLOCK_SET} />
+      <Cta lang={lang} text={w.cta} />
+      {/* Один вызов на цифры, ярлыки и группы: PageBody нумерует блоки с нуля в каждом вызове, а по номеру строится id
+          заголовка секции. Здесь группы — b2, «Как это работает» ниже — b0: одинаковых id на странице нет. */}
+      <PageBody blocks={[...lead(w), ...groups(w)]} set={BLOCK_SET} />
+      <Cta lang={lang} text={w.cta} />
+      <PageBody blocks={flow(w)} set={BLOCK_SET} />
+      <Cta lang={lang} text={w.cta} />
       <Faq title={w.faqTitle} items={w.faq} />
+      <Cta lang={lang} text={w.cta} />
     </main>
   )
 }

@@ -1,6 +1,6 @@
 {
   "name": "fractera-config",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "private": true,
   "type": "module",
   "description": "Fractera Config — the project settings of a node as its own AGI ITEM: one place that stores APP, PLATFORM and DESIGN settings and the menu, and gives them to every element.",
