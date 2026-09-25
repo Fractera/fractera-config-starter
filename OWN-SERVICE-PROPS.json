@@ -1,0 +1,52 @@
+{
+  "id": "config",
+  "name": "Fractera Config",
+  "summary": "The project settings of the node as its own element: APP, PLATFORM and DESIGN settings and the menu live here, the architect edits them here, every element reads them here.",
+  "kind": "microservice",
+  "entry": "own",
+  "port": {
+    "desired": 24685,
+    "note": "A wish, not a decision. The node assigns the actual port from the block 24680-24699. Ask the node, never remember."
+  },
+  "env": {
+    "file": ".env",
+    "example": ".env.example",
+    "note": "server.js calls dotenv on resolve(ROOT, '.env')."
+  },
+  "health": {
+    "path": "/health",
+    "expect": 200
+  },
+  "runtime": {
+    "stack": "node",
+    "node": ">=20",
+    "build": "npm run build",
+    "start": "npm run start",
+    "nativeModules": [],
+    "note": "server.js is the service (node:http). `npm run build` = the route guard + the site (presentation/, Next 16 Cache Components) into the folder NEXT_DIST_DIR names; `.presentation-dist` marks it. Pages are data folders in presentation/content (skill use-page-tree).",
+    "distDirEnv": "NEXT_DIST_DIR"
+  },
+  "protocols": {
+    "api": {
+      "provided": false,
+      "note": "The settings doors arrive in 299-2."
+    },
+    "mcp": {
+      "provided": true,
+      "door": "/mcp",
+      "transport": "streamable-http, stateless",
+      "tools": ["describe_config"]
+    },
+    "a2a": { "provided": false, "note": "Not built in the prototype." },
+    "m2m": { "provided": false, "note": "Not built in the prototype." }
+  },
+  "doors": [
+    { "path": "/en, /ru", "method": "GET", "gives": "the public home page of the element" },
+    { "path": "/robots.txt, /sitemap.xml", "method": "GET", "gives": "search signals; the sitemap lists pages only once the element has a real public address" },
+    { "path": "/health", "method": "GET", "gives": "liveness" },
+    { "path": "/mcp", "method": "POST", "gives": "MCP: the project settings as commands for an agent" }
+  ],
+  "provides": ["project-settings"],
+  "languages": { "count": 2, "codes": ["en", "ru"], "note": "The public home page speaks en and ru." },
+  "license": "MIT"
+}
