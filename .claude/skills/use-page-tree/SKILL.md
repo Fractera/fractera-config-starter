@@ -72,6 +72,13 @@ content/<collection>/<slug>/ru.json     (one file per language the page exists i
 - A language the page has no file for is a real 404, and hreflang lists only the languages that exist:
   a link to a translation that does not exist is a lie to the search engine.
 - A new collection is a new folder with `_collection.json`. **It is not a new route.**
+- **A working screen is a collection setting, not a page of its own** (step 299-8, the owner's order: the
+  settings pages look like aifa.dev/ru/architect/app-config). `"layout": "workspace"` and
+  `"menuWord": { "en": "Menu", "ru": "Меню" }` in `_collection.json` draw the collection home and every page
+  in `components/workspace/workspace-shell.tsx`: a page header on top (the collection home's `title`/`lead`),
+  the menu of all pages on the left (built from the folders — never a second list), the open page on the
+  right. `menuLabel` in `_index/<lang>.json` names the home in that menu. A block inside that repeats the
+  page title prints it twice — give it an empty title.
 
 ## 4. Texts are DATA, never modules
 

@@ -11,6 +11,7 @@ import { notFound } from 'next/navigation'
 import { PageBody, type BlockData } from '@/components/blocks/page-body'
 import { BLOCK_SET } from '@/lib/block-set'
 import { pageTree, pageWords, collectionWords, prerenderSlice, type TreeCollection } from '@/lib/page-tree'
+import { WorkspaceShell, type WorkspaceShellItem } from '@/components/workspace/workspace-shell'
 import { PUBLIC_BASE } from '../../_components/meta'
 import { LANGS } from '../../_data/body'
 
@@ -62,11 +63,53 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   }
 }
 
+// РАБОЧИЙ ЭКРАН (299-8) — коллекция объявляет `layout: "workspace"` в `_collection.json`. Устройство — как
+// aifa.dev/ru/architect/app-config (слово владельца: «слева … а справа как настраиваем как здесь»): сверху шапка страницы
+// (главная коллекции: заголовок и пояснение — «где я»), ниже рабочий экран: меню всех страниц коллекции слева, открытая
+// страница справа — «что я открыл». Меню строится из папок коллекции: второго списка разделов нет.
+async function WorkspacePage({ c, slug, lang }: { c: TreeCollection; slug: string[]; lang: string }) {
+  const head = await collectionWords(c.id, lang)
+  const pages = await Promise.all(
+    c.pages.filter((x) => x.langs.includes(lang)).map(async (x) => ({ x, w: await pageWords(c.id, x.slug, lang) })),
+  )
+  const current = slug.length ? pages.find(({ x }) => x.slug.join('/') === slug.join('/')) : null
+  if (slug.length && !current?.w) notFound()
+  const homeLabel = head?.menuLabel ?? head?.title ?? c.titles[lang] ?? c.id
+  const menu: WorkspaceShellItem[] = [
+    { label: homeLabel, href: addressOf(lang, c.id, []), active: !slug.length },
+    ...pages.map(({ x, w }) => ({
+      label: w?.title ?? x.slug.join('/'),
+      href: addressOf(lang, c.id, x.slug),
+      active: x.slug.join('/') === slug.join('/'),
+    })),
+  ]
+  const blocks = (current ? current.w?.blocks : head?.blocks) ?? []
+  const menuWord = c.menuWord?.[lang] ?? c.menuWord?.en ?? 'Menu'
+  return (
+    <main className="mx-auto w-full max-w-6xl px-6 py-10">
+      <h1 className="text-3xl font-semibold tracking-tight">{head?.title ?? c.titles[lang] ?? c.titles.en ?? c.id}</h1>
+      {head?.lead && <p className="mt-3 text-lg text-muted-foreground">{head.lead}</p>}
+      <WorkspaceShell
+        id={c.id}
+        menuTitle={c.titles[lang] ?? c.titles.en ?? c.id}
+        menuWord={menuWord}
+        menu={menu}
+        title={current?.w?.title ?? homeLabel}
+        lead={current?.w?.lead}
+      >
+        <PageBody blocks={blocks as unknown as BlockData[]} set={BLOCK_SET} />
+      </WorkspaceShell>
+    </main>
+  )
+}
+
 export default async function TreePage({ params }: { params: Promise<Params> }) {
   const p = await params
   const hit = await find(p)
   if (!hit) notFound()
   const { c, slug } = hit
+
+  if (c.layout === 'workspace') return <WorkspacePage c={c} slug={slug} lang={p.lang} />
 
   if (!slug.length) {
     const items = await Promise.all(

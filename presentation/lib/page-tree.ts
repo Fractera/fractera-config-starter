@@ -5,7 +5,10 @@
 // импортами. Поэтому страница — это ПАПКА С ДАННЫМИ, а маршрут у всех страниц один:
 // `app/[lang]/[collection]/[[...slug]]/page.tsx`. Навык — `.claude/skills/use-page-tree`.
 //
-//   content/<коллекция>/_collection.json   — { "titles": { "en": …, "ru": … }, "index": true|false }
+//   content/<коллекция>/_collection.json   — { "titles": { "en": …, "ru": … }, "index": true|false,
+//                                             "layout": "workspace", "menuWord": { "en": …, "ru": … } }
+//   `layout: "workspace"` (299-8) — главная коллекции и все её страницы рисуются рабочим экраном: меню страниц слева,
+//   содержимое справа (`components/workspace/workspace-shell.tsx`, как aifa.dev/ru/architect/app-config).
 //   content/<коллекция>/<slug>/meta.json   — { "order": 10, "index": true|false }
 //   content/<коллекция>/<slug>/<lang>.json — { "title": …, "lead": …, "blocks": [ блоки каталога ] }
 //   (вложенность разрешена: <slug>/<под>/meta.json → адрес /<lang>/<коллекция>/<slug>/<под>)
@@ -21,9 +24,16 @@ import { cacheLife, cacheTag } from 'next/cache'
 
 export const PAGE_TREE_TAG = 'page-tree'
 
-export type PageWords = { title: string; lead?: string; blocks?: unknown[] }
+export type PageWords = { title: string; lead?: string; blocks?: unknown[]; menuLabel?: string }
 export type TreePage = { collection: string; slug: string[]; order: number; index: boolean; langs: string[] }
-export type TreeCollection = { id: string; titles: Record<string, string>; index: boolean; pages: TreePage[] }
+export type TreeCollection = {
+  id: string
+  titles: Record<string, string>
+  index: boolean
+  pages: TreePage[]
+  layout?: 'workspace'
+  menuWord?: Record<string, string>
+}
 
 // Папку называет `server.js` (`PAGE_TREE_DIR`); без него — от рабочей папки сборки. `turbopackIgnore`: путь от
 // рабочей папки иначе затягивает в трассировку сборки весь проект.
@@ -68,11 +78,14 @@ export async function pageTree(): Promise<TreeCollection[]> {
   for (const id of readdirSync(base).sort()) {
     const dir = join(base, id)
     if (!SEGMENT.test(id) || !statSync(dir).isDirectory()) continue
-    const c = readJson<{ titles?: Record<string, string>; index?: boolean }>(join(dir, '_collection.json')) ?? {}
+    const c = readJson<{ titles?: Record<string, string>; index?: boolean; layout?: string; menuWord?: Record<string, string> }>(join(dir, '_collection.json')) ?? {}
     const pages: TreePage[] = []
     walk(dir, id, [], c.index !== false, pages)
     pages.sort((a, b) => a.order - b.order || a.slug.join('/').localeCompare(b.slug.join('/')))
-    out.push({ id, titles: c.titles ?? {}, index: c.index !== false, pages })
+    out.push({
+      id, titles: c.titles ?? {}, index: c.index !== false, pages,
+      ...(c.layout === 'workspace' ? { layout: 'workspace' as const, menuWord: c.menuWord ?? {} } : {}),
+    })
   }
   return out
 }

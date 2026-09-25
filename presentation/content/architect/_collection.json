@@ -3,5 +3,10 @@
     "en": "Settings",
     "ru": "Настройки"
   },
-  "index": false
+  "index": false,
+  "layout": "workspace",
+  "menuWord": {
+    "en": "Menu",
+    "ru": "Меню"
+  }
 }

@@ -104,8 +104,9 @@ export function FeatureSwitchesIsland({ title, note, features, distributionReady
   }
 
   return (
-    <section className="mt-10" aria-labelledby="feature-switches">
-      <h2 id="feature-switches" className="text-xl font-semibold tracking-tight">{title}</h2>
+    // 299-8: внутри рабочего экрана заголовок раздела печатает его правая часть — пустой `title` не дублирует его.
+    <section className={title ? 'mt-10' : undefined} aria-labelledby={title ? 'feature-switches' : undefined} aria-label={title ? undefined : note}>
+      {title && <h2 id="feature-switches" className="text-xl font-semibold tracking-tight">{title}</h2>}
       {note && <p className="mt-1 text-sm text-muted-foreground">{note}</p>}
       <div className="mt-4">
         {access !== 'ok' ? (

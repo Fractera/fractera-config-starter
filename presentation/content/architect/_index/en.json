@@ -1,11 +1,11 @@
 {
   "title": "Project settings",
-  "lead": "Switch the features of the project on and off here; everything else is in the sections below. What you save here applies to every part of the project.",
+  "lead": "Switch the features of the project on and off here; everything else is in the sections of the menu. What you save here is kept by CONFIG; applications connected over MCP take it themselves.",
   "blocks": [
     {
       "kind": "featureSwitches",
       "lang": "en",
-      "title": "Features",
+      "title": "",
       "note": "A change is saved at once.",
       "features": [
         {
@@ -106,5 +106,6 @@
         "blocks": "Blocks"
       }
     }
-  ]
+  ],
+  "menuLabel": "Features"
 }
