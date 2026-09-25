@@ -9,7 +9,9 @@
 //   GET  /, /en, /ru, /<язык>/…      — сайт элемента: публичная главная и режим архитектора (Next в этом же процессе).
 //   GET  /api/settings[/<вид>]       — настройки проекта (app · platform · design): ключ служб X-Settings-Key ИЛИ архитектор;
 //   PATCH /api/settings/<вид>        — записать заплату: ТОЛЬКО архитектор (ключ служб записи не даёт);
-//   GET  /api/session                — архитектор ли тот, кто смотрит (для экранов режима архитектора).
+//   GET  /api/session                — архитектор ли тот, кто смотрит (для экранов режима архитектора);
+//   GET  /api/elements               — все элементы узла и их адреса (только архитектор): ссылки в окне перед выключением
+//                                       меню или входа (реестр узла NODE_ITEMS_FILE + домен NODE_DOMAIN_FILE).
 // A2A и M2M этот прототип НЕ даёт — названо в паспорте, а не скрыто.
 import { createServer } from 'node:http'
 import { readFileSync, existsSync } from 'node:fs'
@@ -83,6 +85,21 @@ async function settingsDoor(req, res, kind) {
   return json(res, 405, { ok: false, reason: 'method' })
 }
 
+// Элементы узла и их публичные адреса — то же правило, что у двери ядра `/api/node/reach`: сайт (root) — корень зоны,
+// ядро — architect.<зона>, остальные — <id>.<зона>. Домена нет — адрес на петле машины (он годится только на ней).
+function elementsOfNode() {
+  let registry, domain = null
+  try { registry = JSON.parse(readFileSync(process.env.NODE_ITEMS_FILE ?? '', 'utf8')) } catch { return null }
+  try { domain = JSON.parse(readFileSync(process.env.NODE_DOMAIN_FILE ?? '', 'utf8')) } catch { /* домен не подключён */ }
+  const zone = domain?.zone
+  const list = [{ id: 'core', url: zone ? `https://${domain.architectHostname ?? `architect.${zone}`}` : null }]
+  for (const s of registry.services ?? []) {
+    const url = zone ? (s.id === 'root' ? `https://${domain.hostname ?? zone}` : `https://${s.id}.${zone}`) : Number.isInteger(s.port) ? `http://127.0.0.1:${s.port}` : null
+    list.push({ id: s.id, url })
+  }
+  return list
+}
+
 const SITE_PATH = /^\/(?:(en|ru)(?:\/.*)?|_next\/.*|robots\.txt|sitemap\.xml)$/
 
 createServer(async (req, res) => {
@@ -93,6 +110,13 @@ createServer(async (req, res) => {
     if (pathname === '/api/settings' || pathname.startsWith('/api/settings/')) {
       const kind = pathname.slice('/api/settings/'.length) || null
       return await settingsDoor(req, res, pathname === '/api/settings' ? null : kind)
+    }
+    if (pathname === '/api/elements') {
+      const s = await sessionOf(req)
+      if (s.status !== 200) return json(res, s.status, { ok: false, reason: s.reason })
+      if (!s.architect) return json(res, 403, { ok: false, reason: 'not-architect' })
+      const list = elementsOfNode()
+      return list ? json(res, 200, { ok: true, elements: list }) : json(res, 500, { ok: false, reason: 'registry-unreadable' })
     }
     if (pathname === '/api/session') {
       const s = await sessionOf(req)

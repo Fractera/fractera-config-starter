@@ -4,23 +4,55 @@
 // активации и деактивации, которая влияет у нас на platform config … все эти переключатели будут стоять на странице
 // архитектора в корне всех этих настроек». Читает и пишет PLATFORM-CONFIG через дверь элемента; дверь пускает только
 // архитектора. Слова приходят данными страницы (`content/architect/_index/<lang>.json`), а не из кода.
+//
+// 🔒 КАЖДОЕ ПЕРЕКЛЮЧЕНИЕ — ТОСТ СВЕРХУ (слово владельца 2026-09-25). Пока раздача настроек (299-6) не подключена, тост
+// говорит правду: «сохранено; части проекта начнут применять это после подключения раздачи» (`distributionReady: false`
+// в данных). Функция, которая вступает в силу только после развёртывания, получает тост с кнопкой на дашборд (`needsDeploy`).
+//
+// 🔒 ВЫКЛЮЧИТЬ МЕНЮ ИЛИ ВХОД — ТОЛЬКО ЧЕРЕЗ ТРЕВОЖНОЕ ОКНО (слово владельца: «когда пользователь выключает верхнее меню, он
+// может потерять вообще любую возможность управлять проектом … запомните или скопируйте их прежде чем вы продолжите»).
+// В окне — ссылки на все элементы узла из реестра (дверь `/api/elements`), кнопка «Скопировать» и флажок «Я сохранил
+// ссылки»; без флажка выключить нельзя.
 import { useEffect, useState } from 'react'
+import { AlertTriangle } from 'lucide-react'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { loadSettings, saveSettings, type Access, type AccessWords } from './settings-access'
 import { AccessNotice } from './access-notice'
+import { toast } from './toast'
 
+type Guard = { title: string; text: string }
 export type FeatureSwitchesProps = {
   title: string
   note?: string
-  features: { key: string; label: string; hint?: string }[]
-  words: AccessWords & { saved: string; saveFailed: string }
+  features: { key: string; label: string; hint?: string; needsDeploy?: boolean; guard?: Guard }[]
+  distributionReady: boolean
+  words: AccessWords & {
+    savedLive: string
+    savedPending: string
+    savedDeploy: string
+    saveFailed: string
+    guardLinks: string
+    guardCopy: string
+    guardCopied: string
+    guardConfirm: string
+    guardProceed: string
+    guardCancel: string
+    guardNoLinks: string
+  }
+  elementNames: Record<string, string>
   loginHref?: string
 }
 
-export function FeatureSwitchesIsland({ title, note, features, words, loginHref }: FeatureSwitchesProps) {
+type Element = { id: string; url: string | null }
+
+export function FeatureSwitchesIsland({ title, note, features, distributionReady, words, elementNames, loginHref }: FeatureSwitchesProps) {
   const [access, setAccess] = useState<Access>('loading')
   const [values, setValues] = useState<Record<string, unknown>>({})
   const [busy, setBusy] = useState<string | null>(null)
-  const [message, setMessage] = useState<string | null>(null)
+  const [guarded, setGuarded] = useState<{ key: string; guard: Guard } | null>(null)
+  const [elements, setElements] = useState<Element[] | null>(null)
+  const [confirmed, setConfirmed] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     loadSettings('platform').then((r) => {
@@ -29,19 +61,45 @@ export function FeatureSwitchesIsland({ title, note, features, words, loginHref 
     })
   }, [])
 
-  async function toggle(key: string) {
-    const next = !(values[key] === true)
+  async function save(key: string, next: boolean) {
     setBusy(key)
-    setMessage(null)
     const r = await saveSettings('platform', { [key]: next })
     setBusy(null)
     if (r.access === 'ok' && r.config) {
       setValues(r.config)
-      setMessage(words.saved)
+      const f = features.find((x) => x.key === key)
+      if (f?.needsDeploy) toast.deploy(words.savedDeploy)
+      else toast.success(distributionReady ? words.savedLive : words.savedPending)
     } else if (r.access === 'ok') {
-      setMessage(words.saveFailed)
+      toast.error(words.saveFailed)
     } else {
       setAccess(r.access)
+    }
+  }
+
+  async function toggle(key: string) {
+    const next = !(values[key] === true)
+    const f = features.find((x) => x.key === key)
+    if (!next && f?.guard) {
+      setGuarded({ key, guard: f.guard })
+      setConfirmed(false)
+      setCopied(false)
+      setElements(null)
+      const r = await fetch('/api/elements', { cache: 'no-store' }).then((x) => x.json()).catch(() => null)
+      setElements(Array.isArray(r?.elements) ? (r.elements as Element[]) : [])
+      return
+    }
+    await save(key, next)
+  }
+
+  const linksText = (elements ?? []).filter((e) => e.url).map((e) => `${elementNames[e.id] ?? e.id}: ${e.url}`).join('\n')
+
+  async function copyLinks() {
+    try {
+      await navigator.clipboard.writeText(linksText)
+      setCopied(true)
+    } catch {
+      setCopied(false)
     }
   }
 
@@ -78,8 +136,60 @@ export function FeatureSwitchesIsland({ title, note, features, words, loginHref 
             })}
           </ul>
         )}
-        {message && <p className="mt-3 text-sm text-muted-foreground" role="status">{message}</p>}
       </div>
+
+      <Dialog open={guarded !== null} onOpenChange={(open) => { if (!open) setGuarded(null) }}>
+        <DialogContent className="border-destructive">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-destructive">
+              <AlertTriangle className="size-5" aria-hidden />
+              {guarded?.guard.title}
+            </DialogTitle>
+            <DialogDescription>{guarded?.guard.text}</DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            <p className="text-sm font-medium">{words.guardLinks}</p>
+            {elements === null ? (
+              <p className="text-sm text-muted-foreground">{words.loading}</p>
+            ) : linksText ? (
+              <ul className="flex flex-col gap-1 rounded-lg border border-border bg-muted/40 p-3 text-sm">
+                {elements.filter((e) => e.url).map((e) => (
+                  <li key={e.id} className="flex flex-wrap gap-2">
+                    <span className="text-muted-foreground">{elementNames[e.id] ?? e.id}:</span>
+                    <a href={e.url as string} className="break-all text-primary hover:underline">{e.url}</a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-destructive">{words.guardNoLinks}</p>
+            )}
+            <button type="button" onClick={copyLinks} disabled={!linksText} className="self-start rounded-md border border-border px-3 py-1.5 text-sm hover:bg-muted disabled:opacity-50">
+              {copied ? words.guardCopied : words.guardCopy}
+            </button>
+            <label className="flex items-start gap-2 text-sm">
+              <input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} className="mt-0.5" />
+              {words.guardConfirm}
+            </label>
+          </div>
+          <DialogFooter>
+            <button type="button" onClick={() => setGuarded(null)} className="rounded-md border border-border px-3 py-1.5 text-sm">
+              {words.guardCancel}
+            </button>
+            <button
+              type="button"
+              disabled={!confirmed}
+              onClick={async () => {
+                const g = guarded
+                setGuarded(null)
+                if (g) await save(g.key, false)
+              }}
+              className="rounded-md bg-destructive px-3 py-1.5 text-sm text-white disabled:opacity-50"
+            >
+              {words.guardProceed}
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   )
 }

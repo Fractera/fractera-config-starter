@@ -194,7 +194,7 @@ export function LanguagesEditor({
       // отсюда её никто не запускает. Обещание запуска было бы ложью, которую человек
       // проверит через две минуты. Запуск пересборки из слоя архитектора — отдельная
       // способность, названная долгом.
-      toast.success(t.savedRebuild)
+      toast.deploy(t.savedRebuild) // 299: языки вступают в силу только после развёртывания — тост с кнопкой на дашборд
       setSaved(JSON.stringify([[...selected].sort(), def]))
       setBusy(false)
     } catch {

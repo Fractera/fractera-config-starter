@@ -10,6 +10,8 @@ import { SettingsToaster } from "@/components/settings/toast"
 // сайта байт в байт (`shell-kit:add` узла, руками не править); данные — дверь сайта `PROJECT_SHELL_URL/<язык>`.
 // Своей двери «кто вошёл» у элемента нет — вошедшего знает сайт; вход и выход — через сайт. Языки — en, ru.
 const SITE = (process.env.PROJECT_SITE_URL ?? "").replace(/\/+$/, "")
+// Ядро узла — дашборд развёртываний: кнопка тоста «вступит в силу после развёртывания» (299).
+const ARCHITECT = (process.env.ARCHITECT_URL ?? "").replace(/\/+$/, "")
 
 const SURFACE: ShellSurface = {
   meUrl: `${SITE}/api/me`,
@@ -44,7 +46,11 @@ export default async function LangLayout({ children, params }: { children: React
       <div className="flex min-h-screen flex-col bg-background text-foreground">
         {known && <ShellHeader lang={lang} />}
         {children}
-        <SettingsToaster />
+        <SettingsToaster
+          deployHref={ARCHITECT ? `${ARCHITECT}/${lang}/build/deployments` : undefined}
+          deployLabel={lang === "ru" ? "Открыть развёртывания" : "Open deployments"}
+          closeLabel={lang === "ru" ? "Закрыть" : "Close"}
+        />
         {known && <ShellFooter lang={lang} />}
       </div>
     </ThemeProvider>

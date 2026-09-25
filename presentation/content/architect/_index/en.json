@@ -11,7 +11,11 @@
         {
           "key": "topMenu",
           "label": "Top menu",
-          "hint": "The menu at the top of every page."
+          "hint": "The menu at the top of every page.",
+          "guard": {
+            "title": "Switching off the top menu",
+            "text": "Without the top menu the parts of the project are reachable only by direct links. Remember or copy them before you continue."
+          }
         },
         {
           "key": "footerPages",
@@ -31,7 +35,11 @@
         {
           "key": "auth",
           "label": "Sign-in",
-          "hint": "The sign-in button and the visitor cabinet."
+          "hint": "The sign-in button and the visitor cabinet.",
+          "guard": {
+            "title": "Switching off sign-in",
+            "text": "Without the sign-in button there is no drawer and no way to the architect pages from the site. The parts of the project are reachable only by direct links. Remember or copy them before you continue."
+          }
         },
         {
           "key": "breadcrumbs",
@@ -76,8 +84,26 @@
         "forbidden": "You are signed in, but only the architect of the project can see and change these settings.",
         "unavailable": "The sign-in service is not answering right now — try again in a minute.",
         "error": "The settings could not be read. Nothing was changed.",
-        "saved": "Saved.",
-        "saveFailed": "Not saved — try again."
+        "saveFailed": "Not saved — try again.",
+        "savedLive": "Changes applied. Reload the page to see them.",
+        "savedPending": "Saved in the project settings. The parts of the project will apply it once the settings distribution is connected.",
+        "savedDeploy": "Saved. This change takes effect after the next deployment of the project.",
+        "guardLinks": "Direct links to every part of the project:",
+        "guardCopy": "Copy the links",
+        "guardCopied": "Copied",
+        "guardConfirm": "I have saved these links",
+        "guardProceed": "Switch off",
+        "guardCancel": "Cancel",
+        "guardNoLinks": "The list of the parts of the project could not be read. Do not switch this off until it can."
+      },
+      "distributionReady": false,
+      "elementNames": {
+        "core": "Core (architect)",
+        "root": "Site",
+        "auth": "Sign-in",
+        "data": "Data",
+        "config": "Project settings",
+        "blocks": "Blocks"
       }
     }
   ]
