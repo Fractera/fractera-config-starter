@@ -8,6 +8,8 @@ import { MenuEditorIsland, type MenuEditorProps } from './menu-editor.client'
 import { groupsUi } from './groups.i18n'
 import { RoutingEditorIsland, CookieBannerIsland } from './platform-editors.client'
 import type { AccessWords } from './settings-access'
+import { LanguagesIsland } from './languages-island.client'
+import { ALL_LANGUAGE_METADATA } from '@/lib/settings/language-metadata'
 import { loadProjectShell } from '@/components/shell/remote-shell'
 import type { ShellGroup } from '@/components/shell/shell-types'
 import type { NavCandidate, NavItem, NavSlot } from '@/lib/settings/nav'
@@ -71,4 +73,24 @@ export function RoutingEditorBlock({ lang, blockKey: _k, words }: Own & { words:
 // Правовая страница о куки живёт у САЙТА (`/<язык>/cookies`), поэтому ссылка — на адрес сайта.
 export function CookieBannerBlock({ lang, blockKey: _k, words }: Own & { words: AccessWords }) {
   return <CookieBannerIsland ui={groupsUi(lang)} words={words} loginHref={loginHref(lang)} policyHref={SITE ? `${SITE}/${lang}/cookies` : undefined} />
+}
+
+// Языки: каталог (84 записи) собирает СЕРВЕР — в браузер едут имя, флаг и качество перевода, а не весь справочник.
+// Набор, с которым сайт собран сейчас, — из оболочки проекта.
+export async function LanguagesBlock({ lang, blockKey: _k, words }: Own & { words: AccessWords }) {
+  const catalogue = Object.values(ALL_LANGUAGE_METADATA)
+    .map((m) => ({ code: m.code, flag: m.flag, nativeName: m.nativeName, englishName: m.englishName, tier: m.aiTier }))
+    .sort((a, b) => a.englishName.localeCompare(b.englishName))
+  const shell = await shellLanguages(lang)
+  return <LanguagesIsland catalogue={catalogue} built={shell.languages} builtDefault={shell.defaultLang} ui={groupsUi(lang)} words={words} loginHref={loginHref(lang)} />
+}
+
+async function shellLanguages(lang: string): Promise<{ languages: string[]; defaultLang: string }> {
+  'use cache'
+  cacheLife('minutes')
+  const shell = (await loadProjectShell(lang)) as unknown as { languages?: unknown; defaultLang?: unknown } | null
+  const codes = Array.isArray(shell?.languages)
+    ? (shell.languages as unknown[]).map((x) => (typeof x === 'string' ? x : (x as { code?: string })?.code)).filter((x): x is string => typeof x === 'string')
+    : ['en']
+  return { languages: codes, defaultLang: typeof shell?.defaultLang === 'string' ? shell.defaultLang : codes[0] }
 }

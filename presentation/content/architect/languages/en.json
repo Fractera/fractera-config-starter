@@ -3,14 +3,8 @@
   "lead": "Which languages the project speaks and which one is the default.",
   "blocks": [
     {
-      "kind": "settingsView",
+      "kind": "languagesEditor",
       "lang": "en",
-      "settingsKind": "app",
-      "keys": [
-        "lang"
-      ],
-      "title": "Current values",
-      "empty": "not set — the default applies",
       "words": {
         "loading": "Loading the settings…",
         "signin": "Sign in as the architect of the project to see and change the settings.",
