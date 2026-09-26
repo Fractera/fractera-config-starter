@@ -34,13 +34,15 @@ export function SettingsEditorIsland({ group, lang, langs, defaultLang, editLang
   const [config, setConfig] = useState<Record<string, unknown> | null>(null)
   const [editLang, setEditLang] = useState(defaultLang)
   const sections = useMemo(() => sectionsOfGroup(group), [group])
+  // 308-1: вид настроек — у секций группы (оформление правится тем же редактором).
+  const kind = sections[0]?.kind ?? 'app'
 
   useEffect(() => {
-    loadSettings('app').then((r) => {
+    loadSettings(kind).then((r) => {
       setAccess(r.access)
       setConfig(r.config)
     })
-  }, [])
+  }, [kind])
 
   const prepared = useMemo(() => {
     if (!config) return null
@@ -86,6 +88,7 @@ export function SettingsEditorIsland({ group, lang, langs, defaultLang, editLang
       {/* key: смена языка правки — новый редактор со своими исходными значениями (так же на aifa.dev: язык — в адресе). */}
       <ConfigEditor
         key={editLang}
+        kind={kind}
         sections={sections}
         initial={prepared.values}
         lang={lang}

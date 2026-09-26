@@ -28,6 +28,7 @@ import type { FieldsUi } from "./fields.i18n"
 // перевод. Пустой перевод УДАЛЯЕТСЯ, а не хранится пустым — «перевода нет» и
 // «перевод пустой» одно и то же состояние.
 export function ConfigEditor({
+  kind = "app",
   sections,
   initial,
   lang,
@@ -36,6 +37,8 @@ export function ConfigEditor({
   translatedPaths,
   ui,
 }: {
+  /** Вид настроек, куда уходит заплата (308-1): `app` или `design`. */
+  kind?: "app" | "design"
   sections: readonly Section[]
   /** Значения полей для выбранного языка настроек: путь → строка. */
   initial: Record<string, string>
@@ -90,7 +93,7 @@ export function ConfigEditor({
 
     try {
       // 299-5: дверь элемента настроек — `PATCH /api/settings/app`, заплата прямо в теле (JSON Merge Patch: `null` удаляет).
-      const res = await fetch("/api/settings/app", {
+      const res = await fetch(`/api/settings/${kind}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

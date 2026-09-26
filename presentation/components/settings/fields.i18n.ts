@@ -92,6 +92,7 @@ export type FieldsUi = {
 
 const en: FieldsUi = {
   sections: {
+    blocksHero: "First screen",
     brand: "Brand & identity",
     author: "Author",
     commerce: "Commerce",
@@ -105,6 +106,7 @@ const en: FieldsUi = {
     socials: "Social profiles",
   },
   sectionHints: {
+    blocksHero: "The centered first screen of every page. A change reaches every service that follows the settings in seconds, without a rebuild — reload the page to see it.",
     author: "Default author used in metadata and Person structured data.",
     commerce:
       "The currency every price on the site is shown and published in. A price without a currency means nothing to a visitor, and product markup without it is rejected by search engines outright.",
@@ -165,6 +167,10 @@ const en: FieldsUi = {
     "og.siteName": { label: "Site name", placeholder: "Fractera" },
     "og.locale": { label: "Locale", placeholder: "en_US" },
     "og.imageWidth": { label: "Image width", placeholder: "1200" },
+    "blocks.heroOneWidth": { label: "Width, px", placeholder: "1250", hint: "The widest the first screen gets: section, title and steps strip." },
+    "blocks.heroOneSize.mobile": { label: "Title on a phone, px", placeholder: "31.2" },
+    "blocks.heroOneSize.tablet": { label: "Title on a tablet, px", placeholder: "39" },
+    "blocks.heroOneSize.desktop": { label: "Title on a computer, px", placeholder: "46.8" },
     "og.imageHeight": { label: "Image height", placeholder: "630" },
     "jsonLd.website": { label: "WebSite schema" },
     "jsonLd.organization": { label: "Organization schema" },
@@ -249,6 +255,7 @@ const en: FieldsUi = {
 
 const ru: FieldsUi = {
   sections: {
+    blocksHero: "Первый экран",
     brand: "Имя и лицо проекта",
     author: "Автор",
     commerce: "Торговля",
@@ -262,6 +269,7 @@ const ru: FieldsUi = {
     socials: "Профили в соцсетях",
   },
   sectionHints: {
+    blocksHero: "Первый экран по центру на каждой странице. Правка доходит до всех служб, которые следят за настройками, за секунды и без пересборки — обновите страницу, чтобы увидеть.",
     author: "Автор по умолчанию: он подставляется в мету страниц и в разметку «Person» для поисковиков.",
     commerce:
       "Валюта, в которой сайт показывает и публикует любую цену. Цена без валюты ничего не значит для посетителя, а разметку товара без неё поисковик отвергает целиком — карточка с ценой просто не появляется.",
@@ -326,6 +334,10 @@ const ru: FieldsUi = {
     "og.siteName": { label: "Имя сайта в карточке", placeholder: "Fractera" },
     "og.locale": { label: "Локаль", placeholder: "ru_RU" },
     "og.imageWidth": { label: "Ширина картинки", placeholder: "1200" },
+    "blocks.heroOneWidth": { label: "Ширина, px", placeholder: "1250", hint: "Наибольшая ширина первого экрана: секция, заголовок и полоса шагов." },
+    "blocks.heroOneSize.mobile": { label: "Заголовок на телефоне, px", placeholder: "31.2" },
+    "blocks.heroOneSize.tablet": { label: "Заголовок на планшете, px", placeholder: "39" },
+    "blocks.heroOneSize.desktop": { label: "Заголовок на компьютере, px", placeholder: "46.8" },
     "og.imageHeight": { label: "Высота картинки", placeholder: "630" },
     "jsonLd.website": { label: "Разметка WebSite" },
     "jsonLd.organization": { label: "Разметка Organization" },

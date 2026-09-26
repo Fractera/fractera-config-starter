@@ -84,6 +84,8 @@ export type Section = {
   id: string
   /** Группа левого меню, которой секция принадлежит. */
   group: string
+  /** Вид настроек, который правит секция (308-1): по умолчанию `app`; `design` — оформление проекта. */
+  kind?: "app" | "design"
   fields: readonly Field[]
 }
 
@@ -91,6 +93,19 @@ export type Section = {
 // вкладку, обязан найти поле там же, где привык; переставить их «логичнее» значит
 // заставить его искать заново без единой причины.
 export const SECTIONS: readonly Section[] = [
+  // 308-1 (владелец 2026-09-26): настройки блоков — применяются на лету во всех элементах, подписанных на CONFIG.
+  // Числа — пиксели; элемент переводит их в rem, чтобы общий множитель шрифтов (`--type-scale`) продолжал работать.
+  {
+    id: "blocksHero",
+    group: "blocks",
+    kind: "design",
+    fields: [
+      { path: "blocks.heroOneWidth", type: "number" },
+      { path: "blocks.heroOneSize.mobile", type: "number" },
+      { path: "blocks.heroOneSize.tablet", type: "number" },
+      { path: "blocks.heroOneSize.desktop", type: "number" },
+    ],
+  },
   {
     id: "brand",
     group: "basics",
