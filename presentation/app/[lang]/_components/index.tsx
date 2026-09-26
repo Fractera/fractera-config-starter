@@ -44,9 +44,11 @@ export default async function ConfigHome({ params }: { params: Promise<{ lang: s
   if (!LANGS.includes(lang)) notFound()
   const w = configHomeWords(lang)
   return (
-    <main data-app-column className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
+    // 307: первый экран шире колонки страницы (до 1250px) — стоит вне её; содержимое — в колонке, как было.
+    <main data-app-column className="w-full flex-1 pt-10">
       {/* 304-4: первый экран по центру; кнопка «Перейти к настройкам» — его действие. */}
       <HeroCentered pill={w.pill} title={w.heroTitle} description={w.description} cta={{ label: w.cta, href: `/${lang}/architect` }} steps={w.heroSteps} />
+      <div className="mx-auto w-full max-w-5xl px-6 pb-10">
       {/* Один вызов на цифры, ярлыки и группы: PageBody нумерует блоки с нуля в каждом вызове, а по номеру строится id
           заголовка секции. Здесь группы — b2, «Как это работает» ниже — b0: одинаковых id на странице нет. */}
       <PageBody blocks={[...lead(w), ...groups(w)]} set={BLOCK_SET} />
@@ -55,6 +57,7 @@ export default async function ConfigHome({ params }: { params: Promise<{ lang: s
       <Cta lang={lang} text={w.cta} />
       <Faq title={w.faqTitle} items={w.faq} />
       <Cta lang={lang} text={w.cta} />
+      </div>
     </main>
   )
 }
