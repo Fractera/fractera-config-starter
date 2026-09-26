@@ -159,6 +159,12 @@ createServer(async (req, res) => {
   try {
     if (pathname === '/health') return json(res, 200, { ok: true, service: 'config', version: VERSION })
     if (pathname === '/mcp') return await mcp(req, res)
+    // 308: сигнал «версия сменилась» принимает сайт элемента (перерисовка страниц) — до двери настроек.
+    if (pathname === '/api/settings/changed') {
+      const handle = await site
+      if (!handle) return json(res, 503, { error: 'site-not-built', fix: 'npm run build' })
+      return await handle(req, res)
+    }
     if (pathname === '/api/settings' || pathname.startsWith('/api/settings/')) {
       const kind = pathname.slice('/api/settings/'.length) || null
       return await settingsDoor(req, res, pathname === '/api/settings' ? null : kind)
