@@ -8,7 +8,8 @@
 //   POST /mcp                        — MCP: настройки проекта командами для агента (`mcp-tools.js`, каркас `mcp/serve-mcp.js`);
 //   GET  /, /en, /ru, /<язык>/…      — сайт элемента: публичная главная и режим архитектора (Next в этом же процессе).
 //   GET  /api/settings[/<вид>]       — настройки проекта (app · platform · design): ключ служб X-Settings-Key ИЛИ архитектор;
-//   PATCH /api/settings/<вид>        — записать заплату: ТОЛЬКО архитектор (ключ служб записи не даёт);
+//   PATCH /api/settings/<вид>        — записать заплату: ТОЛЬКО архитектор (ключ служб записи не даёт); после записи —
+//                                      сигнал подписчикам «версия сменилась» (306, `subscribers.js`);
 //   GET  /api/session                — архитектор ли тот, кто смотрит (для экранов режима архитектора);
 //   GET  /api/elements               — все элементы узла и их адреса (только архитектор): ссылки в окне перед выключением
 //                                       меню или входа (реестр узла NODE_ITEMS_FILE + домен NODE_DOMAIN_FILE).
@@ -22,6 +23,8 @@ import { config } from 'dotenv'
 import { mcpHandler } from './mcp/serve-mcp.js'
 import { configTools } from './mcp-tools.js'
 import { KINDS, readSettings, writeSettings } from './settings-store.js'
+import { notifySubscribers } from './subscribers.js'
+import { readAll, versionOf } from './mcp-tools.js'
 import { sessionOf, keyOk } from './architect-auth.js'
 
 const ROOT = dirname(fileURLToPath(import.meta.url))
@@ -81,8 +84,17 @@ async function settingsDoor(req, res, kind) {
     if (!s.architect) return json(res, 403, { ok: false, reason: 'not-architect' })
     const body = await readBody(req)
     const r = writeSettings(kind, body)
-    // 299-6: элемент никого не зовёт после сохранения — потребители забирают сами, по MCP (`settings_version`).
-    return json(res, r.ok ? 200 : r.reason === 'bad-body' ? 400 : r.reason === 'unknown-kind' ? 404 : 500, r)
+    if (!r.ok) return json(res, r.reason === 'bad-body' ? 400 : r.reason === 'unknown-kind' ? 404 : 500, r)
+    // 306: после сохранения — сигнал подписчикам «версия сменилась»; настройки они забирают сами по MCP. Отказ доставки
+    // сохранения не отменяет: экран узнаёт, сколько служб приняли сигнал (`notified`).
+    let notified = []
+    try {
+      notified = await notifySubscribers(versionOf(readAll()))
+      for (const n of notified) console.log(`[settings] сигнал ${n.who ?? n.url}: ${n.ok ? 'принят' : `не принят (${n.status || n.reason})`}`)
+    } catch (e) {
+      console.warn(`[settings] рассылка не удалась: ${e?.message ?? e}`)
+    }
+    return json(res, 200, { ...r, notified })
   }
   return json(res, 405, { ok: false, reason: 'method' })
 }

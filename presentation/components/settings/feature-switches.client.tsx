@@ -69,7 +69,8 @@ export function FeatureSwitchesIsland({ title, note, features, distributionReady
       setValues(r.config)
       const f = features.find((x) => x.key === key)
       if (f?.needsDeploy) toast.deploy(words.savedDeploy)
-      else toast.success(distributionReady ? words.savedLive : words.savedPending)
+      // 306: «применено» — только когда хоть одна служба приняла сигнал; иначе честно «сохранено, заберут при старте».
+      else toast.success((r.applied ?? 0) > 0 || distributionReady ? words.savedLive.replace('{n}', String(r.applied ?? 0)) : words.savedPending)
     } else if (r.access === 'ok') {
       toast.error(words.saveFailed)
     } else {

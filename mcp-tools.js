@@ -3,8 +3,9 @@
 //
 // 🔒 MCP — ЕДИНСТВЕННЫЙ ПУТЬ ПОТРЕБИТЕЛЯ К НАСТРОЙКАМ, И ПОТРЕБИТЕЛЬ ДОБРОВОЛЕН (299-6, слово владельца 2026-09-25): «мы
 // делаем у него MCP также как мы делаем MCP у блоков … А хочет их забирать микро service или не хочет нам вообще неважно».
-// Элемент хранит настройки сам и НИКОГО НЕ ЗОВЁТ: ни толчка, ни списка подписчиков. Приложение, которое хочет жить по
-// этим настройкам, спрашивает `settings_version` (дёшево) и, если отпечаток сменился, `get_project_settings`.
+// 🪦 «элемент НИКОГО НЕ ЗОВЁТ» (299-6) снято решением владельца 2026-09-26 (шаг 306): приложение может подписаться
+// (`subscribe`) — после сохранения архитектором элемент шлёт ему сигнал «версия сменилась», а настройки приложение
+// забирает само: `settings_version` (дёшево) и, если отпечаток сменился, `get_project_settings`.
 // Приложение, которое не хочет, живёт своими — элемент об этом не знает и знать не должен.
 //
 // 🔒 ЧТЕНИЕ — КЛЮЧОМ УЗЛА (`X-Settings-Key`, тот же, что у двери `/api/settings`). Настройки — не тайна посетителю, но и не
@@ -13,11 +14,12 @@ import { createHash } from 'node:crypto'
 import { z } from 'zod'
 import { KINDS, readSettings } from './settings-store.js'
 import { keyOk } from './architect-auth.js'
+import { subscribe } from './subscribers.js'
 
 const KIND = z.enum(['app', 'platform', 'design'])
 
 /** Все три вида разом; первая ошибка чтения — отказ целиком (не отдаём половину как целое). */
-function readAll() {
+export function readAll() {
   const all = Object.fromEntries(KINDS.map((k) => [k, readSettings(k)]))
   const bad = Object.values(all).find((r) => !r.ok)
   if (bad) throw new Error(`settings unreadable: ${bad.reason}`)
@@ -25,7 +27,7 @@ function readAll() {
 }
 
 /** Отпечаток решений владельца: меняется ровно тогда, когда меняется хоть одно решение. */
-function versionOf(all) {
+export function versionOf(all) {
   const patches = Object.fromEntries(KINDS.map((k) => [k, all[k].patch]))
   return createHash('sha256').update(JSON.stringify(patches)).digest('hex').slice(0, 16)
 }
@@ -45,11 +47,12 @@ export function configTools(publicUrl) {
         element: 'config',
         address: base,
         keeps: ['APP-CONFIG', 'PLATFORM-CONFIG', 'DESIGN-CONFIG', 'menu'],
-        consumers: 'voluntary: an application that wants to live by these settings asks settings_version when it decides to, and get_project_settings when the version differs from its copy. This element calls no one and does not know who reads.',
+        consumers: 'voluntary: an application that wants to live by these settings asks settings_version at its start and get_project_settings when the version differs from its copy. It may subscribe: after the architect saves, this element POSTs {version} with X-Settings-Key to the subscribed address, and the application fetches the settings itself.',
         writers: 'only the architect, on the screens of this element (sign-in service); MCP never writes',
         tools: {
           settings_version: 'a fingerprint of the owner decisions — tells whether they changed since your copy (X-Settings-Key)',
           get_project_settings: 'the owner decisions (patch) and the full result (settings) of app, platform, design — all or one kind (X-Settings-Key)',
+          subscribe: 'be told when the owner saves: give the address of your door; it receives POST {version} with X-Settings-Key (X-Settings-Key)',
         },
       }),
     },
@@ -76,6 +79,18 @@ export function configTools(publicUrl) {
           patches: Object.fromEntries(kinds.map((k) => [k, all[k].patch])),
           settings: Object.fromEntries(kinds.map((k) => [k, all[k].config])),
         }
+      },
+    },
+    {
+      name: 'subscribe',
+      title: 'Subscribe to settings changes',
+      description: 'Give the address of your door (url) to be told when the architect saves the settings: it receives POST {version} with the node key in X-Settings-Key, and you fetch the settings yourself with get_project_settings. Subscribe again at every start — one address is one record. Needs the node key (X-Settings-Key).',
+      inputSchema: { url: z.string(), who: z.string().optional() },
+      run: ({ url, who }, ctx) => {
+        requireKey(ctx)
+        const r = subscribe(url, who)
+        if (!r.ok) throw new Error(r.reason)
+        return r
       },
     },
   ]

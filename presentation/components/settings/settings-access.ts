@@ -4,7 +4,8 @@
 // различаются, и ни одно не рисуется как «ничего не настроено» (урок 2026-09-25: пустота, принятая за ответ, обесцветила ядро).
 export type SettingsKind = 'app' | 'platform' | 'design'
 export type Access = 'loading' | 'ok' | 'signin' | 'forbidden' | 'unavailable' | 'error'
-export type Loaded = { access: Access; config: Record<string, unknown> | null }
+// `applied` — сколько служб приняли сигнал после сохранения (306); у чтения его нет.
+export type Loaded = { access: Access; config: Record<string, unknown> | null; applied?: number }
 
 const accessOf = (status: number): Access =>
   status === 200 ? 'ok' : status === 401 ? 'signin' : status === 403 ? 'forbidden' : status === 503 ? 'unavailable' : 'error'
@@ -14,7 +15,8 @@ export async function loadSettings(kind: SettingsKind): Promise<Loaded> {
     const r = await fetch(`/api/settings/${kind}`, { cache: 'no-store' })
     const body = await r.json().catch(() => null)
     const access = accessOf(r.status)
-    return { access, config: access === 'ok' && body?.ok ? (body.config as Record<string, unknown>) : null }
+    const applied = Array.isArray(body?.notified) ? body.notified.filter((n: { ok?: boolean }) => n?.ok).length : 0
+    return { access, config: access === 'ok' && body?.ok ? (body.config as Record<string, unknown>) : null, applied }
   } catch {
     return { access: 'unavailable', config: null }
   }
