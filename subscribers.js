@@ -26,8 +26,9 @@ export function listSubscribers() {
 }
 
 /**
- * Подписать адрес двери подписчика. Разрешены только http(s); один адрес — одна запись (повторная подписка при каждом
- * старте подписчика обновляет время, а не множит строки).
+ * Подписать адрес двери подписчика. Разрешены только http(s). Одна служба (`who`) — одна запись, как и один адрес:
+ * повторная подписка заменяет прежнюю. ✗ Иначе пробный запуск службы при установке (другой порт) оставался в реестре
+ * мёртвым адресом, и каждый сигнал уходил и в пустоту (замерено на узле 2026-09-26: root на 24699 и 24683).
  */
 export function subscribe(url, who) {
   let u
@@ -37,8 +38,9 @@ export function subscribe(url, who) {
     return { ok: false, reason: 'bad-url' }
   }
   if (u.protocol !== 'http:' && u.protocol !== 'https:') return { ok: false, reason: 'bad-url' }
-  const list = listSubscribers().filter((s) => s.url !== u.href)
-  list.push({ url: u.href, who: who ? String(who).slice(0, 64) : null, since: new Date().toISOString() })
+  const id = who ? String(who).slice(0, 64) : null
+  const list = listSubscribers().filter((s) => s.url !== u.href && !(id && s.who === id))
+  list.push({ url: u.href, who: id, since: new Date().toISOString() })
   mkdirSync(dirname(file()), { recursive: true })
   writeFileSync(file(), JSON.stringify({ subscribers: list }, null, 2) + '\n')
   return { ok: true, url: u.href, subscribers: list.length }
