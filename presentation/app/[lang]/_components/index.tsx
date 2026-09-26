@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { H1, Lead } from '@/components/ui/typography'
+import { HeroCentered } from '@/components/blocks/hero-centered'
 import { buttonVariants } from '@/components/ui/button'
 import { PageBody, type BlockData } from '@/components/blocks/page-body'
 import { BLOCK_SET } from '@/lib/block-set'
@@ -45,9 +45,8 @@ export default async function ConfigHome({ params }: { params: Promise<{ lang: s
   const w = configHomeWords(lang)
   return (
     <main data-app-column className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
-      <H1 className="mt-6">{w.title}</H1>
-      <Lead className="mt-4 max-w-3xl">{w.description}</Lead>
-      <Cta lang={lang} text={w.cta} />
+      {/* 304-4: первый экран по центру; кнопка «Перейти к настройкам» — его действие. */}
+      <HeroCentered pill={w.pill} title={w.heroTitle} description={w.description} cta={{ label: w.cta, href: `/${lang}/architect` }} steps={w.heroSteps} />
       {/* Один вызов на цифры, ярлыки и группы: PageBody нумерует блоки с нуля в каждом вызове, а по номеру строится id
           заголовка секции. Здесь группы — b2, «Как это работает» ниже — b0: одинаковых id на странице нет. */}
       <PageBody blocks={[...lead(w), ...groups(w)]} set={BLOCK_SET} />

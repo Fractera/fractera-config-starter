@@ -5,6 +5,10 @@
 export type ConfigHomeWords = {
   title: string
   description: string
+  /** 304-4: первый экран по центру — короткий заголовок (до ~36 знаков), бейдж и три шага. */
+  heroTitle: string
+  pill: string
+  heroSteps: [{ title: string; text: string }, { title: string; text: string }, { title: string; text: string }]
   cta: string
   faqTitle: string
   faq: [{ q: string; a: string }, { q: string; a: string }, { q: string; a: string }]
@@ -16,6 +20,13 @@ export type ConfigHomeWords = {
 
 const en: ConfigHomeWords = {
   title: 'Fractera CONFIG — the settings of every application in one place',
+  heroTitle: 'All project settings in one place',
+  pill: 'Agentic engineering infrastructure',
+  heroSteps: [
+    { title: "Set up once", text: "Name, languages, search, header, footer and design" },
+    { title: "Apps take them over MCP", text: "Each application asks for its settings itself" },
+    { title: "Every app stays independent", text: "CONFIG is a source they chose, not a master" },
+  ],
   description: 'A standalone microservice that keeps the settings of your project — name, languages, search, header, footer, design and feature switches — and gives them over MCP to every application that wants them. Configure the whole project from one screen; every application stays independent.',
   cta: 'Go to settings',
   faqTitle: 'Frequently asked questions',
@@ -59,6 +70,13 @@ const en: ConfigHomeWords = {
 
 const ru: ConfigHomeWords = {
   title: 'Fractera CONFIG — настройки всех приложений в одном месте',
+  heroTitle: 'Все настройки проекта в одном месте',
+  pill: 'Инфраструктура агентной инженерии',
+  heroSteps: [
+    { title: "Настройте один раз", text: "Название, языки, поиск, шапка, подвал и дизайн" },
+    { title: "Приложения берут их по MCP", text: "Каждое приложение само спрашивает свои настройки" },
+    { title: "Каждое остаётся независимым", text: "CONFIG — выбранный ими источник, а не хозяин" },
+  ],
   description: 'Самостоятельный микросервис, который хранит настройки вашего проекта — название, языки, поиск, шапку, подвал, оформление и переключатели функций — и отдаёт их по MCP каждому приложению, которое их хочет. Весь проект настраивается с одного экрана, а каждое приложение остаётся независимым.',
   cta: 'Перейти к настройкам',
   faqTitle: 'Частые вопросы',
