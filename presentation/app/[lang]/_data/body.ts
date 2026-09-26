@@ -32,7 +32,7 @@ const en: ConfigHomeWords = {
   faqTitle: 'Frequently asked questions',
   faq: [
     { q: 'Do my applications need CONFIG to run?', a: 'No. CONFIG is an addition, not a foundation. Every application keeps its own settings and runs without it. An application that connects to CONFIG over MCP simply gets one convenient place where all its settings are changed.' },
-    { q: 'How does an application connect?', a: 'Over MCP, the same way applications take components from Fractera Blocks. The application asks for the version of the settings, and when it changes, takes the new settings and lays them over its own defaults. CONFIG never calls anyone: each application decides for itself whether and how often to ask.' },
+    { q: 'How does an application connect?', a: 'Over MCP, the same way applications take components from Fractera Blocks. At its start the application asks for the version of the settings and takes the new ones when it changed; it can also subscribe — then, the moment you save, CONFIG sends it a short signal and the application takes the new settings itself, in seconds and without a restart.' },
     { q: 'Who can change the settings?', a: 'Only the architect of the project, after signing in. Everyone else sees this page and nothing more; applications read the settings with the key of the node and never write them.' },
   ],
   metrics: [
@@ -62,7 +62,7 @@ const en: ConfigHomeWords = {
     note: 'No settings scattered across repositories, no rebuild for a menu item or a switch.',
     steps: [
       { title: 'Change', text: 'The architect changes a setting on this screen and saves it. CONFIG keeps it.' },
-      { title: 'Take', text: 'Every application connected over MCP takes the new settings itself, when it asks for them — CONFIG calls no one.' },
+      { title: 'Take', text: 'The moment you save, every subscribed application gets a signal and takes the new settings itself — in seconds, without a restart.' },
       { title: 'See', text: 'The application applies them over its own defaults, and visitors see the change without a rebuild. A new language goes out with the next deployment.' },
     ],
   },
@@ -82,7 +82,7 @@ const ru: ConfigHomeWords = {
   faqTitle: 'Частые вопросы',
   faq: [
     { q: 'Нужен ли CONFIG, чтобы мои приложения работали?', a: 'Нет. CONFIG — дополнение, а не фундамент. Каждое приложение хранит свои настройки и работает без него. Приложение, подключённое к CONFIG по MCP, просто получает одно удобное место, где меняются все его настройки.' },
-    { q: 'Как приложение подключается?', a: 'По MCP — так же, как приложения берут компоненты у Fractera Blocks. Приложение спрашивает версию настроек, а когда она меняется, забирает новые настройки и кладёт их поверх своих умолчаний. CONFIG никого не вызывает сам: каждое приложение решает, спрашивать ли и как часто.' },
+    { q: 'Как приложение подключается?', a: 'По MCP — так же, как приложения берут компоненты у Fractera Blocks. При запуске приложение спрашивает версию настроек и забирает новые, если она сменилась; а ещё может подписаться — тогда в момент сохранения CONFIG шлёт ему короткий сигнал, и приложение само забирает новые настройки за секунды, без перезапуска.' },
     { q: 'Кто может менять настройки?', a: 'Только архитектор проекта после входа. Остальные видят эту страницу и ничего больше; приложения читают настройки ключом узла и никогда их не пишут.' },
   ],
   metrics: [
@@ -112,7 +112,7 @@ const ru: ConfigHomeWords = {
     note: 'Настройки не разбросаны по репозиториям, и ради пункта меню или переключателя ничего не пересобирается.',
     steps: [
       { title: 'Поменять', text: 'Архитектор меняет настройку на этом экране и сохраняет. CONFIG её хранит.' },
-      { title: 'Забрать', text: 'Каждое приложение, подключённое по MCP, забирает новые настройки само, когда обращается за ними, — CONFIG никого не вызывает.' },
+      { title: 'Забрать', text: 'В момент сохранения каждое подписанное приложение получает сигнал и само забирает новые настройки — за секунды, без перезапуска.' },
       { title: 'Увидеть', text: 'Приложение кладёт их поверх своих умолчаний, и посетители видят правку без пересборки. Новый язык уходит со следующим развёртыванием.' },
     ],
   },
