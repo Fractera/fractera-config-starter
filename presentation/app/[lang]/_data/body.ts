@@ -23,11 +23,11 @@ const en: ConfigHomeWords = {
   heroTitle: 'All project settings in one place',
   pill: 'Agentic engineering infrastructure',
   heroSteps: [
-    { title: "Set up once", text: "Name, languages, search, header, footer and design" },
+    { title: "Set up once", text: "Name, languages, search, header and footer" },
     { title: "Apps take them over MCP", text: "Each application asks for its settings itself" },
     { title: "Every app stays independent", text: "CONFIG is a source they chose, not a master" },
   ],
-  description: 'A standalone microservice that keeps the settings of your project — name, languages, search, header, footer, design and feature switches — and gives them over MCP to every application that wants them. Configure the whole project from one screen; every application stays independent.',
+  description: 'A standalone microservice that keeps the settings of your project — name, languages, search, header, footer and feature switches — and gives them over MCP to every application that wants them. Configure the whole project from one screen; every application stays independent.',
   cta: 'Go to settings',
   faqTitle: 'Frequently asked questions',
   faq: [
@@ -40,7 +40,7 @@ const en: ConfigHomeWords = {
     { value: '12', label: 'features you switch on and off' },
     { value: '1', label: 'screen for every application of the project' },
   ],
-  badges: ['MCP', 'APP-CONFIG', 'PLATFORM-CONFIG', 'DESIGN-CONFIG', 'Claude Code Agent'],
+  badges: ['MCP', 'APP-CONFIG', 'PLATFORM-CONFIG', 'Claude Code Agent'],
   groups: {
     badge: 'What you configure',
     title: 'Eight groups, each on its own page',
@@ -73,11 +73,11 @@ const ru: ConfigHomeWords = {
   heroTitle: 'Все настройки проекта в одном месте',
   pill: 'Инфраструктура агентной инженерии',
   heroSteps: [
-    { title: "Настройте один раз", text: "Название, языки, поиск, шапка, подвал и дизайн" },
+    { title: "Настройте один раз", text: "Название, языки, поиск, шапка и подвал" },
     { title: "Приложения берут их по MCP", text: "Каждое приложение само спрашивает свои настройки" },
     { title: "Каждое остаётся независимым", text: "CONFIG — выбранный ими источник, а не хозяин" },
   ],
-  description: 'Самостоятельный микросервис, который хранит настройки вашего проекта — название, языки, поиск, шапку, подвал, оформление и переключатели функций — и отдаёт их по MCP каждому приложению, которое их хочет. Весь проект настраивается с одного экрана, а каждое приложение остаётся независимым.',
+  description: 'Самостоятельный микросервис, который хранит настройки вашего проекта — название, языки, поиск, шапку, подвал и переключатели функций — и отдаёт их по MCP каждому приложению, которое их хочет. Весь проект настраивается с одного экрана, а каждое приложение остаётся независимым.',
   cta: 'Перейти к настройкам',
   faqTitle: 'Частые вопросы',
   faq: [
@@ -90,7 +90,7 @@ const ru: ConfigHomeWords = {
     { value: '12', label: 'функций включаются переключателем' },
     { value: '1', label: 'экран для всех приложений проекта' },
   ],
-  badges: ['MCP', 'APP-CONFIG', 'PLATFORM-CONFIG', 'DESIGN-CONFIG', 'Claude Code Agent'],
+  badges: ['MCP', 'APP-CONFIG', 'PLATFORM-CONFIG', 'Claude Code Agent'],
   groups: {
     badge: 'Что настраивается',
     title: 'Восемь групп, у каждой своя страница',
