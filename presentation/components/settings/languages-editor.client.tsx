@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator"
 import { H3, P, Small } from "@/components/ui/typography"
 import { AdviceNote } from "./advice-note"
 import type { GroupsUi } from "./groups.i18n"
+import { SearchLanguages } from "./search-languages.client"
+import type { SearchLanguagesWords } from "./search-languages.i18n"
 
 /** Одна строка каталога: всё уже разобрано сервером. */
 export type LangRow = {
@@ -95,6 +97,7 @@ export function LanguagesEditor({
   initialDefault,
   built,
   ui,
+  search,
 }: {
   /** Все языки, которые проект умеет: разобраны на сервере. */
   catalogue: readonly LangRow[]
@@ -104,6 +107,8 @@ export function LanguagesEditor({
   /** С каким набором проект СОБРАН. Расхождение и есть «ждёт пересборки». */
   built: readonly string[]
   ui: GroupsUi
+  /** Узел 341-2: блок «Языки для поисковых систем» под списком. */
+  search?: { w: SearchLanguagesWords; initialUnlocked: readonly string[]; lang: string }
 }) {
   const t = ui.langs
   const [selected, setSelected] = useState<string[]>(() => [...initial])
@@ -355,6 +360,18 @@ export function LanguagesEditor({
         </Button>
         {!changed && <P className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
       </div>
+
+      {/* Узел 341-2: разблокировка работает по СОХРАНЁННОМУ набору языков — открыть поисковику можно только язык сайта. Блок
+          сохраняется сам, поэтому стоит после кнопки набора, а не между списком и ею. */}
+      {search && (() => {
+        const [savedSet, savedDef] = JSON.parse(saved) as [string[], string]
+        return (
+          <>
+            <Separator />
+            <SearchLanguages catalogue={catalogue} supported={savedSet} defaultLang={savedDef} initialUnlocked={search.initialUnlocked} lang={search.lang} w={search.w} />
+          </>
+        )
+      })()}
     </div>
   )
 }

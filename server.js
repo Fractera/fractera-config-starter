@@ -13,6 +13,7 @@
 //   GET  /api/session                — архитектор ли тот, кто смотрит (для экранов режима архитектора);
 //   GET  /api/elements               — все элементы узла и их адреса (только архитектор): ссылки в окне перед выключением
 //                                       меню или входа (реестр узла NODE_ITEMS_FILE + домен NODE_DOMAIN_FILE).
+//   GET  /api/language-followers?lang= — элементы, чьи языки задаёт CONFIG, со ссылкой на их «Развёртывания» (только архитектор, 341-3).
 // A2A и M2M этот прототип НЕ даёт — названо в паспорте, а не скрыто.
 import { createServer } from 'node:http'
 import { readFileSync, existsSync } from 'node:fs'
@@ -114,6 +115,39 @@ function elementsOfNode() {
   return list
 }
 
+// ЭЛЕМЕНТЫ, ЧЬИ ЯЗЫКИ ЗАДАЁТ CONFIG (узел, шаг 341-3). Слово владельца 2026-09-30 о кнопке развёртывания в блоке «Языки для
+// поисковых систем»: «Список элементов» — под блоком элементы, подключённые к CONFIG, у каждого ссылка на его «Развёртывания».
+// Элемент попадает в список, если он собирает сайт с языками (его `.env.example` объявляет `NEXT_PUBLIC_SUPPORTED_LANGUAGES`)
+// и связь с CONFIG у него не выключена (`<узел>/data/services/<id>/links.json`). `searchLanguages` — понимает ли его код
+// открытые поисковику языки (`NEXT_PUBLIC_INDEXED_LANGUAGES`, шаблон ≥ v0.3.52): старый код отдаёт поисковику все языки.
+// Читаются только `.env.example` (в git, без секретов), `links.json` и `address.json` — не `.env.local` элемента.
+function languageFollowers(lang) {
+  let registry
+  try { registry = JSON.parse(readFileSync(process.env.NODE_ITEMS_FILE ?? '', 'utf8')) } catch { return null }
+  const node = dirname(dirname(resolve(process.env.NODE_ITEMS_FILE)))
+  const architect = (process.env.ARCHITECT_URL ?? '').replace(/\/+$/, '')
+  const readJson = (f) => { try { return JSON.parse(readFileSync(f, 'utf8')) } catch { return null } }
+  const out = []
+  for (const s of registry.services ?? []) {
+    if (typeof s.id !== 'string') continue
+    const kind = s.kind === 'user' ? 'user' : 'core'
+    let example = ''
+    try { example = readFileSync(join(node, 'AGI-ITEMS', kind, s.id, '.env.example'), 'utf8') } catch { continue }
+    if (!/^NEXT_PUBLIC_SUPPORTED_LANGUAGES=/m.test(example)) continue
+    const data = join(node, 'data', 'services', s.id)
+    if (readJson(join(data, 'links.json'))?.config === false) continue
+    const a = readJson(join(data, 'address.json'))?.address
+    const address = typeof a === 'string' && /^[a-z0-9-]+$/.test(a) ? a : s.id
+    out.push({
+      id: s.id,
+      address,
+      searchLanguages: /^NEXT_PUBLIC_INDEXED_LANGUAGES=/m.test(example),
+      deployments: architect ? `${architect}/${lang}/architect/${address}/build/deployments` : null,
+    })
+  }
+  return out
+}
+
 // ВОРОТА РЕЖИМА АРХИТЕКТОРА (299-8). Слово владельца при открытии 299: публичная главная, а из неё «переход в защищенный
 // авторизацией и руль архитектора режим». ✗ Измерено 2026-09-25: без ворот `/ru/architect` отдавал 200 любому — меню,
 // разделы и подписи переключателей; под замком были только двери данных. Ворота стоят ДО Next: страница остаётся
@@ -176,6 +210,14 @@ createServer(async (req, res) => {
       const list = elementsOfNode()
       return list ? json(res, 200, { ok: true, elements: list }) : json(res, 500, { ok: false, reason: 'registry-unreadable' })
     }
+    if (pathname === '/api/language-followers') {
+      const s = await sessionOf(req)
+      if (s.status !== 200) return json(res, s.status, { ok: false, reason: s.reason })
+      if (!s.architect) return json(res, 403, { ok: false, reason: 'not-architect' })
+      const lang = new URL(req.url ?? '/', 'http://x').searchParams.get('lang') === 'ru' ? 'ru' : 'en'
+      const list = languageFollowers(lang)
+      return list ? json(res, 200, { ok: true, elements: list }) : json(res, 500, { ok: false, reason: 'registry-unreadable' })
+    }
     if (pathname === '/api/session') {
       const s = await sessionOf(req)
       return json(res, s.status === 200 ? 200 : s.status, s.status === 200 ? { ok: true, architect: s.architect } : { ok: false, reason: s.reason })
@@ -188,7 +230,7 @@ createServer(async (req, res) => {
       if (!handle) return json(res, 503, { error: 'site-not-built', fix: 'npm run build' })
       return await handle(req, res)
     }
-    return json(res, 404, { error: 'not-found', doors: ['/en', '/ru', '/health', '/mcp', '/api/settings', '/api/settings/<app|platform|design>', '/api/session'] })
+    return json(res, 404, { error: 'not-found', doors: ['/en', '/ru', '/health', '/mcp', '/api/settings', '/api/settings/<app|platform|design>', '/api/session', '/api/language-followers'] })
   } catch (err) {
     console.error('[config]', err)
     if (!res.headersSent) json(res, 500, { error: 'internal' })

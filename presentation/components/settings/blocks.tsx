@@ -9,6 +9,7 @@ import { groupsUi } from './groups.i18n'
 import { RoutingEditorIsland, CookieBannerIsland } from './platform-editors.client'
 import type { AccessWords } from './settings-access'
 import { LanguagesIsland } from './languages-island.client'
+import { searchLanguagesWords } from './search-languages.i18n'
 import { ALL_LANGUAGE_METADATA } from '@/lib/settings/language-metadata'
 import { loadProjectShell } from '@/components/shell/remote-shell'
 import type { ShellGroup } from '@/components/shell/shell-types'
@@ -82,7 +83,7 @@ export async function LanguagesBlock({ lang, blockKey: _k, words }: Own & { word
     .map((m) => ({ code: m.code, flag: m.flag, nativeName: m.nativeName, englishName: m.englishName, tier: m.aiTier }))
     .sort((a, b) => a.englishName.localeCompare(b.englishName))
   const shell = await shellLanguages(lang)
-  return <LanguagesIsland catalogue={catalogue} built={shell.languages} builtDefault={shell.defaultLang} ui={groupsUi(lang)} words={words} loginHref={loginHref(lang)} />
+  return <LanguagesIsland catalogue={catalogue} built={shell.languages} builtDefault={shell.defaultLang} ui={groupsUi(lang)} search={searchLanguagesWords(lang)} lang={lang} words={words} loginHref={loginHref(lang)} />
 }
 
 async function shellLanguages(lang: string): Promise<{ languages: string[]; defaultLang: string }> {
