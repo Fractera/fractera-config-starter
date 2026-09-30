@@ -121,6 +121,9 @@ function elementsOfNode() {
 // и связь с CONFIG у него не выключена (`<узел>/data/services/<id>/links.json`). `searchLanguages` — понимает ли его код
 // открытые поисковику языки (`NEXT_PUBLIC_INDEXED_LANGUAGES`, шаблон ≥ v0.3.52): старый код отдаёт поисковику все языки.
 // Читаются только `.env.example` (в git, без секретов), `links.json` и `address.json` — не `.env.local` элемента.
+// Страница «Развёртывания» есть у РОЖДЁННОГО элемента (`born` в реестре, маршрут ядра `[item]`); сайт узла (root) своей
+// страницы элемента не имеет — его развёртывают на доске узла `/<язык>/architect/build/deployments` (замерено 2026-09-30:
+// `/ru/root/build/deployments` → 404, у xbmpu → 200).
 function languageFollowers(lang) {
   let registry
   try { registry = JSON.parse(readFileSync(process.env.NODE_ITEMS_FILE ?? '', 'utf8')) } catch { return null }
@@ -142,7 +145,7 @@ function languageFollowers(lang) {
       id: s.id,
       address,
       searchLanguages: /^NEXT_PUBLIC_INDEXED_LANGUAGES=/m.test(example),
-      deployments: architect ? `${architect}/${lang}/architect/${address}/build/deployments` : null,
+      deployments: !architect ? null : s.born ? `${architect}/${lang}/architect/${address}/build/deployments` : `${architect}/${lang}/architect/build/deployments`,
     })
   }
   return out
