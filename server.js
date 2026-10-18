@@ -17,7 +17,7 @@
 // A2A и M2M этот прототип НЕ даёт — названо в паспорте, а не скрыто.
 import { createServer } from 'node:http'
 import { readFileSync, existsSync } from 'node:fs'
-import { join, dirname, resolve } from 'node:path'
+import { join, dirname, resolve, basename } from 'node:path'
 import next from 'next'
 import { fileURLToPath } from 'node:url'
 import { config } from 'dotenv'
@@ -127,20 +127,26 @@ function elementsOfNode() {
 function languageFollowers(lang) {
   let registry
   try { registry = JSON.parse(readFileSync(process.env.NODE_ITEMS_FILE ?? '', 'utf8')) } catch { return null }
-  const node = dirname(dirname(resolve(process.env.NODE_ITEMS_FILE)))
+  const registryDir = dirname(resolve(process.env.NODE_ITEMS_FILE))
+  const node = dirname(registryDir)
+  // 520: папка элементов — соседка папки реестра без `-REGISTRY` (`WEB4-ITEMS-REGISTRY` → `WEB4-ITEMS`), а не имя в коде:
+  // ✗ жёсткое `AGI-ITEMS` опустошило список после переименования узла (519). Папка элемента — по адресу, если перенесена
+  // (343, «Папка = адрес»), иначе по id — тот же порядок, что у `lib/web4-items/paths.cjs` ядра.
+  const itemsDir = join(node, basename(registryDir).replace(/-REGISTRY$/, ''))
   const architect = (process.env.ARCHITECT_URL ?? '').replace(/\/+$/, '')
   const readJson = (f) => { try { return JSON.parse(readFileSync(f, 'utf8')) } catch { return null } }
   const out = []
   for (const s of registry.services ?? []) {
     if (typeof s.id !== 'string') continue
     const kind = s.kind === 'user' ? 'user' : 'core'
-    let example = ''
-    try { example = readFileSync(join(node, 'AGI-ITEMS', kind, s.id, '.env.example'), 'utf8') } catch { continue }
-    if (!/^NEXT_PUBLIC_SUPPORTED_LANGUAGES=/m.test(example)) continue
     const data = join(node, 'data', 'services', s.id)
-    if (readJson(join(data, 'links.json'))?.config === false) continue
     const a = readJson(join(data, 'address.json'))?.address
     const address = typeof a === 'string' && /^[a-z0-9-]+$/.test(a) ? a : s.id
+    const folder = address !== s.id && existsSync(join(itemsDir, kind, address)) ? address : s.id
+    let example = ''
+    try { example = readFileSync(join(itemsDir, kind, folder, '.env.example'), 'utf8') } catch { continue }
+    if (!/^NEXT_PUBLIC_SUPPORTED_LANGUAGES=/m.test(example)) continue
+    if (readJson(join(data, 'links.json'))?.config === false) continue
     out.push({
       id: s.id,
       address,
