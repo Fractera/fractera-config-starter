@@ -1,0 +1,11 @@
+{
+  "title": "Мета и медиа",
+  "description": "Логотипы, значки и картинки для ссылок в мессенджерах.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-meta-media",
+      "bid": "c51jv"
+    }
+  ]
+}

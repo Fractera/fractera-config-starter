@@ -1,0 +1,11 @@
+{
+  "title": "Basics",
+  "description": "The name of the project, its description, address and contacts.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-basics",
+      "bid": "d8k5y"
+    }
+  ]
+}

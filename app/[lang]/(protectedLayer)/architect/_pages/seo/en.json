@@ -1,0 +1,11 @@
+{
+  "title": "Search and AI",
+  "description": "How search engines and AI assistants read the project.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-seo",
+      "bid": "otmwd"
+    }
+  ]
+}

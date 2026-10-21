@@ -1,0 +1,11 @@
+{
+  "title": "Meta and media",
+  "description": "Logos, icons and the pictures shown when a page is shared.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-meta-media",
+      "bid": "oa8a5"
+    }
+  ]
+}

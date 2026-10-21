@@ -1,0 +1,11 @@
+{
+  "title": "Parallel routing",
+  "description": "Which parts of the application screen are shown side by side.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-parallel-routing",
+      "bid": "a6a35"
+    }
+  ]
+}

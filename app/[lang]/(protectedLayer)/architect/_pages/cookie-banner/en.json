@@ -1,0 +1,11 @@
+{
+  "title": "Cookie banner",
+  "description": "The consent message and its words in every language.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-cookie-banner",
+      "bid": "scmgq"
+    }
+  ]
+}

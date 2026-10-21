@@ -1,0 +1,24 @@
+{
+  "id": "config",
+  "name": "Fractera Config",
+  "shortDescription": "The project settings of the node as its own element: APP, PLATFORM and DESIGN settings and the menu live here, the architect edits them here, every element reads them here.",
+  "longDescription": "The source of the project settings for the whole node: APP, PLATFORM and DESIGN settings and the menu. The architect edits them on the pages /<lang>/architect/*; every element of the node reads them over MCP (/mcp: settings_version, get_project_settings, subscribe) with the node key, and after a save this element signals every subscribed address (POST {version} with X-Settings-Key). Defaults live in settings/<kind>/defaults.json, the owner patch in data/settings/<kind>.json.",
+  "accepts": "The node key (X-Settings-Key) to read; the architect session (through the node sign-in element) to write.",
+  "returns": "The project settings: { ok, kind, defaults, patch, config } — config is the owner patch over the defaults.",
+  "designSkill": "impeccable",
+  "isFracteraArchitecture": true,
+  "framework": "next",
+  "elementType": "native",
+  "visibility": "node",
+  "calls": [
+    "auth",
+    "data",
+    "config",
+    "design"
+  ],
+  "messengers": {
+    "h2a": true,
+    "h2h": false,
+    "a2a": false
+  }
+}

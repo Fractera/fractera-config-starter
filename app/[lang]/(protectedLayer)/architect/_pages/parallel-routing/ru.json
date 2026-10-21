@@ -1,0 +1,11 @@
+{
+  "title": "Параллельная маршрутизация",
+  "description": "Какие части экрана приложения показываются рядом.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-parallel-routing",
+      "bid": "reb1t"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Языки",
+  "description": "На каких языках говорит проект и какой из них главный.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-languages",
+      "bid": "kkcq8"
+    }
+  ]
+}

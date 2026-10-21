@@ -1,0 +1,11 @@
+{
+  "title": "Languages",
+  "description": "Which languages the project speaks and which one is the default.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-languages",
+      "bid": "fhavc"
+    }
+  ]
+}

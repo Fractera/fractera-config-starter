@@ -1,0 +1,11 @@
+{
+  "title": "Куки-баннер",
+  "description": "Сообщение о согласии и его слова на каждом языке.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-cookie-banner",
+      "bid": "oo6o9"
+    }
+  ]
+}

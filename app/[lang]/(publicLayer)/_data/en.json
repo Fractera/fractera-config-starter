@@ -1,0 +1,165 @@
+{
+  "title": "Fractera CONFIG — the settings of every application in one place",
+  "description": "A standalone microservice that keeps the settings of your project — name, languages, search, header, footer and feature switches — and gives them over MCP to every application that wants them. Configure the whole project from one screen; every application stays independent.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "block-hero-centered",
+      "pill": "Agentic engineering infrastructure",
+      "title": "All project settings in one place",
+      "description": "A standalone microservice that keeps the settings of your project — name, languages, search, header, footer and feature switches — and gives them over MCP to every application that wants them. Configure the whole project from one screen; every application stays independent.",
+      "cta": {
+        "label": "Go to settings",
+        "href": "/en/architect"
+      },
+      "bid": "coc1f"
+    },
+    {
+      "kind": "text-list",
+      "items": [
+        "8 — groups of settings",
+        "12 — features you switch on and off",
+        "1 — screen for every application of the project"
+      ],
+      "bid": "cft8f"
+    },
+    {
+      "kind": "text-small",
+      "text": "MCP · APP-CONFIG · PLATFORM-CONFIG · Claude Code Agent",
+      "bid": "cr2kt"
+    },
+    {
+      "kind": "block-section-head",
+      "id": "groups",
+      "badge": "What you configure",
+      "title": "Eight groups, each on its own page",
+      "bid": "c1hoy"
+    },
+    {
+      "kind": "text-p",
+      "text": "Open a group, change what you need, save. Every connected application picks the change up on its own.",
+      "bid": "cd6zg"
+    },
+    {
+      "kind": "text-h3",
+      "text": "Languages",
+      "bid": "cfhjm"
+    },
+    {
+      "kind": "text-p",
+      "text": "Which languages the project speaks and which one is the default.",
+      "bid": "clgqn"
+    },
+    {
+      "kind": "text-h3",
+      "text": "Basics",
+      "bid": "cbvxl"
+    },
+    {
+      "kind": "text-p",
+      "text": "The name of the project, its description and contacts.",
+      "bid": "cykmu"
+    },
+    {
+      "kind": "text-h3",
+      "text": "Search and AI",
+      "bid": "c9abz"
+    },
+    {
+      "kind": "text-p",
+      "text": "How search engines and AI assistants read the project.",
+      "bid": "cvae2"
+    },
+    {
+      "kind": "text-h3",
+      "text": "Meta and media",
+      "bid": "cqqfk"
+    },
+    {
+      "kind": "text-p",
+      "text": "Logos, icons and the pictures shown when a page is shared.",
+      "bid": "cp7wt"
+    },
+    {
+      "kind": "text-h3",
+      "text": "Parallel routing",
+      "bid": "c5ily"
+    },
+    {
+      "kind": "text-p",
+      "text": "Which parts of the application screen are shown side by side.",
+      "bid": "c30x0"
+    },
+    {
+      "kind": "text-h3",
+      "text": "Header",
+      "bid": "cgyk2"
+    },
+    {
+      "kind": "text-p",
+      "text": "The menu at the top of every page.",
+      "bid": "cwzdx"
+    },
+    {
+      "kind": "text-h3",
+      "text": "Footer",
+      "bid": "cfzzv"
+    },
+    {
+      "kind": "text-p",
+      "text": "The links and pages at the bottom of every page.",
+      "bid": "c0j1o"
+    },
+    {
+      "kind": "text-h3",
+      "text": "Cookie banner",
+      "bid": "c3oql"
+    },
+    {
+      "kind": "text-p",
+      "text": "The consent message and its words in every language.",
+      "bid": "cdkdd"
+    },
+    {
+      "kind": "block-section-head",
+      "id": "how",
+      "badge": "How it works",
+      "title": "Change once — every connected application follows",
+      "bid": "c1nko"
+    },
+    {
+      "kind": "text-p",
+      "text": "No settings scattered across repositories, no rebuild for a menu item or a switch.",
+      "bid": "c4i37"
+    },
+    {
+      "kind": "text-list",
+      "ordered": true,
+      "items": [
+        "Change. The architect changes a setting on this screen and saves it. CONFIG keeps it.",
+        "Take. The moment you save, every subscribed application gets a signal and takes the new settings itself — in seconds, without a restart.",
+        "See. The application applies them over its own defaults, and visitors see the change without a rebuild. A new language goes out with the next deployment."
+      ],
+      "bid": "cuyka"
+    },
+    {
+      "kind": "block-faq",
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "q": "Do my applications need CONFIG to run?",
+          "a": "No. CONFIG is an addition, not a foundation. Every application keeps its own settings and runs without it. An application that connects to CONFIG over MCP simply gets one convenient place where all its settings are changed."
+        },
+        {
+          "q": "How does an application connect?",
+          "a": "Over MCP, the same way applications take components from Fractera Blocks. At its start the application asks for the version of the settings and takes the new ones when it changed; it can also subscribe — then, the moment you save, CONFIG sends it a short signal and the application takes the new settings itself, in seconds and without a restart."
+        },
+        {
+          "q": "Who can change the settings?",
+          "a": "Only the architect of the project, after signing in. Everyone else sees this page and nothing more; applications read the settings with the key of the node and never write them."
+        }
+      ],
+      "bid": "chp1i"
+    }
+  ]
+}

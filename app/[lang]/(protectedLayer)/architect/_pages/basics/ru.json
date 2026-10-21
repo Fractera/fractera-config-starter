@@ -1,0 +1,11 @@
+{
+  "title": "Основное",
+  "description": "Название проекта, описание, адрес и контакты.",
+  "keywords": "",
+  "blocks": [
+    {
+      "kind": "widget-dynamic-config-basics",
+      "bid": "vbylg"
+    }
+  ]
+}
