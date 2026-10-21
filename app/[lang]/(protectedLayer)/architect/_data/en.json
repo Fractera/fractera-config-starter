@@ -1,8 +1,12 @@
 {
   "title": "Project settings",
-  "description": "Switch the features of the project on and off here; everything else is in the sections of the menu. What you save here is kept by CONFIG; applications connected over MCP take it themselves.",
+  "description": "On a single project this page keeps the settings shared by every element of the node. On an app factory it keeps the settings of the core and the built-in elements, and your own elements keep theirs. Features are switched on and off below; everything else is in the sections of the menu on the left.",
   "keywords": "",
   "blocks": [
+    {
+      "kind": "widget-dynamic-config-node-mode",
+      "bid": "nm564"
+    },
     {
       "kind": "widget-dynamic-config-features",
       "bid": "dmz53"

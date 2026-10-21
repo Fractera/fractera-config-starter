@@ -8,6 +8,7 @@ import { Widget as W5 } from './dynamic/widget-dynamic-config-meta-media'
 import { Widget as W6 } from './dynamic/widget-dynamic-config-parallel-routing'
 import { Widget as W7 } from './dynamic/widget-dynamic-config-seo'
 import { Widget as W8 } from './dynamic/widget-dynamic-config-features'
+import { Widget as W9 } from './dynamic/widget-dynamic-config-node-mode'
 
 // 549-1: страницы режима архитектора элемента config — по виджету на страницу прежнего config.
 export const WIDGETS: Record<string, (lang: string) => ReactNode> = {
@@ -20,4 +21,5 @@ export const WIDGETS: Record<string, (lang: string) => ReactNode> = {
   'widget-dynamic-config-parallel-routing': (lang) => <W6 lang={lang} />,
   'widget-dynamic-config-seo': (lang) => <W7 lang={lang} />,
   'widget-dynamic-config-features': (lang) => <W8 lang={lang} />,
+  'widget-dynamic-config-node-mode': (lang) => <W9 lang={lang} />,
 }

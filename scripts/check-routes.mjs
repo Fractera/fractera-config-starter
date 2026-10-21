@@ -90,6 +90,7 @@ const ALLOWED = new Map([
   ['app/api/elements/route.ts', 'config: элементы узла и их адреса — архитектору (549-1)'],
   ['app/api/language-followers/route.ts', 'config: элементы, чьи языки задаёт CONFIG (549-1)'],
   ['app/api/session/route.ts', 'config: архитектор ли посетитель (549-1)'],
+  ['app/api/node-mode/route.ts', 'config: режим узла — единый проект или завод приложений, архитектору (564; владелец 2026-10-21: «в этом конфигураторе и нужно сделать ещё один механический переключатель»)'],
   ['app/[lang]/(protectedLayer)/architect/layout.tsx', 'config: замок режима архитектора (549-1)'],
   ['app/[lang]/(protectedLayer)/architect/page.tsx', 'config: КОРЕНЬ режима архитектора — переключатели возможностей (549-1)'],
   ['app/[lang]/(protectedLayer)/architect/[...slug]/page.tsx', 'config: страницы-редакторы настроек (549-1)'],
