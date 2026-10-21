@@ -86,6 +86,11 @@
       "gives": "write a patch — only the architect (session through the sign-in service); the key does not give writing"
     },
     {
+      "path": "/api/settings/catalog",
+      "method": "GET, PUT, DELETE",
+      "gives": "the catalog of the node elements for the «All projects» tab — only the node key (X-Settings-Key) reads and writes it: the core writes, every write signals the subscribers (553-2)"
+    },
+    {
       "path": "/api/session",
       "method": "GET",
       "gives": "whether the viewer is the architect — for the screens of the architect mode"
@@ -97,6 +102,7 @@
       "doors": [
         "/api/settings",
         "/api/settings/<app|platform|design>",
+        "/api/settings/catalog",
         "/api/session"
       ],
       "format": "JSON: { ok, kind, defaults, patch, config } — config = the owner patch over the defaults"

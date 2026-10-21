@@ -86,6 +86,7 @@ const ALLOWED = new Map([
   ['app/mcp/route.ts', 'config: MCP настроек проекта — settings_version, get_project_settings, subscribe (549-1)'],
   ['app/api/settings/route.ts', 'config: все настройки проекта — ключ служб или архитектор (549-1)'],
   ['app/api/settings/[kind]/route.ts', 'config: один вид настроек, PATCH архитектора и сигнал подписчикам (549-1)'],
+  ['app/api/settings/catalog/route.ts', 'config: каталог элементов узла для вкладки «Все проекты» — пишет ядро ключом (553-2)'],
   ['app/api/elements/route.ts', 'config: элементы узла и их адреса — архитектору (549-1)'],
   ['app/api/language-followers/route.ts', 'config: элементы, чьи языки задаёт CONFIG (549-1)'],
   ['app/api/session/route.ts', 'config: архитектор ли посетитель (549-1)'],

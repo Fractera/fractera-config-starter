@@ -48,3 +48,18 @@ PORT=24683 node .next/standalone/server.js
 ```
 
 License: MIT.
+
+## Catalog for the All projects tab (node step 553-2)
+
+- **Who writes:** only the core of the node, with the node key — `PUT /api/settings/catalog` (header `X-Settings-Key`). The
+  architect session does not write it: the catalog is a snapshot of the node, not an owner decision. `DELETE` removes it; `GET` with
+  the key reads it. Without the key — `401 { ok: false, reason: "bad-key" }`; a bad body — `400 { ok: false, reason }`.
+- **Form:** `{ "byLang": { "<two-letter language>": [ { "id", "title", "description", "href", "local", "kind" } ] } }` — up to
+  8 languages and 1000 entries per language; `href` is `null` or `http(s)://…`, `local` is `null` or `http://localhost:<port>/…`,
+  `kind` is `custom` or `native`. Other fields of an entry are dropped. It is kept as `data/settings/catalog.json`, apart from the
+  settings patches.
+- **Signal:** every write and removal changes `settings_version` and sends `POST {version}` to the subscribers, as after the
+  architect saves the settings. With no catalog the version is the former fingerprint of the patches.
+- **What an element does with it:** `get_project_settings` without `kind` carries `catalog` (or `null`); an element that follows
+  CONFIG keeps it in its copy of the settings and draws the first tab of its header, «All projects», from it. With `kind` the answer
+  has no catalog, as before.
