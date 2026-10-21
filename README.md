@@ -18,6 +18,23 @@ patch and the subscribers — `data/settings/` (never in git). Seed at birth —
 
 ---
 
+## In the Fractera project
+
+The project settings of the whole node: APP, PLATFORM and DESIGN settings, the menu, the catalog for the All projects tab and the node mode switch. Elements under CONFIG take their settings from it and redraw their pages when it signals a new version.
+
+You can change it. The code is open under the MIT license and the copy on your node is yours. The node installs this element from
+this repository by the tag written in `WEB4-ITEMS-REGISTRY/web4-items.json` of the core; the core does not let you delete a built-in
+element or move its address.
+
+To change it, open it in the core (left menu, Native items, Config), go to Build and tell its agent in the terminal what you need.
+The agent edits the element folder `WEB4-ITEMS/core/config` and commits. Settings themselves are not code: change them on the element's settings pages, and its agent only for new capabilities.
+
+The change goes live when you press Deploy in Build, Deployments: the element is rebuilt beside the running one and switched over in
+seconds. Other elements call its doors by address, request and answer, so a change to a door breaks every element that uses it;
+that is a decision for the node owner, while a change inside the element is ordinary work. To keep your version when the node is
+reinstalled, save the element to your own GitHub repository in Build, GitHub. A newer Fractera version arrives through Update, which
+merges it with your commits, and the element's agent resolves a conflict.
+
 # fractera-native-item-starter
 
 The reference starter template of a Fractera native element. Native elements are the root elements of a node: they stand on
