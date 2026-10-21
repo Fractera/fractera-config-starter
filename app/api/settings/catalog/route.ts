@@ -4,6 +4,7 @@ import { readCatalog, validateCatalog, writeCatalog, removeCatalog } from "@/lib
 import { notifySubscribers } from "@/lib/config-store/subscribers.mjs"
 import { keyOk } from "@/lib/config-store/architect-auth.mjs"
 import { json, headersOf } from "@/lib/config-store/http"
+import { refreshSelf } from "@/lib/config-store/self-refresh"
 
 // 553-2: каталог «Все проекты». Пишет только ядро ключом узла (X-Settings-Key) — сессия архитектора записи не даёт: каталог считает
 // узел, а не человек. После записи и удаления — сигнал подписчикам «версия сменилась» (как после сохранения настроек, 306).
@@ -20,6 +21,7 @@ async function signal(): Promise<{ version: string; notified: Notified }> {
   } catch (e) {
     console.warn(`[catalog] рассылка не удалась: ${e instanceof Error ? e.message : e}`)
   }
+  await refreshSelf()
   return { version, notified }
 }
 

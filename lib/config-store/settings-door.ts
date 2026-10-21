@@ -5,6 +5,7 @@ import { notifySubscribers } from "./subscribers.mjs"
 import { readAll, versionOf } from "./mcp-tools.mjs"
 import { sessionOf, keyOk } from "./architect-auth.mjs"
 import { json, headersOf } from "./http"
+import { refreshSelf } from "./self-refresh"
 
 type Read = { ok: boolean; reason?: string; config?: unknown }
 
@@ -41,6 +42,8 @@ export async function settingsDoor(req: Request, kind: string | null): Promise<R
     } catch (e) {
       console.warn(`[settings] рассылка не удалась: ${e instanceof Error ? e.message : e}`)
     }
+    // 553-7: config сам себе подписчик — своя копия и свои страницы.
+    await refreshSelf()
     return json(200, { ...r, notified })
   }
   return json(405, { ok: false, reason: "method" })
