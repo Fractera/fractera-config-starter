@@ -75,6 +75,17 @@
     },
     {
       "kind": "block-section-head",
+      "id": "power",
+      "title": "On from the start",
+      "bid": "q0000"
+    },
+    {
+      "kind": "text-p",
+      "text": "This element starts with the node. The node holds the switch: the architect turns it off or on with a word to the main agent, or on the element's settings page in the core.",
+      "bid": "q0001"
+    },
+    {
+      "kind": "block-section-head",
       "id": "solves",
       "title": "What changes for you",
       "bid": "cb000"
@@ -104,6 +115,27 @@
         ]
       ],
       "bid": "cb001"
+    },
+    {
+      "kind": "block-section-head",
+      "id": "tool",
+      "title": "Change this project's settings",
+      "bid": "q0002"
+    },
+    {
+      "kind": "text-p",
+      "text": "This page is a working tool as well as a description: languages, the title, search, the header, the footer and twelve switches change on this element's pages, and every connected application follows within seconds, with no rebuild.",
+      "bid": "q0003"
+    },
+    {
+      "kind": "text-p",
+      "text": "Only the architect can change them, after signing in. Visitors never see these pages.",
+      "bid": "q0004"
+    },
+    {
+      "kind": "text-p",
+      "text": "[Open the project settings →](/en/architect/basics)",
+      "bid": "q0005"
     },
     {
       "kind": "block-section-head",
@@ -187,6 +219,31 @@
     },
     {
       "kind": "block-section-head",
+      "id": "builder",
+      "title": "Your own builder comes with it",
+      "bid": "q0006"
+    },
+    {
+      "kind": "text-p",
+      "text": "Every element of the node comes with its own Claude Code agent and can get its own Telegram bot. When something in this element should change, write to its bot from your phone, and the agent updates the logic or the design.",
+      "bid": "q0007"
+    },
+    {
+      "kind": "text-p",
+      "text": "The agent works only in its element's folder and never reads the whole node, so each change costs fewer tokens. Your Claude Code subscription pays for it.",
+      "bid": "q0008"
+    },
+    {
+      "kind": "text-list",
+      "items": [
+        "The element's bot is connected in the core, on its «Telegram» page.",
+        "The agent returns a commit; you look at it in «Preview» and accept it or turn it down.",
+        "At the computer, the agent's terminal is in the core, in this element's «Build»."
+      ],
+      "bid": "q0009"
+    },
+    {
+      "kind": "block-section-head",
       "id": "credits",
       "title": "Open source",
       "bid": "cf000"
@@ -195,6 +252,31 @@
       "kind": "text-p",
       "text": "Built by Fractera for the [Lagrix](https://lagrix.dev) protocol and for any web2 project with more than one application. MIT license, the code is at [github.com/Fractera/fractera-config-starter](https://github.com/Fractera/fractera-config-starter).",
       "bid": "cf001"
+    },
+    {
+      "kind": "block-section-head",
+      "id": "faq",
+      "title": "Questions and answers",
+      "bid": "q000a"
+    },
+    {
+      "kind": "block-faq",
+      "title": "Questions and answers",
+      "items": [
+        {
+          "q": "Does an application need CONFIG to run?",
+          "a": "No. Each application keeps its own settings and works without it; CONFIG gives one place to change them all."
+        },
+        {
+          "q": "How fast does a change arrive?",
+          "a": "On save every subscribed application gets a signal and takes the new settings; visitors see them after a reload."
+        },
+        {
+          "q": "And in an app factory?",
+          "a": "A new element keeps settings of its own; in a single project every element takes them from here."
+        }
+      ],
+      "bid": "q000b"
     }
   ]
 }
