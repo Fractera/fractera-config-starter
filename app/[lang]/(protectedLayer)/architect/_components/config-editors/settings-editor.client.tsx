@@ -71,8 +71,8 @@ export function SettingsEditorIsland({ group, lang, langs, defaultLang, editLang
   if (access !== 'ok' || !prepared) return <AccessNotice access={access} words={words} loginHref={loginHref} />
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center gap-2" role="group" aria-label={editLangLabel}>
+    <div data-block="o9tzb" className="flex flex-col gap-6">
+      <div data-block="lpdwa" className="flex flex-wrap items-center gap-2" role="group" aria-label={editLangLabel}>
         <span className="text-sm text-muted-foreground">{editLangLabel}</span>
         {langs.map((l) => (
           <Button

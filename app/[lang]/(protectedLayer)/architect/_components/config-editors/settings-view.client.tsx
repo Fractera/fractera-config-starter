@@ -28,17 +28,17 @@ export function SettingsViewIsland({ kind, keys, title, empty, words, loginHref 
   }, [kind])
 
   return (
-    <section className="mt-6" aria-label={title}>
-      <H2 variant="ui">{title}</H2>
-      <div className="mt-4">
+    <section data-block="gy1ym" className="mt-6" aria-label={title}>
+      <H2 data-block="mcd3l" variant="ui">{title}</H2>
+      <div data-block="rqkxv" className="mt-4">
         {access !== 'ok' || !config ? (
           <AccessNotice access={access} words={words} loginHref={loginHref} />
         ) : (
-          <dl className="flex flex-col gap-3">
+          <dl data-block="n9b8s" className="flex flex-col gap-3">
             {keys.map((k) => (
-              <div key={k} className="rounded-xl border border-border bg-card p-4">
-                <dt className="font-mono text-xs text-muted-foreground">{kind}.{k}</dt>
-                <dd className="mt-2">
+              <div data-block="qspmn" key={k} className="rounded-xl border border-border bg-card p-4">
+                <dt data-block="qvvlk" className="font-mono text-xs text-muted-foreground">{kind}.{k}</dt>
+                <dd data-block="e7vlt" className="mt-2">
                   {config[k] === undefined ? (
                     <span className="text-sm text-muted-foreground">{empty}</span>
                   ) : (

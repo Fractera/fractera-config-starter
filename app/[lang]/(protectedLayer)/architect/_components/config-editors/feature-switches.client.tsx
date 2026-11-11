@@ -112,21 +112,21 @@ export function FeatureSwitchesIsland({ title, note, features, distributionReady
 
   return (
     // 299-8: внутри рабочего экрана заголовок раздела печатает его правая часть — пустой `title` не дублирует его.
-    <section className={title ? 'mt-10' : undefined} aria-labelledby={title ? 'feature-switches' : undefined} aria-label={title ? undefined : note}>
-      {title && <H2 variant="ui" id="feature-switches">{title}</H2>}
-      {note && <p className="mt-1 text-sm text-muted-foreground">{note}</p>}
-      <div className="mt-4">
+    <section data-block="llhsq" className={title ? 'mt-10' : undefined} aria-labelledby={title ? 'feature-switches' : undefined} aria-label={title ? undefined : note}>
+      {title && <H2 data-block="o5agl" variant="ui" id="feature-switches">{title}</H2>}
+      {note && <p data-block="junee" className="mt-1 text-sm text-muted-foreground">{note}</p>}
+      <div data-block="qfu5p" className="mt-4">
         {access !== 'ok' ? (
           <AccessNotice access={access} words={words} loginHref={loginHref} />
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2">
+          <ul data-block="fd835" className="grid gap-3 sm:grid-cols-2">
             {features.map((f) => {
               const on = values[f.key] === true
               return (
-                <li key={f.key} className="flex items-start justify-between gap-4 rounded-xl border border-border bg-card p-4">
-                  <div>
-                    <p className="font-medium">{f.label}</p>
-                    {f.hint && <p className="mt-1 text-sm text-muted-foreground">{f.hint}</p>}
+                <li data-block="x9td4" key={f.key} className="flex items-start justify-between gap-4 rounded-xl border border-border bg-card p-4">
+                  <div data-block="uzzn0">
+                    <p data-block="o3y0n" className="font-medium">{f.label}</p>
+                    {f.hint && <p data-block="wtxzt" className="mt-1 text-sm text-muted-foreground">{f.hint}</p>}
                   </div>
                   <Switch
                     checked={on}
@@ -167,21 +167,21 @@ export function FeatureSwitchesIsland({ title, note, features, distributionReady
             </Button>
         </>}
       >
-          <div className="flex flex-col gap-3">
-            <p className="text-sm font-medium">{words.guardLinks}</p>
+          <div data-block="z4oiy" className="flex flex-col gap-3">
+            <p data-block="and0e" className="text-sm font-medium">{words.guardLinks}</p>
             {elements === null ? (
-              <p className="text-sm text-muted-foreground">{words.loading}</p>
+              <p data-block="k2jms" className="text-sm text-muted-foreground">{words.loading}</p>
             ) : linksText ? (
-              <ul className="flex flex-col gap-1 rounded-lg border border-border bg-muted/40 p-3 text-sm">
+              <ul data-block="gw7s0" className="flex flex-col gap-1 rounded-lg border border-border bg-muted/40 p-3 text-sm">
                 {elements.filter((e) => e.url).map((e) => (
-                  <li key={e.id} className="flex flex-wrap gap-2">
+                  <li data-block="uij0n" key={e.id} className="flex flex-wrap gap-2">
                     <span className="text-muted-foreground">{elementNames[e.id] ?? e.id}:</span>
                     <a href={e.url as string} className="break-all text-primary hover:underline">{e.url}</a>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-destructive">{words.guardNoLinks}</p>
+              <p data-block="nls21" className="text-sm text-destructive">{words.guardNoLinks}</p>
             )}
             <Button variant="outline" size="sm" type="button" onClick={copyLinks} disabled={!linksText} className="self-start">
               {copied ? words.guardCopied : words.guardCopy}

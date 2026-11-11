@@ -159,11 +159,11 @@ export function RoutingEditor({
   ]
 
   return (
-    <div data-routing-editor className="flex flex-col gap-8">
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <H3 variant="ui">{t.title}</H3>
-          <Small className="max-w-2xl">{t.hint}</Small>
+    <div data-block="jrfh9" data-routing-editor className="flex flex-col gap-8">
+      <section data-block="iz34u" className="flex flex-col gap-4">
+        <div data-block="fpf9p" className="flex flex-col gap-1">
+          <H3 data-block="ilf6q" variant="ui">{t.title}</H3>
+          <Small data-block="odyyc" className="max-w-2xl">{t.hint}</Small>
         </div>
         <Separator />
 
@@ -180,7 +180,7 @@ export function RoutingEditor({
           <AdviceNote tone="warning" probe="not-consumed" title={t.pickTemplates} text={t.notConsumed} />
         )}
 
-        <div className="flex flex-col gap-4 md:flex-row">
+        <div data-block="rtf0f" className="flex flex-col gap-4 md:flex-row">
           {modes.map(m => {
             const chosen = mode === m.id
             return (
@@ -209,18 +209,18 @@ export function RoutingEditor({
         </div>
       </section>
 
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <H3 variant="ui">{t.areasTitle}</H3>
-          <Small className="max-w-2xl">{mode === "parallel" ? t.areasHint : t.standardAreasHint}</Small>
+      <section data-block="cdx5x" className="flex flex-col gap-4">
+        <div data-block="qpyym" className="flex flex-col gap-1">
+          <H3 data-block="p8pbs" variant="ui">{t.areasTitle}</H3>
+          <Small data-block="oe6xa" className="max-w-2xl">{mode === "parallel" ? t.areasHint : t.standardAreasHint}</Small>
         </div>
         <Separator />
 
         {/* Чертёж и список стоят рядом: выбор слева отражается справа в ту же секунду.
             На узком экране чертёж уходит наверх — он объясняет список, а не наоборот. */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="flex flex-col gap-2 lg:sticky lg:top-24 lg:self-start">
-            <Small className="font-medium text-foreground">{t.previewTitle}</Small>
+        <div data-block="lgmjd" className="grid gap-6 lg:grid-cols-2">
+          <div data-block="jztgc" className="flex flex-col gap-2 lg:sticky lg:top-24 lg:self-start">
+            <Small data-block="i9qsu" className="font-medium text-foreground">{t.previewTitle}</Small>
             <SlotLayoutPreview
               active={previewActive}
               hovered={hovered}
@@ -229,7 +229,7 @@ export function RoutingEditor({
             />
           </div>
 
-          <ul data-slot-list className="flex flex-col gap-3">
+          <ul data-block="jjcv0" data-slot-list className="flex flex-col gap-3">
             {SLOT_ORDER.map(slot => {
               const locked = LOCKED_SLOTS.includes(slot)
               // Полосы центра без самого центра поставить некуда.
@@ -237,7 +237,7 @@ export function RoutingEditor({
               // В обычном режиме состав областей не выбирают: раскладка задана.
               const disabled = locked || orphan || mode !== "parallel"
               return (
-                <li
+                <li data-block="k0ujo"
                   key={slot}
                   data-slot={slot}
                   data-on={slots[slot] ? "true" : "false"}
@@ -252,12 +252,12 @@ export function RoutingEditor({
                       : "border-border opacity-60")
                   }
                 >
-                  <div className="min-w-0">
+                  <div data-block="uucde" className="min-w-0">
                     <span className="flex items-center gap-2 text-[length:var(--fs-body)] text-foreground">
                       {t.areas[slot] ?? slot}
                       {locked && <Lock className="size-3.5 shrink-0 opacity-60" aria-hidden />}
                     </span>
-                    <Small className="mt-0.5 block">
+                    <Small data-block="lmgpp" className="mt-0.5 block">
                       {locked ? t.lockedHint : (t.areaHints[slot] ?? "")}
                     </Small>
                   </div>
@@ -274,12 +274,12 @@ export function RoutingEditor({
         </div>
       </section>
 
-      <div className="flex items-center gap-3">
+      <div data-block="cgx59" className="flex items-center gap-3">
         <Button type="button" onClick={save} disabled={busy || !changed} data-save className="h-10 px-5">
           {busy && <Loader2 className="size-4 animate-spin" aria-hidden />}
           {busy ? ui.saving : ui.save}
         </Button>
-        {!changed && <P className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
+        {!changed && <P data-block="gxdu3" className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
       </div>
     </div>
   )

@@ -51,11 +51,11 @@ export function CookieBannerIsland({ ui, words, loginHref, policyHref }: Common 
       ui={ui}
     >
       {policyHref && (
-        <section className="flex flex-col gap-2">
+        <section data-block="nbdtb" className="flex flex-col gap-2">
           <a href={policyHref} className="text-[length:var(--fs-body)] text-primary hover:underline" data-cookie-policy-link>
             {ui.cookies.linkTitle}
           </a>
-          <p className="text-sm text-muted-foreground">{ui.cookies.linkHint}</p>
+          <p data-block="b84yg" className="text-sm text-muted-foreground">{ui.cookies.linkHint}</p>
         </section>
       )}
     </FeaturesEditor>

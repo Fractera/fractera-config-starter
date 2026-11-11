@@ -250,7 +250,7 @@ export function NavEditor({
   }
 
   const labelInput = (value: string, onChange: (v: string) => void) => (
-    <div className="flex items-center gap-2">
+    <div data-block="sro43" className="flex items-center gap-2">
       <Input
         value={value}
         placeholder={t.labelHint}
@@ -268,43 +268,43 @@ export function NavEditor({
   )
 
   return (
-    <div data-nav-editor={slot} className="flex flex-col gap-8">
+    <div data-block="fh5i7" data-nav-editor={slot} className="flex flex-col gap-8">
       {/* Ненастроенное меню объясняет, откуда взялся показанный набор: иначе
           человек решит, что кто-то уже всё настроил за него. */}
       {!configured && (
-        <Small data-nav-defaults className="rounded-md border border-primary/30 bg-primary/5 px-3 py-2 text-foreground">
+        <Small data-block="itjhv" data-nav-defaults className="rounded-md border border-primary/30 bg-primary/5 px-3 py-2 text-foreground">
           {t.defaultsNotice}
         </Small>
       )}
 
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <H3 variant="ui">{t.items}</H3>
-          <Small className="max-w-2xl">{t.itemsHint}</Small>
-          <Small className="max-w-2xl">{t.nestHint}</Small>
+      <section data-block="y32fs" className="flex flex-col gap-4">
+        <div data-block="ta3oz" className="flex flex-col gap-1">
+          <H3 data-block="sm3t6" variant="ui">{t.items}</H3>
+          <Small data-block="m0afx" className="max-w-2xl">{t.itemsHint}</Small>
+          <Small data-block="ykwj9" className="max-w-2xl">{t.nestHint}</Small>
         </div>
         <Separator />
 
         {items.length === 0 ? (
-          <div className="flex flex-col gap-1 rounded-lg border border-dashed border-border px-4 py-6">
-            <P className="text-[length:var(--fs-body)]">{t.empty}</P>
-            <Small>{t.emptyHint}</Small>
+          <div data-block="r1hfv" className="flex flex-col gap-1 rounded-lg border border-dashed border-border px-4 py-6">
+            <P data-block="bwxby" className="text-[length:var(--fs-body)]">{t.empty}</P>
+            <Small data-block="uzrub">{t.emptyHint}</Small>
           </div>
         ) : (
-          <ul className="flex flex-col gap-3">
+          <ul data-block="t1qtm" className="flex flex-col gap-3">
             {items.map((item, index) => (
-              <li key={item.id + item.href} className="flex flex-col gap-2">
-                <div
+              <li data-block="qdshs" key={item.id + item.href} className="flex flex-col gap-2">
+                <div data-block="ujz1z"
                   data-nav-item={item.id}
                   data-depth="0"
                   className="flex flex-col gap-2 rounded-lg border border-border px-4 py-3 md:flex-row md:items-center md:gap-4"
                 >
-                  <div className="flex min-w-0 flex-1 flex-col gap-1">
-                    <Small className="font-mono">{item.href}</Small>
+                  <div data-block="r48pu" className="flex min-w-0 flex-1 flex-col gap-1">
+                    <Small data-block="pxcim" className="font-mono">{item.href}</Small>
                     {labelInput(item.label, v => setLabel(index, v))}
                   </div>
 
-                  <div className="flex shrink-0 items-center gap-1">
+                  <div data-block="mqwyz" className="flex shrink-0 items-center gap-1">
                     <Button
                       type="button"
                       variant="outline"
@@ -358,21 +358,21 @@ export function NavEditor({
                 {/* Дети рисуются СО СДВИГОМ и своей полосой слева: вложенность видна
                     формой, а не подписью «внутри чего-то». */}
                 {(item.children ?? []).map((child, ci) => (
-                  <div
+                  <div data-block="lv7kc"
                     key={child.id + child.href}
                     data-nav-item={child.id}
                     data-depth="1"
                     data-nav-child-of={item.id}
                     className="ms-6 flex flex-col gap-2 rounded-lg border border-border border-s-2 border-s-primary px-4 py-3 md:ms-10 md:flex-row md:items-center md:gap-4"
                   >
-                    <div className="flex min-w-0 flex-1 flex-col gap-1">
-                      <Small className="font-mono">
+                    <div data-block="ss3m3" className="flex min-w-0 flex-1 flex-col gap-1">
+                      <Small data-block="n2vzk" className="font-mono">
                         <span className="text-muted-foreground">{t.childOf} {item.id} · </span>
                         {child.href}
                       </Small>
                       {labelInput(child.label, v => setChildLabel(index, ci, v))}
                     </div>
-                    <div className="flex shrink-0 items-center gap-1">
+                    <div data-block="up9mm" className="flex shrink-0 items-center gap-1">
                       <Button
                         type="button"
                         variant="outline"
@@ -403,12 +403,12 @@ export function NavEditor({
           </ul>
         )}
 
-        {slot === "top" && <Small>{t.labelLimit}</Small>}
+        {slot === "top" && <Small data-block="ivw5v">{t.labelLimit}</Small>}
       </section>
 
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <H3 variant="ui">{t.candidates}</H3>
+      <section data-block="mehm9" className="flex flex-col gap-4">
+        <div data-block="vo99y" className="flex flex-col gap-1">
+          <H3 data-block="lzql5" variant="ui">{t.candidates}</H3>
         </div>
         <Separator />
 
@@ -416,15 +416,15 @@ export function NavEditor({
             он занимает полэкрана, на тридцати вытесняет само меню, ради которого
             человек сюда пришёл. Ветка сворачивается — и остаётся одна строка. */}
         {freeCount === 0 ? (
-          <Small>{t.empty}</Small>
+          <Small data-block="pf1q7">{t.empty}</Small>
         ) : (
-          <ul data-page-tree className="flex flex-col gap-1">
+          <ul data-block="mgcs2" data-page-tree className="flex flex-col gap-1">
             {tree.map(node => {
               const open = !closed.has(node.candidate.href)
               const hasKids = node.children.length > 0
               return (
-                <li key={node.candidate.href} className="flex flex-col gap-1">
-                  <div className="flex items-center gap-1">
+                <li data-block="gc68d" key={node.candidate.href} className="flex flex-col gap-1">
+                  <div data-block="tf16e" className="flex items-center gap-1">
                     {hasKids ? (
                       <Button
                         variant="ghost"
@@ -457,7 +457,7 @@ export function NavEditor({
 
                   {open &&
                     node.children.map(child => (
-                      <div key={child.href} className="flex items-center gap-1 ps-8">
+                      <div data-block="g2ar2" key={child.href} className="flex items-center gap-1 ps-8">
                         <span className="size-8 shrink-0" />
                         <Button
                           type="button"
@@ -478,12 +478,12 @@ export function NavEditor({
         )}
       </section>
 
-      <div className="flex items-center gap-3">
+      <div data-block="i1ias" className="flex items-center gap-3">
         <Button type="button" onClick={save} disabled={busy || !changed} data-save className="h-10 px-5">
           {busy && <Loader2 className="size-4 animate-spin" aria-hidden />}
           {busy ? ui.saving : ui.save}
         </Button>
-        {!changed && <P className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
+        {!changed && <P data-block="kjay4" className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
       </div>
     </div>
   )

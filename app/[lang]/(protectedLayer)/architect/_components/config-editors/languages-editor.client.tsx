@@ -209,28 +209,28 @@ export function LanguagesEditor({
   }
 
   return (
-    <div data-languages-editor className="flex flex-col gap-8">
+    <div data-block="qgxw5" data-languages-editor className="flex flex-col gap-8">
       {/* Цена — до списка. Она и есть решение, которое здесь принимают. */}
       <AdviceNote probe="lang-cost" title={t.costTitle} text={t.cost} />
 
       {/* Строка про пересборку — не украшение: без неё «Сохранено» лжёт. */}
-      <div data-lang-rebuild={pending ? "pending" : "clean"} className="flex flex-col gap-1">
-        <P className="text-[length:var(--fs-body)] font-medium">{t.rebuildTitle}</P>
-        <Small className="max-w-2xl">{t.rebuild}</Small>
+      <div data-block="nsg3k" data-lang-rebuild={pending ? "pending" : "clean"} className="flex flex-col gap-1">
+        <P data-block="jri21" className="text-[length:var(--fs-body)] font-medium">{t.rebuildTitle}</P>
+        <Small data-block="dcqmz" className="max-w-2xl">{t.rebuild}</Small>
       </div>
 
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <H3 variant="ui">{t.title}</H3>
-          <Small className="max-w-2xl">{t.hint}</Small>
-          <Small data-lang-count className="font-medium text-foreground">
+      <section data-block="tytrf" className="flex flex-col gap-4">
+        <div data-block="gybi6" className="flex flex-col gap-1">
+          <H3 data-block="qtdl5" variant="ui">{t.title}</H3>
+          <Small data-block="kx9to" className="max-w-2xl">{t.hint}</Small>
+          <Small data-block="cizx2" data-lang-count className="font-medium text-foreground">
             {selected.length} {t.selected}
             {q && ` · ${shown.length} ${t.found}`}
           </Small>
           {/* 🔒 ЗНАЧОК ОБЪЯСНЯЕТСЯ ТАМ, ГДЕ ОН СТОИТ. Подпись у самой кнопки видит
               только тот, кто уже навёл на неё мышь, — то есть тот, кто и так
               догадался. Легенда стоит над списком и читается до первого щелчка. */}
-          <Small data-star-legend className="flex items-center gap-1.5">
+          <Small data-block="cv45s" data-star-legend className="flex items-center gap-1.5">
             <Star className="size-3.5 shrink-0" aria-hidden />
             {t.starLegend}
           </Small>
@@ -241,7 +241,7 @@ export function LanguagesEditor({
             Поле с жёстким направлением показало бы такой запрос задом наперёд:
             курсор слева, знаки препинания не на своей стороне. `auto` отдаёт
             направление первой значащей букве набранного. */}
-        <div className="relative max-w-xl">
+        <div data-block="yi2oi" className="relative max-w-xl">
           <Search
             className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
             aria-hidden
@@ -271,22 +271,22 @@ export function LanguagesEditor({
             </Button>
           )}
         </div>
-        <Small className="max-w-xl">{t.searchHint}</Small>
+        <Small data-block="yajh7" className="max-w-xl">{t.searchHint}</Small>
 
         <Separator />
 
         {shown.length === 0 ? (
-          <div data-lang-empty className="flex flex-col gap-1 rounded-lg border border-border px-4 py-6">
-            <P className="text-[length:var(--fs-body)] font-medium">{t.nothingFound}</P>
-            <Small>{t.nothingFoundHint}</Small>
+          <div data-block="urmvg" data-lang-empty className="flex flex-col gap-1 rounded-lg border border-border px-4 py-6">
+            <P data-block="iq69c" className="text-[length:var(--fs-body)] font-medium">{t.nothingFound}</P>
+            <Small data-block="l5vie">{t.nothingFoundHint}</Small>
           </div>
         ) : (
-          <ul className="grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+          <ul data-block="kl1jj" className="grid gap-2 md:grid-cols-2 xl:grid-cols-3">
             {shown.map(row => {
               const on = selected.includes(row.code)
               const isDefault = row.code === def
               return (
-                <li
+                <li data-block="q369y"
                   key={row.code}
                   data-lang={row.code}
                   data-on={on ? "true" : "false"}
@@ -356,12 +356,12 @@ export function LanguagesEditor({
         )}
       </section>
 
-      <div className="flex items-center gap-3">
+      <div data-block="c32tg" className="flex items-center gap-3">
         <Button type="button" onClick={save} disabled={busy || !changed} data-save className="h-10 px-5">
           {busy && <Loader2 className="size-4 animate-spin" aria-hidden />}
           {busy ? ui.saving : ui.save}
         </Button>
-        {!changed && <P className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
+        {!changed && <P data-block="j9s8c" className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
       </div>
 
       {/* Узел 341-2: разблокировка работает по СОХРАНЁННОМУ набору языков — открыть поисковику можно только язык сайта. Раздел

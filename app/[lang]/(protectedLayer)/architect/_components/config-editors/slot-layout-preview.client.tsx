@@ -46,7 +46,7 @@ function PageItem({
       : "bg-muted text-muted-foreground"
 
   return (
-    <div
+    <div data-block="e3zap"
       data-preview-slot={slot}
       data-preview-on={active ? "true" : "false"}
       className={
@@ -77,7 +77,7 @@ export function SlotLayoutPreview({
   const hov = (s: SlotName) => hovered === s
 
   return (
-    <div
+    <div data-block="wt0gx"
       data-layout-preview
       className="flex h-[420px] min-w-0 flex-col gap-1.5 rounded-xl border border-border bg-card p-3"
     >
@@ -89,7 +89,7 @@ export function SlotLayoutPreview({
         style={{ flex: "0 0 9%", minHeight: 26 }}
       />
 
-      <div className="relative min-h-0 flex-1">
+      <div data-block="frpas" className="relative min-h-0 flex-1">
         <PageItem
           slot="left"
           label={labels.left}
@@ -140,7 +140,7 @@ export function SlotLayoutPreview({
         )}
 
         {on("center") && (
-          <div
+          <div data-block="vr3n3"
             className="absolute bottom-0 flex flex-col gap-1.5"
             style={{
               left: on("left") ? "calc(20% + 2px)" : 0,

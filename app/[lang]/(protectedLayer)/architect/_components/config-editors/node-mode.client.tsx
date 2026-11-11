@@ -81,25 +81,25 @@ export function NodeModeCard({ words, access: accessWords, passportHref, loginHr
   }
 
   const side = (m: Mode) => (
-    <div className={cn('rounded-lg border p-3', mode === m ? 'border-destructive bg-background' : 'border-border/60 opacity-70')} data-node-mode-option={m}>
-      <p className="font-medium">{words[m].label}</p>
-      <p className="mt-1 text-sm text-muted-foreground">{words[m].text}</p>
+    <div data-block="fe8z9" className={cn('rounded-lg border p-3', mode === m ? 'border-destructive bg-background' : 'border-border/60 opacity-70')} data-node-mode-option={m}>
+      <p data-block="r4q63" className="font-medium">{words[m].label}</p>
+      <p data-block="n1n7r" className="mt-1 text-sm text-muted-foreground">{words[m].text}</p>
     </div>
   )
 
   return (
     <section data-block="nmc64" aria-labelledby="node-mode" className="mb-10 rounded-xl border-2 border-destructive bg-destructive/5 p-4 sm:p-6">
-      <H2 variant="ui" id="node-mode" className="flex items-center gap-2 text-destructive">
+      <H2 data-block="wd8bs" variant="ui" id="node-mode" className="flex items-center gap-2 text-destructive">
         <AlertTriangle className="size-5" aria-hidden />
         {words.title}
       </H2>
-      <p className="mt-2 text-sm">{words.chosen}</p>
+      <p data-block="unsdm" className="mt-2 text-sm">{words.chosen}</p>
 
       {access !== 'ok' ? (
-        <div className="mt-4"><AccessNotice access={access} words={accessWords} loginHref={loginHref} /></div>
+        <div data-block="v4wpr" className="mt-4"><AccessNotice access={access} words={accessWords} loginHref={loginHref} /></div>
       ) : (
         <>
-          <div className="mt-4 flex items-center gap-3" data-node-mode={mode ?? 'unknown'}>
+          <div data-block="ci1cp" className="mt-4 flex items-center gap-3" data-node-mode={mode ?? 'unknown'}>
             <span className={cn('text-sm', mode === 'project' ? 'font-semibold' : 'text-muted-foreground')}>{words.project.label}</span>
             <Switch
               checked={mode === 'factory'}
@@ -109,18 +109,18 @@ export function NodeModeCard({ words, access: accessWords, passportHref, loginHr
             />
             <span className={cn('text-sm', mode === 'factory' ? 'font-semibold' : 'text-muted-foreground')}>{words.factory.label}</span>
           </div>
-          {mode === null && <p className="mt-2 text-sm text-muted-foreground">{words.unknown}</p>}
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {mode === null && <p data-block="sjs80" className="mt-2 text-sm text-muted-foreground">{words.unknown}</p>}
+          <div data-block="k0pfy" className="mt-4 grid gap-3 sm:grid-cols-2">
             {side('project')}
             {side('factory')}
           </div>
-          <p className="mt-3 text-sm text-muted-foreground">{words.only}</p>
+          <p data-block="xhhaz" className="mt-3 text-sm text-muted-foreground">{words.only}</p>
           {mismatches && mismatches.length > 0 && (
-            <div className="mt-3 text-sm" data-node-mode-mismatches>
-              <p>{words.mismatches}</p>
-              <ul className="mt-1 list-disc pl-5 text-muted-foreground">
+            <div data-block="thksq" className="mt-3 text-sm" data-node-mode-mismatches>
+              <p data-block="pgilu">{words.mismatches}</p>
+              <ul data-block="lj0u6" className="mt-1 list-disc pl-5 text-muted-foreground">
                 {mismatches.map((m) => (
-                  <li key={m.id}>{m.address ?? m.id} — {m.config ? words.linkedOn : words.linkedOff}</li>
+                  <li data-block="ybdtv" key={m.id}>{m.address ?? m.id} — {m.config ? words.linkedOn : words.linkedOff}</li>
                 ))}
               </ul>
             </div>
@@ -129,8 +129,8 @@ export function NodeModeCard({ words, access: accessWords, passportHref, loginHr
       )}
 
       {passportHref && (
-        <div className="mt-4 flex flex-wrap items-center gap-3">
-          <p className="text-sm">{words.passport}</p>
+        <div data-block="lqkz3" className="mt-4 flex flex-wrap items-center gap-3">
+          <p data-block="x3koz" className="text-sm">{words.passport}</p>
           <a href={passportHref} className={buttonVariants({ variant: 'outline', size: 'sm' })}>{words.passportButton}</a>
         </div>
       )}

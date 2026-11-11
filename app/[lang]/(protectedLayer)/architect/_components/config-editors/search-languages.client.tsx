@@ -101,23 +101,23 @@ export function SearchLanguages({
   }
 
   return (
-    <section data-search-languages className="flex flex-col gap-5">
-      <H3 variant="ui">{w.title}</H3>
+    <section data-block="gkpjo" data-search-languages className="flex flex-col gap-5">
+      <H3 data-block="givo7" variant="ui">{w.title}</H3>
       <AdviceNote probe="search-languages" tone="recommended" title={w.adviceTitle} text={w.advice} />
-      <Small className="max-w-2xl">{w.why}</Small>
+      <Small data-block="qfxs8" className="max-w-2xl">{w.why}</Small>
 
-      <div className="flex flex-col gap-2">
-        <P className="text-[length:var(--fs-body)] font-medium">{w.openTitle}</P>
-        <ul className="flex flex-col gap-2">
+      <div data-block="hegne" className="flex flex-col gap-2">
+        <P data-block="dr77q" className="text-[length:var(--fs-body)] font-medium">{w.openTitle}</P>
+        <ul data-block="o92x0" className="flex flex-col gap-2">
           {[...always, ...unlocked].map((code) => (
-            <li key={code} data-open-lang={code} className="flex flex-wrap items-center gap-3 rounded-lg border border-border px-3 py-2">
+            <li data-block="dtdbc" key={code} data-open-lang={code} className="flex flex-wrap items-center gap-3 rounded-lg border border-border px-3 py-2">
               <LockOpen className="size-4 shrink-0 text-primary" aria-hidden />
               <span className="min-w-0 flex-1 truncate text-[length:var(--fs-body)]">{label(code)}</span>
               {always.includes(code) ? (
-                <Small>{w.alwaysOpen}</Small>
+                <Small data-block="spnfi">{w.alwaysOpen}</Small>
               ) : (
                 <>
-                  <Small>{w.unlockedByYou}</Small>
+                  <Small data-block="ezxum">{w.unlockedByYou}</Small>
                   <Button type="button" variant="ghost" size="sm" disabled={busy} data-close-lang={code} onClick={() => save(unlocked.filter((l) => l !== code))}>
                     <Lock className="size-4" aria-hidden />
                     {w.close}
@@ -129,12 +129,12 @@ export function SearchLanguages({
         </ul>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <P className="text-[length:var(--fs-body)] font-medium">{w.closedTitle}</P>
+      <div data-block="o9c5t" className="flex flex-col gap-2">
+        <P data-block="wgtoy" className="text-[length:var(--fs-body)] font-medium">{w.closedTitle}</P>
         {closed.length === 0 ? (
-          <Small>{w.allOpen}</Small>
+          <Small data-block="e21pt">{w.allOpen}</Small>
         ) : (
-          <div className="flex flex-wrap items-center gap-3">
+          <div data-block="zsaaj" className="flex flex-wrap items-center gap-3">
             <Select value={pick} onValueChange={(v) => { setPick(v); setConfirming(false) }}>
               <SelectTrigger data-unlock-pick className="h-10 min-w-64">
                 <SelectValue placeholder={w.pick} />
@@ -154,10 +154,10 @@ export function SearchLanguages({
           </div>
         )}
         {confirming && pick && (
-          <div data-unlock-confirm className="flex max-w-2xl flex-col gap-3 rounded-lg border border-destructive/40 bg-destructive/10 p-4">
-            <P className="text-[length:var(--fs-body)] font-medium">{w.confirmTitle} {label(pick)}</P>
-            <Small className="text-foreground">{w.confirmText}</Small>
-            <div className="flex flex-wrap gap-2">
+          <div data-block="g9edq" data-unlock-confirm className="flex max-w-2xl flex-col gap-3 rounded-lg border border-destructive/40 bg-destructive/10 p-4">
+            <P data-block="q9ubs" className="text-[length:var(--fs-body)] font-medium">{w.confirmTitle} {label(pick)}</P>
+            <Small data-block="p2p45" className="text-foreground">{w.confirmText}</Small>
+            <div data-block="p0rv2" className="flex flex-wrap gap-2">
               <Button type="button" disabled={busy} data-unlock-yes onClick={unlock}>
                 {busy && <Loader2 className="size-4 animate-spin" aria-hidden />}
                 {w.confirmYes}
@@ -170,28 +170,28 @@ export function SearchLanguages({
         )}
       </div>
 
-      <div data-search-rebuild={pending ? "pending" : "clean"} className="flex flex-col gap-2">
+      <div data-block="i3cl2" data-search-rebuild={pending ? "pending" : "clean"} className="flex flex-col gap-2">
         {pending && (
           <>
-            <P className="text-[length:var(--fs-body)] font-medium">{w.pendingTitle}</P>
-            <Small className="max-w-2xl">{w.pending}</Small>
+            <P data-block="wfc5b" className="text-[length:var(--fs-body)] font-medium">{w.pendingTitle}</P>
+            <Small data-block="iiw2x" className="max-w-2xl">{w.pending}</Small>
           </>
         )}
-        <P className="text-[length:var(--fs-body)] font-medium">{w.whereTitle}</P>
-        <Small className="max-w-2xl">{w.where}</Small>
+        <P data-block="qg4et" className="text-[length:var(--fs-body)] font-medium">{w.whereTitle}</P>
+        <Small data-block="g81me" className="max-w-2xl">{w.where}</Small>
         {followers === "loading" ? (
           <Loader2 className="size-4 animate-spin text-muted-foreground" aria-hidden />
         ) : followers === "failed" ? (
-          <Small className="text-destructive">{w.followersFailed}</Small>
+          <Small data-block="rn2g7" className="text-destructive">{w.followersFailed}</Small>
         ) : followers.length === 0 ? (
-          <Small>{w.noFollowers}</Small>
+          <Small data-block="lespf">{w.noFollowers}</Small>
         ) : (
-          <ul data-language-followers className="flex max-w-2xl flex-col gap-2">
+          <ul data-block="axta1" data-language-followers className="flex max-w-2xl flex-col gap-2">
             {followers.map((f) => (
-              <li key={f.id} data-follower={f.id} className="flex flex-wrap items-center gap-3 rounded-lg border border-border px-3 py-2">
+              <li data-block="lrkgr" key={f.id} data-follower={f.id} className="flex flex-wrap items-center gap-3 rounded-lg border border-border px-3 py-2">
                 <span className="min-w-0 flex-1 text-[length:var(--fs-body)]">
                   {f.address}
-                  {!f.searchLanguages && <Small className="block">{w.oldCode}</Small>}
+                  {!f.searchLanguages && <Small data-block="z45ta" className="block">{w.oldCode}</Small>}
                 </span>
                 {f.deployments && (
                   <a href={f.deployments} data-start-deploy className={buttonVariants({ variant: pending ? "default" : "outline", size: "sm" })}>

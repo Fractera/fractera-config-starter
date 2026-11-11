@@ -117,21 +117,21 @@ export function FeaturesEditor({
   }
 
   return (
-    <div data-features-editor className="flex flex-col gap-8">
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <H3 variant="ui">{title}</H3>
-          {hint && <Small className="max-w-2xl">{hint}</Small>}
+    <div data-block="oi7i7" data-features-editor className="flex flex-col gap-8">
+      <section data-block="quhyw" className="flex flex-col gap-4">
+        <div data-block="ldzj5" className="flex flex-col gap-1">
+          <H3 data-block="h7jxs" variant="ui">{title}</H3>
+          {hint && <Small data-block="lcoyh" className="max-w-2xl">{hint}</Small>}
         </div>
         <Separator />
 
-        <ul className="flex flex-col gap-3">
+        <ul data-block="lazo2" className="flex flex-col gap-3">
           {switches.map(s => (
-            <li key={s.key} data-feature={s.key} data-on={values[s.key] ? "true" : "false"} className="flex flex-col gap-2">
-              <div className="flex items-start justify-between gap-4 rounded-lg border border-border px-4 py-3">
-                <div className="min-w-0">
+            <li data-block="aaogy" key={s.key} data-feature={s.key} data-on={values[s.key] ? "true" : "false"} className="flex flex-col gap-2">
+              <div data-block="ll6f7" className="flex items-start justify-between gap-4 rounded-lg border border-border px-4 py-3">
+                <div data-block="sxmtr" className="min-w-0">
                   <span className="block text-[length:var(--fs-body)] text-foreground">{s.label}</span>
-                  {s.hint && <Small className="mt-0.5 block">{s.hint}</Small>}
+                  {s.hint && <Small data-block="kgfve" className="mt-0.5 block">{s.hint}</Small>}
                 </div>
                 <Switch
                   checked={Boolean(values[s.key])}
@@ -143,7 +143,7 @@ export function FeaturesEditor({
               {/* Последствие текущего положения — своими словами, на своём месте.
                   У куки-баннера выключенное состояние правовое, а не косметическое. */}
               {s.notice && (
-                <Small
+                <Small data-block="p7avb"
                   data-feature-notice={values[s.key] ? "on" : "off"}
                   className={
                     values[s.key]
@@ -170,12 +170,12 @@ export function FeaturesEditor({
           : children)}
 
       {ownButton && (
-      <div className="flex items-center gap-3">
+      <div data-block="k707h" className="flex items-center gap-3">
         <Button type="button" onClick={save} disabled={busy || !changed} data-save className="h-10 px-5">
           {busy && <Loader2 className="size-4 animate-spin" aria-hidden />}
           {busy ? ui.saving : ui.save}
         </Button>
-        {!changed && <P className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
+        {!changed && <P data-block="rzm15" className="text-[length:var(--fs-small)] text-muted-foreground">{ui.nothingToSave}</P>}
       </div>
       )}
     </div>

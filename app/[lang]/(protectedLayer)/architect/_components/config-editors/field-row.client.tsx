@@ -68,8 +68,8 @@ export function FieldRow({
   const id = `field-${field.path.replace(/\./g, "-")}`
 
   return (
-    <div data-field={field.path} data-field-type={field.type} className="flex flex-col gap-1.5">
-      <div className="flex flex-wrap items-center gap-2">
+    <div data-block="nfzmv" data-field={field.path} data-field-type={field.type} className="flex flex-col gap-1.5">
+      <div data-block="w3qyc" className="flex flex-wrap items-center gap-2">
         <Label htmlFor={id} className="text-[length:var(--fs-small)] font-medium text-foreground">
           {words.label}
         </Label>
@@ -81,7 +81,7 @@ export function FieldRow({
             помечено языковым, а «есть/нет перевода» появляется только тогда, когда
             правится ДРУГОЙ язык. */}
         {field.perLang && (
-          <Small
+          <Small data-block="di6k2"
             data-per-lang
             data-translated={translationMode ? (translated ? "yes" : "no") : undefined}
             className={translationMode && translated ? "text-primary" : undefined}
@@ -91,14 +91,14 @@ export function FieldRow({
         )}
 
         {field.locked && (
-          <Small data-locked className="inline-flex items-center gap-1">
+          <Small data-block="m4tic" data-locked className="inline-flex items-center gap-1">
             <Lock className="size-3" aria-hidden />
             {ui.locked}
           </Small>
         )}
       </div>
 
-      <div className="flex items-start gap-2">
+      <div data-block="zvjp6" className="flex items-start gap-2">
         {field.type === "textarea" || field.type === "text" || field.type === "number" ? (
           /* 🔒 ПОЛЕ, МИКРОФОН, ПОЛОСА И РАСШИФРОВКА — ОДИН ЭЛЕМЕНТ НА ТРИ МЕСТА
              (32-8). Здесь стояли Input/Textarea рядом с отдельной кнопкой голоса;
@@ -171,7 +171,7 @@ export function FieldRow({
       </div>
 
       {(words.hint || field.locked) && (
-        <Small>{field.locked ? (words.hint ?? ui.lockedHint) : words.hint}</Small>
+        <Small data-block="pp2ca">{field.locked ? (words.hint ?? ui.lockedHint) : words.hint}</Small>
       )}
     </div>
   )
