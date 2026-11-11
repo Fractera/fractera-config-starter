@@ -2,13 +2,13 @@
   "title": "Fractera CONFIG — настройки всех приложений в одном месте",
   "description": "Настройки вашего проекта — языки, название, поиск, шапка, подвал и двенадцать переключателей — на одном экране. Сохраните один раз, и каждое подключённое приложение примет их за секунды, без пересборки.",
   "keywords": "",
-  "blocks": [
+  "body": [
     {
       "kind": "widget-static-config-landing",
       "bid": "cw001"
     },
     {
-      "kind": "block-hero-centered",
+      "kind": "section-hero-centered",
       "pill": "OpenSource Web4 agent & app starter kit",
       "title": "Все настройки проекта в одном месте",
       "description": "Языки, название, поиск, шапка, подвал и двенадцать переключателей живут на одном экране. Сохраните один раз, и каждое подключённое приложение примет изменение за секунды, без пересборки.",
@@ -23,7 +23,7 @@
       "bid": "ch001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "route",
       "title": "Как идёт настройка",
       "bid": "ca000"
@@ -74,7 +74,7 @@
       "bid": "ca009"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "power",
       "title": "Включён, засыпает только при нехватке памяти",
       "bid": "q0000"
@@ -85,7 +85,7 @@
       "bid": "q0001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "solves",
       "title": "Что меняется для вас",
       "bid": "cb000"
@@ -117,7 +117,7 @@
       "bid": "cb001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "tool",
       "title": "Настройте этот проект",
       "bid": "q0002"
@@ -138,7 +138,7 @@
       "bid": "q0005"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "agent",
       "title": "Двенадцать переключателей",
       "bid": "cc000"
@@ -159,7 +159,7 @@
       "bid": "cc002"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "hood",
       "title": "Восемь групп, у каждой своя страница",
       "bid": "cd000"
@@ -207,7 +207,7 @@
       "bid": "cd001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "more",
       "title": "Ваши приложения работают и без него",
       "bid": "ce000"
@@ -218,7 +218,7 @@
       "bid": "ce001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "builder",
       "title": "Свой строитель в комплекте",
       "bid": "q0006"
@@ -243,7 +243,7 @@
       "bid": "q0009"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "credits",
       "title": "Открытый код",
       "bid": "cf000"
@@ -254,13 +254,13 @@
       "bid": "cf001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "faq",
       "title": "Вопросы и ответы",
       "bid": "q000a"
     },
     {
-      "kind": "block-faq",
+      "kind": "section-faq",
       "title": "Вопросы и ответы",
       "items": [
         {

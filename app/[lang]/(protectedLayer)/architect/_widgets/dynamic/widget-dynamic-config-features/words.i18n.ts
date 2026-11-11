@@ -1,4 +1,4 @@
-// 549-1: слова и параметры блока страницы «_index» прежнего config (content/architect/_index/<язык>.json) — дословно.
+// 549-1: слова и параметры панели страницы «_index» прежнего config (content/architect/_index/<язык>.json) — дословно.
 export const P_features = {
   "en": {
     "title": "",
@@ -98,8 +98,7 @@ export const P_features = {
       "root": "Site",
       "auth": "Sign-in",
       "data": "Data",
-      "config": "Project settings",
-      "blocks": "Blocks"
+      "config": "Project settings"
     }
   },
   "ru": {
@@ -200,8 +199,7 @@ export const P_features = {
       "root": "Сайт",
       "auth": "Авторизация",
       "data": "Данные",
-      "config": "Настройки проекта",
-      "blocks": "Блоки"
+      "config": "Настройки проекта"
     }
   }
 } as const

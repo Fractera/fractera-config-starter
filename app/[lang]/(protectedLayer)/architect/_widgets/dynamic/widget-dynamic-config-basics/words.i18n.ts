@@ -1,4 +1,4 @@
-// 549-1: слова и параметры блока страницы «basics» прежнего config (content/architect/basics/<язык>.json) — дословно.
+// 549-1: слова и параметры панели страницы «basics» прежнего config (content/architect/basics/<язык>.json) — дословно.
 export const P_basics = {
   "en": {
     "group": "basics",

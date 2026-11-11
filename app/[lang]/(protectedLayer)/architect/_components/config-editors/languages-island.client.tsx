@@ -15,7 +15,7 @@ export type LanguagesIslandProps = {
   built: string[]
   builtDefault: string
   ui: GroupsUi
-  /** Узел 341-2: слова блока «Языки для поисковых систем» и язык страницы. */
+  /** Узел 341-2: слова раздела «Языки для поисковых систем» и язык страницы. */
   search: SearchLanguagesWords
   lang: string
   words: AccessWords

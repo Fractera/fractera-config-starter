@@ -1,4 +1,4 @@
-// 549-1: слова и параметры блока страницы «cookie-banner» прежнего config (content/architect/cookie-banner/<язык>.json) — дословно.
+// 549-1: слова и параметры панели страницы «cookie-banner» прежнего config (content/architect/cookie-banner/<язык>.json) — дословно.
 export const P_cookie_banner = {
   "en": {
     "words": {

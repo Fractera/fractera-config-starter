@@ -9,7 +9,7 @@ import type { SlotName } from "./lib/routing"
 // 🔒 ЧЕРТЁЖ — НЕ УКРАШЕНИЕ, А ЕДИНСТВЕННЫЙ СПОСОБ УВИДЕТЬ ВЫБОР ДО СОХРАНЕНИЯ.
 // Список из восьми выключателей отвечает на вопрос «что включено» и молчит о том,
 // ЧТО ПОЛУЧИТСЯ: где встанет промо, что останется от центра, куда денутся колонки.
-// Ровно поэтому блоки не появляются мгновенно, а ЕДУТ 300 мс — движение показывает,
+// Ровно поэтому области не появляются мгновенно, а ЕДУТ 300 мс — движение показывает,
 // что именно подвинулось, а подмена картинки этого не показывает.
 //
 // 🔒 ПОДПИСИ ПРИЕЗЖАЮТ ПРОПСАМИ. Файл клиентский, а словарь слоя серверный: тот же
@@ -26,7 +26,7 @@ const CF_H = 15
 
 const MOVE = "300ms ease-in-out"
 
-function Block({
+function PageItem({
   slot,
   label,
   active,
@@ -47,7 +47,7 @@ function Block({
 
   return (
     <div
-      data-preview-block={slot}
+      data-preview-slot={slot}
       data-preview-on={active ? "true" : "false"}
       className={
         "flex select-none items-center justify-center overflow-hidden rounded-md text-[11px] font-medium transition-colors duration-300 " +
@@ -81,7 +81,7 @@ export function SlotLayoutPreview({
       data-layout-preview
       className="flex h-[420px] min-w-0 flex-col gap-1.5 rounded-xl border border-border bg-card p-3"
     >
-      <Block
+      <PageItem
         slot="header"
         label={labels.header}
         active={on("header")}
@@ -90,7 +90,7 @@ export function SlotLayoutPreview({
       />
 
       <div className="relative min-h-0 flex-1">
-        <Block
+        <PageItem
           slot="left"
           label={labels.left}
           active={on("left")}
@@ -105,7 +105,7 @@ export function SlotLayoutPreview({
             transition: `width ${MOVE}`,
           }}
         />
-        <Block
+        <PageItem
           slot="right"
           label={labels.right}
           active={on("right")}
@@ -122,7 +122,7 @@ export function SlotLayoutPreview({
         />
 
         {on("promoScreen") && (
-          <Block
+          <PageItem
             slot="promoScreen"
             label={labels.promoScreen}
             active
@@ -150,7 +150,7 @@ export function SlotLayoutPreview({
             }}
           >
             {on("centerHeader") && (
-              <Block
+              <PageItem
                 slot="centerHeader"
                 label={labels.centerHeader}
                 active
@@ -158,9 +158,9 @@ export function SlotLayoutPreview({
                 style={{ flex: `0 0 ${CH_H}%`, minHeight: 22 }}
               />
             )}
-            <Block slot="center" label={centerLabel} active hovered={hov("center")} style={{ flex: 1 }} />
+            <PageItem slot="center" label={centerLabel} active hovered={hov("center")} style={{ flex: 1 }} />
             {on("centerFooter") && (
-              <Block
+              <PageItem
                 slot="centerFooter"
                 label={labels.centerFooter}
                 active
@@ -172,7 +172,7 @@ export function SlotLayoutPreview({
         )}
       </div>
 
-      <Block
+      <PageItem
         slot="footer"
         label={labels.footer}
         active={on("footer")}

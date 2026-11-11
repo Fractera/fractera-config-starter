@@ -1,4 +1,4 @@
-// 549-1: слова и параметры блока страницы «header» прежнего config (content/architect/header/<язык>.json) — дословно.
+// 549-1: слова и параметры панели страницы «header» прежнего config (content/architect/header/<язык>.json) — дословно.
 export const P_header = {
   "en": {
     "slot": "top",

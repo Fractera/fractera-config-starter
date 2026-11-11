@@ -1,4 +1,4 @@
-// 549-1: слова и параметры блока страницы «footer» прежнего config (content/architect/footer/<язык>.json) — дословно.
+// 549-1: слова и параметры панели страницы «footer» прежнего config (content/architect/footer/<язык>.json) — дословно.
 export const P_footer = {
   "en": {
     "slot": "footer",

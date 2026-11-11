@@ -1,4 +1,4 @@
-// 549-1: слова и параметры блока страницы «languages» прежнего config (content/architect/languages/<язык>.json) — дословно.
+// 549-1: слова и параметры панели страницы «languages» прежнего config (content/architect/languages/<язык>.json) — дословно.
 export const P_languages = {
   "en": {
     "words": {

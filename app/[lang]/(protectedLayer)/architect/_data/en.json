@@ -2,7 +2,7 @@
   "title": "Project settings",
   "description": "On a single project this page keeps the settings shared by every element of the node. On an app factory it keeps the settings of the core and the built-in elements, and your own elements keep theirs. Features are switched on and off below; everything else is in the sections of the menu on the left.",
   "keywords": "",
-  "blocks": [
+  "body": [
     {
       "kind": "widget-dynamic-config-node-mode",
       "bid": "nm564"

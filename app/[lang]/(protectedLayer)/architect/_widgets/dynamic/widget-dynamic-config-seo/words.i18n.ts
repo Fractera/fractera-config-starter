@@ -1,4 +1,4 @@
-// 549-1: слова и параметры блока страницы «seo» прежнего config (content/architect/seo/<язык>.json) — дословно.
+// 549-1: слова и параметры панели страницы «seo» прежнего config (content/architect/seo/<язык>.json) — дословно.
 export const P_seo = {
   "en": {
     "group": "seo",

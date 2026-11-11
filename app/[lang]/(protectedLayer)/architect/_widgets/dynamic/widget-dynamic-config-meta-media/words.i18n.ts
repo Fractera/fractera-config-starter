@@ -1,4 +1,4 @@
-// 549-1: слова и параметры блока страницы «meta-media» прежнего config (content/architect/meta-media/<язык>.json) — дословно.
+// 549-1: слова и параметры панели страницы «meta-media» прежнего config (content/architect/meta-media/<язык>.json) — дословно.
 export const P_meta_media = {
   "en": {
     "group": "metaMedia",

@@ -2,7 +2,7 @@
   "title": "Поиск и ИИ",
   "description": "Как проект читают поисковики и ИИ-помощники.",
   "keywords": "",
-  "blocks": [
+  "body": [
     {
       "kind": "widget-dynamic-config-seo",
       "bid": "l5mpz"

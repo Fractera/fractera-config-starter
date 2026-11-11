@@ -2,7 +2,7 @@
   "title": "Header",
   "description": "The menu at the top of every page.",
   "keywords": "",
-  "blocks": [
+  "body": [
     {
       "kind": "widget-dynamic-config-header",
       "bid": "smx7g"

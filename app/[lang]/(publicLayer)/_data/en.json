@@ -2,13 +2,13 @@
   "title": "Fractera CONFIG — the settings of every application in one place",
   "description": "The settings of your project — languages, name, search, header, footer and twelve feature switches — on one screen. Save once, and every connected application takes them in seconds, without a rebuild.",
   "keywords": "",
-  "blocks": [
+  "body": [
     {
       "kind": "widget-static-config-landing",
       "bid": "cw001"
     },
     {
-      "kind": "block-hero-centered",
+      "kind": "section-hero-centered",
       "pill": "OpenSource Web4 agent & app starter kit",
       "title": "All project settings in one place",
       "description": "Languages, name, search, header, footer and twelve feature switches live on one screen. Save once, and every connected application takes the change in seconds, without a rebuild.",
@@ -23,7 +23,7 @@
       "bid": "ch001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "route",
       "title": "How a setting goes",
       "bid": "ca000"
@@ -74,7 +74,7 @@
       "bid": "ca009"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "power",
       "title": "On, asleep only when memory is short",
       "bid": "q0000"
@@ -85,7 +85,7 @@
       "bid": "q0001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "solves",
       "title": "What changes for you",
       "bid": "cb000"
@@ -117,7 +117,7 @@
       "bid": "cb001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "tool",
       "title": "Change this project's settings",
       "bid": "q0002"
@@ -138,7 +138,7 @@
       "bid": "q0005"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "agent",
       "title": "Twelve switches",
       "bid": "cc000"
@@ -159,7 +159,7 @@
       "bid": "cc002"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "hood",
       "title": "Eight groups, each on its own page",
       "bid": "cd000"
@@ -207,7 +207,7 @@
       "bid": "cd001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "more",
       "title": "Your applications run without it",
       "bid": "ce000"
@@ -218,7 +218,7 @@
       "bid": "ce001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "builder",
       "title": "Your own builder comes with it",
       "bid": "q0006"
@@ -243,7 +243,7 @@
       "bid": "q0009"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "credits",
       "title": "Open source",
       "bid": "cf000"
@@ -254,13 +254,13 @@
       "bid": "cf001"
     },
     {
-      "kind": "block-section-head",
+      "kind": "section-head",
       "id": "faq",
       "title": "Questions and answers",
       "bid": "q000a"
     },
     {
-      "kind": "block-faq",
+      "kind": "section-faq",
       "title": "Questions and answers",
       "items": [
         {

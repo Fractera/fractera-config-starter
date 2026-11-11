@@ -1,4 +1,4 @@
-// 549-1: слова и параметры блока страницы «parallel-routing» прежнего config (content/architect/parallel-routing/<язык>.json) — дословно.
+// 549-1: слова и параметры панели страницы «parallel-routing» прежнего config (content/architect/parallel-routing/<язык>.json) — дословно.
 export const P_parallel_routing = {
   "en": {
     "words": {
