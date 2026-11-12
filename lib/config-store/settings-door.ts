@@ -3,7 +3,8 @@
 import { KINDS, readSettings, writeSettings } from "./settings-store.mjs"
 import { notifySubscribers } from "./subscribers.mjs"
 import { readAll, versionOf } from "./mcp-tools.mjs"
-import { sessionOf, keyOk } from "./architect-auth.mjs"
+import { keyOk } from "./architect-auth.mjs"
+import { architectOf } from "./architect-of"
 import { json, headersOf } from "./http"
 import { refreshSelf } from "./self-refresh"
 
@@ -14,9 +15,9 @@ export async function settingsDoor(req: Request, kind: string | null): Promise<R
   if (req.method === "GET") {
     let allowed = keyOk(r0)
     if (!allowed) {
-      const s = await sessionOf(r0)
+      const s = await architectOf(req)
       if (s.status !== 200) return json(s.status, { ok: false, reason: s.reason })
-      allowed = s.architect
+      allowed = s.architect === true
     }
     if (!allowed) return json(403, { ok: false, reason: "not-architect" })
     if (!kind) {
@@ -28,7 +29,7 @@ export async function settingsDoor(req: Request, kind: string | null): Promise<R
     return json(r.ok ? 200 : r.reason === "unknown-kind" ? 404 : 500, r)
   }
   if (req.method === "PATCH" && kind) {
-    const s = await sessionOf(r0)
+    const s = await architectOf(req)
     if (s.status !== 200) return json(s.status, { ok: false, reason: s.reason })
     if (!s.architect) return json(403, { ok: false, reason: "not-architect" })
     let body: unknown
