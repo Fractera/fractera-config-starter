@@ -5,9 +5,9 @@ import { designUi } from './design.i18n'
 import type { AccessWords } from './settings-access'
 import { ownId } from '@/lib/own-id'
 
-const SITE = (process.env.PROJECT_SITE_URL ?? '').replace(/\/+$/, '')
 const CORE = (process.env.ARCHITECT_URL ?? '').trim().replace(/\/+$/, '')
-const loginHref = (lang: string) => (SITE ? `${SITE}/login?lang=${lang}` : undefined)
+// 734-3a-2: вход — свой `/login` CONFIG (его прокси ведёт на службу входа), а не адрес элемента `root`.
+const loginHref = (lang: string) => `/login?lang=${lang}`
 // Нет адреса ядра — ссылок нет: ссылка в никуда хуже её отсутствия.
 
 export function DesignEditorPanel({ lang, section, words }: { lang: string; section: DesignSection; words: AccessWords }) {

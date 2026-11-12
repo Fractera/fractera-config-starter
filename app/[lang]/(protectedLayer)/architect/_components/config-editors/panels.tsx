@@ -1,5 +1,10 @@
-// ПАНЕЛИ РЕЖИМА АРХИТЕКТОРА (шаг 299-4): серверные обёртки островков. Ссылку на вход дают отсюда, из окружения узла
-// (`PROJECT_SITE_URL`, как у шапки проекта), — данные страницы в `content/**/<lang>.json` адресов узла не знают.
+// ПАНЕЛИ РЕЖИМА АРХИТЕКТОРА (шаг 299-4): серверные обёртки островков.
+// 🔒 CONFIG — ИСТОЧНИК НАСТРОЕК, А НЕ ИХ ЧИТАТЕЛЬ (узел, шаг 734-3a-2). Владелец 2026-11-12: «У нас есть элемент CONFIG создан специально
+// для того чтобы ядро и все элементы которые не включили собственные настройки брали из него настройки». ✗ До 734 меню «как сейчас» и
+// языки читались из оболочки элемента `root` (`PROJECT_SHELL_URL`), а вход и политика вели на его адрес (`PROJECT_SITE_URL`): хранилище
+// настроек спрашивало их у одного кастомного элемента. Теперь всё своё: `siteShellData` — из собственных настроек и каталога CONFIG (их
+// копию он обновляет сам после каждой записи, `self-refresh.ts`), вход — свой `/login` (его прокси ведёт на службу входа), политика —
+// своя страница `/<язык>/cookies`.
 import { FeatureSwitchesIsland, type FeatureSwitchesProps } from './feature-switches.client'
 import { appDialogUi } from '@/components/dialog/app-dialog.i18n'
 import { SettingsViewIsland, type SettingsViewProps } from './settings-view.client'
@@ -12,12 +17,11 @@ import type { AccessWords } from './settings-access'
 import { LanguagesIsland } from './languages-island.client'
 import { searchLanguagesWords } from './search-languages.i18n'
 import { ALL_LANGUAGE_METADATA } from './lib/language-metadata'
-import { loadProjectShell } from './shell/remote-shell'
+import { siteShellData } from '@/lib/shell/site-shell-data'
 import type { ShellGroup } from './shell/shell-types'
 import type { NavCandidate, NavItem, NavSlot } from './lib/nav'
 
-const SITE = (process.env.PROJECT_SITE_URL ?? '').replace(/\/+$/, '')
-const loginHref = (lang: string) => (SITE ? `${SITE}/login?lang=${lang}` : undefined)
+const loginHref = (lang: string) => `/login?lang=${lang}`
 
 type Own = { lang: string; itemKey?: string }
 
@@ -36,11 +40,11 @@ export function SettingsEditor({ lang, itemKey: _k, ...rest }: Omit<SettingsEdit
   return <SettingsEditorIsland {...rest} lang={lang} ui={fieldsUi(lang)} loginHref={loginHref(lang)} />
 }
 
-// Редактор шапки или подвала: меню «как сейчас» и кандидаты — из оболочки проекта, которую сайт отдаёт всем элементам.
+// Редактор шапки или подвала: меню «как сейчас» и кандидаты — из собственных настроек и каталога CONFIG.
 // Читается на сервере и кэшируется минутами (`'use cache'`), как шапка самого элемента.
 async function shellMenu(lang: string, slot: NavSlot): Promise<{ current: NavItem[]; candidates: NavCandidate[] }> {
   // 549-1: в шаблоне нет cacheComponents — без кэша функции: страницы ветки статические (ISR 300 с), оболочку читают при сборке и перерисовке.
-  const shell = await loadProjectShell(lang)
+  const shell = siteShellData(lang)
   const groups: ShellGroup[] = shell ? (slot === 'top' ? shell.top : shell.footer) : []
   const hrefOf = (g: ShellGroup) => g.href ?? `/${lang}/${g.slug}`
   const current: NavItem[] = groups.map((g, i) => ({
@@ -70,13 +74,13 @@ export function RoutingEditorBlock({ lang, itemKey: _k, words }: Own & { words: 
   return <RoutingEditorIsland ui={groupsUi(lang)} words={words} loginHref={loginHref(lang)} />
 }
 
-// Правовая страница о куки живёт у САЙТА (`/<язык>/cookies`), поэтому ссылка — на адрес сайта.
+// Правовая страница о куки — своя у каждого элемента (`/<язык>/cookies`), и у CONFIG тоже.
 export function CookieBannerPanel({ lang, itemKey: _k, words }: Own & { words: AccessWords }) {
-  return <CookieBannerIsland ui={groupsUi(lang)} words={words} loginHref={loginHref(lang)} policyHref={SITE ? `${SITE}/${lang}/cookies` : undefined} />
+  return <CookieBannerIsland ui={groupsUi(lang)} words={words} loginHref={loginHref(lang)} policyHref={`/${lang}/cookies`} />
 }
 
 // Языки: каталог (84 записи) собирает СЕРВЕР — в браузер едут имя, флаг и качество перевода, а не весь справочник.
-// Набор, с которым сайт собран сейчас, — из оболочки проекта.
+// Набор, с которым проект собран сейчас, — из собственных настроек CONFIG.
 export async function LanguagesBlock({ lang, itemKey: _k, words }: Own & { words: AccessWords }) {
   const catalogue = Object.values(ALL_LANGUAGE_METADATA)
     .map((m) => ({ code: m.code, flag: m.flag, nativeName: m.nativeName, englishName: m.englishName, tier: m.aiTier }))
@@ -87,7 +91,7 @@ export async function LanguagesBlock({ lang, itemKey: _k, words }: Own & { words
 
 async function shellLanguages(lang: string): Promise<{ languages: string[]; defaultLang: string }> {
   // 549-1: в шаблоне нет cacheComponents — без кэша функции: страницы ветки статические (ISR 300 с), оболочку читают при сборке и перерисовке.
-  const shell = (await loadProjectShell(lang)) as unknown as { languages?: unknown; defaultLang?: unknown } | null
+  const shell = siteShellData(lang) as unknown as { languages?: unknown; defaultLang?: unknown } | null
   const codes = Array.isArray(shell?.languages)
     ? (shell.languages as unknown[]).map((x) => (typeof x === 'string' ? x : (x as { code?: string })?.code)).filter((x): x is string => typeof x === 'string')
     : ['en']
