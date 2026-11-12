@@ -1,0 +1,21 @@
+{
+  "_": "Frozen second copies of long class strings (725-7); the sweep 725-6 extracts them. Written by node scripts/check-parts-dup.mjs --freeze.",
+  "groups": {
+    "bg-destructive/10 border border-destructive/40 flex flex-col gap-3 max-w-2xl p-4 rounded-lg": [
+      "app/[lang]/(protectedLayer)/admin/_widgets/dynamic/widget-dynamic-site-settings/search-languages.client.tsx",
+      "app/[lang]/(protectedLayer)/architect/_components/config-editors/search-languages.client.tsx"
+    ],
+    "border border-border flex flex-col gap-1 px-4 py-6 rounded-lg": [
+      "app/[lang]/(protectedLayer)/admin/_widgets/dynamic/widget-dynamic-site-settings/languages-editor.client.tsx",
+      "app/[lang]/(protectedLayer)/architect/_components/config-editors/languages-editor.client.tsx"
+    ],
+    "border border-border flex flex-wrap gap-3 items-center px-3 py-2 rounded-lg": [
+      "app/[lang]/(protectedLayer)/admin/_widgets/dynamic/widget-dynamic-site-settings/search-languages.client.tsx",
+      "app/[lang]/(protectedLayer)/architect/_components/config-editors/search-languages.client.tsx"
+    ],
+    "flex-1 font-normal gap-3 h-auto hover:bg-transparent hover:text-current justify-start min-w-0 p-0 text-current text-left whitespace-normal": [
+      "app/[lang]/(protectedLayer)/admin/_widgets/dynamic/widget-dynamic-site-settings/languages-editor.client.tsx",
+      "app/[lang]/(protectedLayer)/architect/_components/config-editors/languages-editor.client.tsx"
+    ]
+  }
+}
