@@ -3,7 +3,7 @@
 import { KINDS, readSettings, writeSettings } from "./settings-store.mjs"
 import { notifySubscribers } from "./subscribers.mjs"
 import { readAll, versionOf } from "./mcp-tools.mjs"
-import { keyOk } from "./architect-auth.mjs"
+import { readerOf } from "./architect-auth.mjs"
 import { architectOf } from "./architect-of"
 import { json, headersOf } from "./http"
 import { refreshSelf } from "./self-refresh"
@@ -13,7 +13,8 @@ type Read = { ok: boolean; reason?: string; config?: unknown }
 export async function settingsDoor(req: Request, kind: string | null): Promise<Response> {
   const r0 = { headers: headersOf(req) }
   if (req.method === "GET") {
-    let allowed = keyOk(r0)
+    // 818-7: the node key or a custom element's own key reads; the architect reads by the session.
+    let allowed = readerOf(r0) !== null
     if (!allowed) {
       const s = await architectOf(req)
       if (s.status !== 200) return json(s.status, { ok: false, reason: s.reason })
